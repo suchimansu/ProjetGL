@@ -7,7 +7,7 @@ import java.util.TreeMap;
 public class Calendar {
 
 	// Type a valider
-	private TreeMap<String,Event> cal;
+	private TreeMap<Integer,Event> cal;
 	
 	public Calendar(){
 		

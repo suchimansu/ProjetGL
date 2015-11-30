@@ -11,7 +11,8 @@ public class Event {
 	private String name;
 
 	public Event(String name, List<Date> lDate) {
-		
+		this.name = name;
+		this.intervale = lDate;
 	}
 	
 	public Event getParent(){
@@ -32,5 +33,10 @@ public class Event {
 	
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	public void addChild(Event child){
+		this.child.add(child);
+		child.setParent(this);
 	}
 }

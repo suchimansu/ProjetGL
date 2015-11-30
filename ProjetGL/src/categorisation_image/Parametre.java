@@ -10,7 +10,7 @@ public class Parametre {
 	}
 	
 	public Parametre(String path) {
-
+		destDir = path;
 	}
 	
 	public void writeDisk(String path){
