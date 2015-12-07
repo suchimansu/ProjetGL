@@ -25,10 +25,6 @@ public class Calendar {
 		
 	}
 	
-	public void exportCal(){
-		
-	}
-	
 	public void addEvent(String name, List<Date> dList){
 		
 	}
@@ -41,7 +37,7 @@ public class Calendar {
 		
 	}
 	
-	public void writeDisk(String path){
+	public void save(String path){
 		
 	}
 	

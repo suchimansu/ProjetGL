@@ -12,10 +12,6 @@ public class Parametre {
 	public Parametre(String path) {
 		destDir = path;
 	}
-	
-	public void writeDisk(String path){
-		
-	}
 
 	public int getSortParameter(){
 		return sortParameter;
@@ -23,5 +19,9 @@ public class Parametre {
 	
 	public void setSortParameter(int param){
 		sortParameter = param;
-	}	
+	}
+	
+	public void save(String path){
+		
+	}
 }

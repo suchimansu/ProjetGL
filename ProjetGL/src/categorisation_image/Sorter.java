@@ -2,15 +2,21 @@ package categorisation_image;
 
 public class Sorter {
 	
+	private Calendar tempEventCalendar;
+	
 	public Sorter() {
-		// TODO Auto-generated constructor stub
+		tempEventCalendar = new Calendar();
 	}
 	
 	public void doTri() throws Exception {
 		
 	}
 	
-	private void triUser() throws Exception{
+	private void userEventSort() throws Exception{
+		
+	}
+	
+	private void unsortedSort() throws Exception{
 		
 	}
 	 

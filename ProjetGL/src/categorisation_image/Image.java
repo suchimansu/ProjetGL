@@ -2,17 +2,17 @@ package categorisation_image;
 
 import java.util.Date;
 
-public class Image {
+public abstract class Image {
 
 	private String path;
-	private Date dateCreation;
+	private int dateCreation;
 	private String filename;
 	
 	public Image(String path) {
 		
 	}
 	
-	public Date getDateCreation(){
+	public int getTime(){
 		return dateCreation;
 	}
 	
@@ -23,4 +23,6 @@ public class Image {
 	public String getPath(){
 		return path;
 	}
+	
+	abstract protected int extactTime(String path);
 }
