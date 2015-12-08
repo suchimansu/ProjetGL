@@ -9,6 +9,7 @@ import java.nio.file.Path;
 public abstract class Image {
 
 	private String path;
+	// TODO dateCreation doit etre une date
 	private String dateCreation;
 	private String filename;
 	
@@ -22,6 +23,7 @@ public abstract class Image {
                 
                 //Obtention de la date de création. getAttribute de creationTime retourne un FileTime
                 Path chemin = FileSystems.getDefault().getPath(path);
+                // TODO ici creer un date avec gregorian calendar à patir du string
                 String date = (Files.getAttribute(chemin, "creationTime" )).toString();
                 this.dateCreation = date.substring(0, 10); //on prend que la date de l'horodatage
                 // Files.getAttribute(chemin, "size","") pour avoir la taille du fichier
@@ -33,8 +35,9 @@ public abstract class Image {
                 
 	}
 	
-	public String getTime(){
-		return dateCreation;
+	public Long getTime(){
+		// TODO ici modifier car dateCreation est sensé etre une date
+		return Long.parseLong(dateCreation);
 	}
 	
 	public String getFileName(){

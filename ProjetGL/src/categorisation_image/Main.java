@@ -12,8 +12,6 @@ public class Main {
 	private static Parametre param = new Parametre( pathParametre ); 
 	private static Calendar userCalendar = new Calendar( pathEvent );
 	
-
-	
 	public static void afficheMenuPrincipal() 
 	{
 		boolean b = false;
@@ -69,7 +67,7 @@ public class Main {
 				b = true;
 			}
 			/*else
-			{
+			
 				System.out.println("\nErreur sur la saisie");
 				System.out.print("Votre choix : ");
 				sc.next();
@@ -83,9 +81,9 @@ public class Main {
 		}
 		else
 		{
-			Sorter S = new Sorter( userCalendar );
+			Sorter S = new Sorter(userCalendar, param);
 			try {
-				S.doTri();
+				S.doTri(saisieSub);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

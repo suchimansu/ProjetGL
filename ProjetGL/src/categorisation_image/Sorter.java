@@ -24,22 +24,22 @@ public class Sorter {
 
     public void doTri(String path) throws Exception {
         List<Event> listeEvent;
-        TreeMap<Integer, Image> images;
+        TreeMap<Long, Image> images;
         Scan s = new Scan();
         listeEvent = tempEventCalendar.getListEvent();
-        images = s.doScan(path);
+        images = s.doScan(new File(path));
 
         userEventSort(listeEvent, path, images);
     }
 
-    private void userEventSort(List<Event> l, String path, TreeMap<Integer, Image> tm) throws Exception {
+    private void userEventSort(List<Event> l, String path, TreeMap<Long, Image> tm) throws Exception {
         String destination;
         Path chemin;
         // Parcours des clefs
         for (Event element : l) {
             Date debut = element.getIntervale().get(0);
             Date fin = element.getIntervale().get(1);
-            for (Integer key : tm.keySet()) {
+            for (Long key : tm.keySet()) {
                 if (debut.getTime() <= key && key <= fin.getTime()) {
                     destination = param.getDestDir() + "/" + element.getNom(); //chemin du dossier de destination
                     //chemin = Paths.get(destination);//on cree le Path a partir de la destination

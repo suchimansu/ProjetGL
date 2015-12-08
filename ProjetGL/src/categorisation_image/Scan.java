@@ -59,9 +59,9 @@ public class Scan
 		this.filter = new ExtFilter();
 	}
 
-	public TreeMap<Integer, Image> doScan(File path)
+	public TreeMap<Long, Image> doScan(File path)
 	{
-		TreeMap<Integer, Image> map = new TreeMap<Integer, Image>();
+		TreeMap<Long, Image> map = new TreeMap<Long, Image>();
 		File[] contenu = path.listFiles(this.filter);
 		if (contenu != null)
 		{
