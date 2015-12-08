@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
@@ -11,15 +13,13 @@ import java.util.TreeMap;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Component;
-import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Property;
-import net.fortuna.ical4j.model.PropertyList;
 
 public class Calendar {
 
 	// Type a valider
-	private TreeMap<Integer,Event> calMap;
+	private TreeMap<Long,Event> calMap;
 	private net.fortuna.ical4j.model.Calendar cal;
 	
 	public Calendar(){
@@ -27,17 +27,24 @@ public class Calendar {
 	}
 	
 	public Calendar(String path){
+		calMap = new TreeMap<Long,Event>();
+		FileInputStream fis = null;
 		try {
-			FileInputStream fis = new FileInputStream(path);
+			fis = new FileInputStream(path);
 			CalendarBuilder cbr = new CalendarBuilder();
 			cal = cbr.build(fis);
 			for (Iterator<?> i = cal.getComponents().iterator(); i.hasNext();) {
 			    Component component = (Component) i.next();
 			    System.out.println("Component [" + component.getName() + "]");
-			    DateTime start = new DateTime(component.getProperty(Property.DTSTART).getValue());
+			    Date start = new DateTime(component.getProperty(Property.DTSTART).getValue());
 			    System.out.println("start : " + start.getHours() + ":" + start.getMinutes());
-			    DateTime end = new DateTime(component.getProperty(Property.DTEND).getValue());
+			    Date end = new DateTime(component.getProperty(Property.DTEND).getValue());
 			    System.out.println("end : " + end.getHours() + ":" + end.getMinutes());
+			    List<Date> tmp = new ArrayList<Date>();
+			    tmp.add(start);
+			    tmp.add(end);
+			    Event tmpe = new Event(component.getProperty(Property.NAME).getValue(), tmp);
+			    calMap.put(start.getTime(), tmpe);
 
 			    /*for (Iterator<?> j = component.getProperties().iterator(); j.hasNext();) {
 			        Property property = (Property) j.next();
@@ -45,7 +52,7 @@ public class Calendar {
 			    }*/
 			}
 		} catch (FileNotFoundException e) {
-			System.err.println("Erreur lors de l'ouverture du fichier iCalendar dans le constructeur Calendar(String path) : fichier non trouvé.");
+			System.err.println("Erreur lors de l'ouverture du fichier iCalendar dans le constructeur Calendar(String path)");
 			e.printStackTrace();
 		} catch (IOException e) {
 			System.err.println("Erreur lors de la lecture du fichier iCalendar dans le constructeur Calendar(String path).");
@@ -55,13 +62,21 @@ public class Calendar {
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(fis != null)
+					fis.close();
+			} catch (IOException e) {
+				System.err.println("Erreur lors de la fermeture du fichier iCalendar.");
+				e.printStackTrace();
+			};
 		}
 		
 		
 	}
 	
 	public List<Event> getListEvent(){
-		return null;
+		return new ArrayList<Event>(calMap.values());
 	}
 	
 	public void importCal(){
