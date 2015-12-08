@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Date;
 //
-public abstract class Image {
+public class Image {
 
 	private String path;
-	// TODO dateCreation doit etre une date
-	private String dateCreation;
+	private Date dateCreation;
 	private String filename;
 	
 	public Image(String path) {
@@ -22,11 +22,17 @@ public abstract class Image {
                 this.filename = file.getName(); //file.getParent() pour avoir le directory name (sans le fichier)
                 
                 //Obtention de la date de création. getAttribute de creationTime retourne un FileTime
+                // on le stocke dans un string et on extrait les champs pour les mettre dans type Date
                 Path chemin = FileSystems.getDefault().getPath(path);
-                // TODO ici creer un date avec gregorian calendar à patir du string
-                String date = (Files.getAttribute(chemin, "creationTime" )).toString();
-                this.dateCreation = date.substring(0, 10); //on prend que la date de l'horodatage
-                // Files.getAttribute(chemin, "size","") pour avoir la taille du fichier
+                String date1 = (Files.getAttribute(chemin, "creationTime" )).toString();
+
+                int annee = Integer.parseInt(date1.substring(0, 4));
+                int mois = Integer.parseInt(date1.substring(5,7));
+                int jour = Integer.parseInt(date1.substring(8,10));
+                int h = Integer.parseInt(date1.substring(11,13));
+                int min = Integer.parseInt(date1.substring(14,16));
+                int sec = Integer.parseInt(date1.substring(17,19));
+                this.dateCreation = new Date(annee, mois, jour, h, min, sec);
                    
           }
           catch (IOException e){
@@ -34,19 +40,21 @@ public abstract class Image {
           }
                 
 	}
+
 	
-	public Long getTime(){
-		// TODO ici modifier car dateCreation est sensé etre une date
-		return Long.parseLong(dateCreation);
+	public Long getTimeLong(){
+            return this.dateCreation.getTime();
+	}
+
+        public Date getTimeDate(){
+		return this.dateCreation;
 	}
 	
 	public String getFileName(){
-		return filename;
+		return this.filename;
 	}
 
 	public String getPath(){
-		return path;
+		return this.path;
 	}
-	
-	abstract protected String extactTime(String path);
 }
