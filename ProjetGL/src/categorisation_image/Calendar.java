@@ -35,14 +35,15 @@ public class Calendar {
 			cal = cbr.build(fis);
 			for (Iterator<?> i = cal.getComponents().iterator(); i.hasNext();) {
 			    Component component = (Component) i.next();
-			    System.out.println("Component [" + component.getName() + "]");
+			    //System.out.println("Component [" + component.getName() + "]");
 			    Date start = new DateTime(component.getProperty(Property.DTSTART).getValue());
-			    System.out.println("start : " + start.getHours() + ":" + start.getMinutes());
+			    //System.out.println("start : " + start.getHours() + ":" + start.getMinutes());
 			    Date end = new DateTime(component.getProperty(Property.DTEND).getValue());
-			    System.out.println("end : " + end.getHours() + ":" + end.getMinutes());
+			    //System.out.println("end : " + end.getHours() + ":" + end.getMinutes());
 			    List<Interval> tmpList = new ArrayList<Interval>();
 			    Interval tmpInterval = new Interval(start,end);
-			    Event tmpe = new Event(component.getProperty(Property.NAME).getValue(), tmpList);
+			    
+			    Event tmpe = new Event(component.getProperty(Property.SUMMARY).getValue(), tmpList);
 			    calMap.put(start.getTime(), tmpe);
 
 			    /*for (Iterator<?> j = component.getProperties().iterator(); j.hasNext();) {
