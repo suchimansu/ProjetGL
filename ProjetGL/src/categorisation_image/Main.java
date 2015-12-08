@@ -1,14 +1,14 @@
 package categorisation_image;
 
-import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
+
 
 public class Main {
 
 	private static String pathParametre = " .. ";
 	private static String pathEvent = " .. ";
 
-	private String pathrep;
 	private static Parametre param = new Parametre( pathParametre ); 
 	private static Calendar userCalendar = new Calendar( pathEvent );
 	
@@ -135,8 +135,10 @@ public class Main {
 	public static void afficheSubMenuParam( int saisie , int saisieParam )
 	{
 		String nomEvent = "";
-		String dateDebut = "";
-		String dateFin = "";
+		String dateDeb = "";
+		String dateEnd = "";
+		SimpleDateFormat dateDebut = new SimpleDateFormat( "dd/MM/yy ");
+		SimpleDateFormat dateFin = new SimpleDateFormat( "dd/MM/yy" );
 		String newNom = "";
 
 		Scanner sc = new Scanner ( System.in );
@@ -148,13 +150,26 @@ public class Main {
 						case 1 :   System.out.println("Nom √©v√©nements : ");
 								   nomEvent = sc.nextLine();
 								   System.out.println("Date d√©but √©v√©nement : ");
-								   dateDebut = sc.nextLine();
+								   dateDeb = sc.nextLine();
 								   System.out.println("Date fin √©v√©nement : ");
-								   dateFin = sc.nextLine();
-								   // Regarde les squelete des fonctions qu'on a crÈÈ dans les classes avant de les utiliser...
-								   // Ici c'est Calendar.addEvent( String name, List<Date> intervale)
-								   // J'en ai modifiÈ d'autre dans le code mais l‡ trop de modif ‡ faire.
-								   //userCalendar.addEvent( nomEvent, dateDebut, dateFin );
+								   dateEnd = sc.nextLine();
+								   List < Date > ar = new ArrayList<>();
+								   Date dateDep = null;
+								   Date dateFi = null;
+								   try 
+								   {
+									   dateDep = dateDebut.parse( dateDeb );
+									   dateFi = dateFin.parse( dateEnd );
+			
+									} 
+								   	catch (java.text.ParseException e) 
+								   	{
+										e.printStackTrace();
+									}
+								   ar.add( dateDep );
+								   ar.add( dateFi );
+								  
+								   userCalendar.addEvent( nomEvent, ar);
 								   break;
 						case 2 : System.out.println("Nom √©v√©nements : ");
 								   nomEvent = sc.nextLine();
@@ -170,14 +185,16 @@ public class Main {
 			case 2 : 
 					switch ( saisieParam )
 					{
-						// Idem : Ici c'est la fonction setSortParameter(int) qu'il faut utiliser avec ‡ priori un nb de seconde (donc 24*3600 et 3600)
-						case 1 :  //param.setFinesse( "jour" );
+						case 1 :  
+									param.setSortParameter( 3600 * 24 );
 									break;
-						case 2 :  //param.setFinesse( "heure");
+						case 2 : 
+									param.setSortParameter( 3600 );
 									break; 
 
 					}
 		}
+		sc.close();
 	}
 
 
