@@ -84,7 +84,12 @@ public class Main {
 		else
 		{
 			Sorter S = new Sorter( userCalendar );
-			S.doTri();
+			try {
+				S.doTri();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -146,7 +151,10 @@ public class Main {
 								   dateDebut = sc.nextLine();
 								   System.out.println("Date fin Ã©vÃ©nement : ");
 								   dateFin = sc.nextLine();
-								   userCalendar.addEvent( nomEvent, dateDebut, dateFin );
+								   // Regarde les squelete des fonctions qu'on a créé dans les classes avant de les utiliser...
+								   // Ici c'est Calendar.addEvent( String name, List<Date> intervale)
+								   // J'en ai modifié d'autre dans le code mais là trop de modif à faire.
+								   //userCalendar.addEvent( nomEvent, dateDebut, dateFin );
 								   break;
 						case 2 : System.out.println("Nom Ã©vÃ©nements : ");
 								   nomEvent = sc.nextLine();
@@ -156,15 +164,16 @@ public class Main {
 					     		   nomEvent = sc.nextLine();
 					     		   System.out.println("Nouveau nom : ");
 					     		   newNom = sc.nextLine();
-					     		   userCalendar.renameEvent( nomEvent , newNom );
+					     		   userCalendar.editEvent( nomEvent , newNom );
 					     		   break;
 					}
 			case 2 : 
 					switch ( saisieParam )
 					{
-						case 1 :  param.setFinesse( "jour" );
+						// Idem : Ici c'est la fonction setSortParameter(int) qu'il faut utiliser avec à priori un nb de seconde (donc 24*3600 et 3600)
+						case 1 :  //param.setFinesse( "jour" );
 									break;
-						case 2 :  param.setFinesse( "heure");
+						case 2 :  //param.setFinesse( "heure");
 									break; 
 
 					}
