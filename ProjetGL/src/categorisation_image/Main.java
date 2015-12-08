@@ -7,7 +7,7 @@ import java.util.*;
 public class Main {
 
 	private static String pathParametre = "..";
-	private static String pathEvent = "..";
+	private static String pathEvent = "ressource/ADECal(1).ics";
 
 	private static Parameter param = new Parameter( pathParametre ); 
 	private static Calendar userCalendar = new Calendar( pathEvent );
