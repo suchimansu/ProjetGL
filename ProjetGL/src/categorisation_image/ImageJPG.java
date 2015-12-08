@@ -6,9 +6,9 @@ public class ImageJPG extends Image {
 		super(path);
 	}
 
-	@Override
+	/*@Override
 	protected String extactTime(String path) {
 		return "";
 	}
-
+*/
 }
