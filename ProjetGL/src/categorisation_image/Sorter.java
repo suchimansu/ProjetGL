@@ -1,8 +1,6 @@
 package categorisation_image;
 
 import java.io.*;
-import java.nio.file.*;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -22,35 +20,60 @@ public class Sorter {
         this.tempEventCalendar = userCal;
     }
 
-    public void doTri(String path) throws Exception {
+    public void doTri(String pathIn) throws Exception {
         List<Event> listeEvent;
         TreeMap<Long, Image> images;
         Scan s = new Scan();
-        listeEvent = tempEventCalendar.getListEvent();
-        images = s.doScan(new File(path));
+        Event globalEvent = tempEventCalendar.getGlobalEvent();
+        // listeEvent = tempEventCalendar.getListEvent();
+        images = s.doScan(new File(pathIn));
 
-        userEventSort(listeEvent, path, images);
+        userEventSort(globalEvent, images);
     }
 
-    private void userEventSort(List<Event> l, String path, TreeMap<Long, Image> tm) throws Exception {
-        String destination;
-        Path chemin;
-        // Parcours des clefs
-        for (Event element : l) {
-            Date debut = element.getIntervale().get(0);
-            Date fin = element.getIntervale().get(1);
-            for (Long key : tm.keySet()) {
-                if (debut.getTime() <= key && key <= fin.getTime()) {
-                    destination = param.getDestDir() + "/" + element.getNom(); //chemin du dossier de destination
-                    //chemin = Paths.get(destination);//on cree le Path a partir de la destination
-                    //Path cheminDest = Files.createDirectory(chemin);//on créé la destination
-                    Path monFichier = Paths.get(tm.get(key).getPath());
-                    Path monFichierCopie = Paths.get(destination);
-                    Files.copy(monFichier, monFichierCopie, REPLACE_EXISTING);
+    private void userEventSort(Event globalEvent, TreeMap<Long, Image> mapImage) throws Exception {
+        Date dateImage;
+        if (globalEvent.hasChild()) {
+            for (Long key : mapImage.keySet()) {
+                dateImage = mapImage.get(key).getTimeDate();
+                if (globalEvent.isInclude(dateImage)) {
+                    for (Event childs : globalEvent.getChild()) {
+                        if (childs.isInclude(dateImage)) {
+                            //l'image est dans une categorie de l'utilisateur
+                            userEventSortBis(globalEvent, mapImage, key);
+                        }
+                    }
+                } else {
+                    //on ne fait rien : l'image n'est pas dans un parametre utilisateur
+                }
+            }
+        } else {
+            //on ne fait rien : pas de parametre utilisateur
+        }
+    }
+
+    private void userEventSortBis(Event event, TreeMap<Long, Image> mapImage, Long key) {
+        boolean b = true;
+        Date dateImage = mapImage.get(key).getTimeDate();
+        if (event.hasChild()) {
+            for (Event childs : event.getChild()) {
+                if (childs.isInclude(dateImage)) {
+                    //l'image est dans une categorie de l'utilisateur
+                    userEventSortBis(childs, mapImage, key);
+                    b = !b; //on a trouvé une sous categorie pour l'image
                 }
             }
         }
 
+        if (b) {//on est dans le dossier ou doit etre la photo
+            String pathImage;
+            String pathDest;
+            pathImage = mapImage.get(key).getPath();
+            //deplacerImage(pathImage, pathDest) 
+            mapImage.remove(key);//on enleve l'image du TreeMap
+        } else {
+            //normalement on ne rentre pas ici
+        }
     }
 
     private void unsortedSort(List l) throws Exception {
