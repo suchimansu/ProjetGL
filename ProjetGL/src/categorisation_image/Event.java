@@ -39,6 +39,9 @@ public class Event {
 		this.child.add(child);
 		child.setParent(this);
 	}
-        
+    
+	public boolean isInclude(Date date){
+		return true;
+	}
         
 }
