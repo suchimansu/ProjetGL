@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
@@ -19,15 +20,17 @@ import net.fortuna.ical4j.model.Property;
 public class Calendar {
 
 	// Type a valider
-	private TreeMap<Long,Event> calMap;
+	private Event global;
+	private HashMap<String, Event> calMap;
 	private net.fortuna.ical4j.model.Calendar cal;
 	
 	public Calendar(){
-		
+		calMap = new HashMap<String,Event>();
+		cal = new net.fortuna.ical4j.model.Calendar();
 	}
 	
 	public Calendar(String path){
-		calMap = new TreeMap<Long,Event>();
+		calMap = new HashMap<String,Event>();
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(path);
@@ -43,8 +46,9 @@ public class Calendar {
 			    List<Interval> tmpList = new ArrayList<Interval>();
 			    Interval tmpInterval = new Interval(start,end);
 			    
+			    // TODO checker si le SUMMARY est toujours présent
 			    Event tmpe = new Event(component.getProperty(Property.SUMMARY).getValue(), tmpList);
-			    calMap.put(start.getTime(), tmpe);
+			    calMap.put(tmpe.getNom(), tmpe);
 
 			    /*for (Iterator<?> j = component.getProperties().iterator(); j.hasNext();) {
 			        Property property = (Property) j.next();
@@ -75,16 +79,17 @@ public class Calendar {
 		
 	}
 	
-	public List<Event> getListEvent(){
-		return new ArrayList<Event>(calMap.values());
+	public Event getGlobalEvent(){
+		return global;
 	}
 	
 	public void importCal(){
 		
 	}
 	
-	public void addEvent(String name, List<Date> dList){
-		
+	public void addEvent(String name, List<Interval> dList){
+		Event tmp = new Event(name, dList);
+		calMap.put(name, tmp);
 	}
 	
 	public void editEvent(String name, String newName){

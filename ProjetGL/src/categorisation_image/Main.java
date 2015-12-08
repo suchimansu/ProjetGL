@@ -66,13 +66,15 @@ public class Main {
 				saisieSub = sc.nextLine();
 				b = true;
 			}
-			/*else
+			else
+			{
+				System.out.println("Erreur sur le type de saisie");
+				System.out.println("Recommencer la saisie .. ");
+				sc.nextLine();
+			}
 			
-				System.out.println("\nErreur sur la saisie");
-				System.out.print("Votre choix : ");
-				sc.next();
-			}*/
 		}
+		
 		sc.close();
 
 		if ( saisieSub.charAt(0) == '1' || saisieSub.charAt(0) == '2' )
