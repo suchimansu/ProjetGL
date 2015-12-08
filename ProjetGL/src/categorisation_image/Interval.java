@@ -11,5 +11,13 @@ public class Interval {
 		this.start = start;
 		this.end = end;
 	}
+	
+	public Date getStart(){
+		return start;
+	}
+	
+	public Date getEnd(){
+		return end;
+	}
 
 }
