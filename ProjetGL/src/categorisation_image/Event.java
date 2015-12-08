@@ -7,10 +7,10 @@ public class Event {
 	
 	private Event parent;
 	private List<Event> child;
-	private List<Date> intervale;
+	private List<Interval> intervale;
 	private String name;
         
-	public Event(String name, List<Date> lDate) {
+	public Event(String name, List<Interval> lDate) {
 		this.name = name;
 		this.intervale = lDate;
 	}
@@ -23,7 +23,7 @@ public class Event {
 		this.parent = parent;
 	}
 	
-	public List<Date> getIntervale(){
+	public List<Interval> getIntervale(){
 		return intervale;
 	}
 	

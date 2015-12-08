@@ -40,10 +40,9 @@ public class Calendar {
 			    System.out.println("start : " + start.getHours() + ":" + start.getMinutes());
 			    Date end = new DateTime(component.getProperty(Property.DTEND).getValue());
 			    System.out.println("end : " + end.getHours() + ":" + end.getMinutes());
-			    List<Date> tmp = new ArrayList<Date>();
-			    tmp.add(start);
-			    tmp.add(end);
-			    Event tmpe = new Event(component.getProperty(Property.NAME).getValue(), tmp);
+			    List<Interval> tmpList = new ArrayList<Interval>();
+			    Interval tmpInterval = new Interval(start,end);
+			    Event tmpe = new Event(component.getProperty(Property.NAME).getValue(), tmpList);
 			    calMap.put(start.getTime(), tmpe);
 
 			    /*for (Iterator<?> j = component.getProperties().iterator(); j.hasNext();) {
