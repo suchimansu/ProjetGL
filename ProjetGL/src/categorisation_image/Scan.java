@@ -1,62 +1,17 @@
 package categorisation_image;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.TreeMap;
 
 public class Scan
-{
-	static String[] ext = {".png", ".jpg", ".jpeg"};
-	/**
-	 * \class ExtFilter
-	 * \brief Classe implémentant un filtrage de fichier image
-	 */
-	private class ExtFilter implements FileFilter
-	{
-		/**
-		 * \fn ExtFilter(String[] ext)
-		 * \brief Construit un filtre de fichier à partir des extensions fournies
-		 *
-		 * \param ext Tableau des extensions autorisés
-		 */
-		public ExtFilter() { }
-		
-		/**
-		 * \fn boolean accept(File pathname)
-		 * \brief Retourne true si le fichier est un répertoire ou possède une
-		 * extension autorisée
-		 *
-		 * \param pathname Chemin et nom du fichier
-		 * \return True si pathname est un répertoire, ou un fichier d'extension autorisée
-		 * false sinon
-		 */
-		@Override
-		public boolean accept(File pathname)
-		{
-			if (pathname.isDirectory())
-			{
-				return true;
-			}
-			else
-			{
-				String path = pathname.getAbsolutePath().toLowerCase();
-				for (int i=0; i<Scan.ext.length; i++)
-				{
-					if (path.endsWith(Scan.ext[i]))
-					{
-						return true;
-					}
-				}
-				return false;
-			}
-		}
-	}
-	
+{	
 	private ExtFilter filter;
+	private String[] exts;
 
 	public Scan()
 	{
-		this.filter = new ExtFilter();
+		this.exts = new String[] {".png", ".jpg", ".jpeg"};
+		this.filter = new ExtFilter(this.exts);
 	}
 
 	public TreeMap<Long, Image> doScan(File path)
@@ -71,7 +26,7 @@ public class Scan
 				{
 					String p = contenu[i].getAbsolutePath().toLowerCase();
 					Image img;
-					if (p.endsWith(Scan.ext[0]))
+					if (p.endsWith(this.exts[0]))
 					{
 						img = new ImagePNG(contenu[i].getAbsolutePath());
 					}

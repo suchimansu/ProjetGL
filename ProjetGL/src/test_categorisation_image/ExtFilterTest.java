@@ -4,17 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class ScanTest
-{
+public class ExtFilterTest {
+
 	@Test
-	public void testScan()
-	{
+	public void testExtFilter() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testDoScan()
-	{
+	public void testAccept() {
 		fail("Not yet implemented");
 	}
 
