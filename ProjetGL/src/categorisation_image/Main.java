@@ -1,8 +1,8 @@
 package categorisation_image;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 
 public class Main {
 
@@ -12,89 +12,37 @@ public class Main {
 	private static Parameter param = new Parameter( pathParametre ); 
 	private static Calendar userCalendar = new Calendar( pathEvent );
 	
-	public static void afficheMenuPrincipal() 
+	public static int afficheMenuPrincipal( Scanner sc ) 
 	{
 		boolean b = false;
 		int saisie = -1 ;
+
 		System.out.println("#############  BIENVENUE #############");
 		System.out.println("          1 - Lancer le tri           ");
 		System.out.println("            2 - Paramètre             ");
 		System.out.println("             3 - Quitter              ");
 		System.out.println("######################################");
 		System.out.print("Votre choix : ");
-		Scanner sc = new Scanner ( System.in );
-
+		saisie = sc.nextInt();
+		
 		while ( !b )
 		{
-			if ( sc.hasNextInt() )
+			if ( saisie > 0 && saisie <= 3 )
 			{
+				b = true;
+			}
+			else
+			{
+				System.out.println("Erreur .. ");
+				System.out.println("Merci de recommencer votre saisie : ");
 				saisie = sc.nextInt();
-				b = true;
-			}
-			else
-			{
-				System.out.println("\nErreur sur la saisie");
-				System.out.print("Votre choix : ");
-				sc.next();
 			}
 		}
-		sc.close();
 		
-		afficheSubMenu( saisie );
+		return saisie;		
 	}
 
-	public static void afficheSubMenu( int saisie )
-	{
-		Scanner sc = new Scanner ( System.in );
-		String saisieSub = "";
-		boolean b = false;
-		
-		if ( saisie == 1 )
-		{
-			System.out.println("Merci de rentrer le chemin du dossier ( Ex : /home/ .. )");
-		}
-		else if ( saisie == 2 )
-		{
-			System.out.println(" 1 - Paramètrer les évenements");
-		    System.out.println(" 2 - Paramètrer le logiciel");
-		}
-		
-		while ( !b )
-		{
-			if ( sc.hasNextLine() )
-			{
-				saisieSub = sc.nextLine();
-				b = true;
-			}
-			else
-			{
-				System.out.println("Erreur sur le type de saisie");
-				System.out.println("Recommencer la saisie .. ");
-				sc.nextLine();
-			}
-			
-		}
-		
-		sc.close();
-
-		if ( saisieSub.charAt(0) == '1' || saisieSub.charAt(0) == '2' )
-		{
-			afficheMenuParametre( Integer.parseInt( saisieSub ) );
-		}
-		else
-		{
-			Sorter S = new Sorter(userCalendar, param);
-			try {
-				S.doTri(saisieSub);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	public static void afficheMenuParametre ( int saisie ) 
+	public static int afficheMenuParametre ( int saisie , Scanner sc ) 
 	{
 		int saisieParam = -1;
 		boolean b = false;
@@ -112,27 +60,35 @@ public class Main {
 			System.out.println("2 - Par heure");
 		}
 
-		Scanner sc = new Scanner ( System.in );
 		while ( !b )
 		{
-			if ( sc.hasNextInt() )
+			System.out.print("Votre choix : ");
+			saisieParam = sc.nextInt();
+			if ( saisie == 1 )
 			{
-				saisieParam = sc.nextInt();
-				b = true;
+				if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3 )
+				{
+					b = true;
+				}
+			}
+			else if ( saisie == 2 )
+			{
+				if ( saisieParam == 1 || saisieParam == 2 )
+				{
+					b = true;
+				}
 			}
 			else
 			{
-				System.out.println("\nErreur sur la saisie");
-				System.out.print("Votre choix : ");
-				sc.next();
+				System.out.println("Le choix séléctionné n'existe pas. Veuillez recommencer votre saisie");
 			}
 		}
-		sc.close();
 		
-		afficheSubMenuParam( saisie, saisieParam );
-	}
 	
-	public static void afficheSubMenuParam( int saisie , int saisieParam )
+		return saisieParam;		
+	}
+
+	public static void afficheSubMenuParam( int saisie , int saisieParam , Scanner sc )
 	{
 		String nomEvent = "";
 		String dateDeb = "";
@@ -141,7 +97,6 @@ public class Main {
 		SimpleDateFormat dateFin = new SimpleDateFormat( "dd/MM/yy" );
 		String newNom = "";
 
-		Scanner sc = new Scanner ( System.in );
 		switch ( saisie )
 		{
 			case 1 : 
@@ -194,13 +149,84 @@ public class Main {
 
 					}
 		}
-		sc.close();
 	}
 
+
+	public static boolean verify( String path )
+	{
+		File f = new File ( path );
+
+		if ( f.exists() )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	public static boolean verifyParam ( int saisieParam , int nbParam )
+	{
+		if ( saisieParam <= nbParam && saisieParam >= 1 )
+		{
+			return true;
+		}
+
+		return false;
+	}
 
 	public static void main(String[] args) 
 	{
-			afficheMenuPrincipal();
-	}
+		Scanner sc = new Scanner ( System.in );
+		int menuPrincipal = afficheMenuPrincipal( sc );
 
+
+		while ( menuPrincipal != 3 )
+		{
+			// Lancer le tri
+			if ( menuPrincipal == 1 )
+			{
+				System.out.println("Merci de rentrer le chemin du dossier ( Ex : /home/ .. )");
+				String saisiePath = sc.nextLine();
+
+				while ( !verify ( saisiePath ) )
+				{
+					System.out.println("Erreur .. ");
+					System.out.println("Merci de rentrer le chemin du dossier ( Ex : /home/ .. )");	
+					saisiePath = sc.nextLine();
+				}
+
+				Sorter S = new Sorter(userCalendar, param);
+		    	try 
+		    	{
+					S.doTri( saisiePath );
+				} 
+		    	catch (Exception e) 
+		    	{
+					e.printStackTrace();
+				}
+			}
+			// Paramètre
+			else if ( menuPrincipal == 2 )
+			{
+				System.out.println(" 1 - Paramètrer les évenements");
+		    	System.out.println(" 2 - Paramètrer le logiciel");
+		    	int saisieParam = sc.nextInt();
+
+		    	while ( !verifyParam ( saisieParam , 2 ) )
+		    	{
+		    		System.out.println("Erreur .. ");
+		    		System.out.println(" 1 - Paramètrer les évenements");
+		    		System.out.println(" 2 - Paramètrer le logiciel");
+		    		saisieParam = sc.nextInt();
+		    	}
+
+		    	int recupMenuParam = afficheMenuParametre( saisieParam, sc );
+		    	afficheSubMenuParam( saisieParam , recupMenuParam , sc);
+			}
+
+			menuPrincipal = afficheMenuPrincipal( sc );
+		}
+		sc.close();
+		System.out.println( "A bientôt !");
+	}
 }
