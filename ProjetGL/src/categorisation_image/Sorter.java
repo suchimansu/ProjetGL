@@ -56,4 +56,5 @@ public class Sorter {
     private void unsortedSort(List l) throws Exception {
         int affinage = param.getSortParameter();
     }
+
 }
