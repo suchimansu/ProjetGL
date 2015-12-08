@@ -80,4 +80,69 @@ public class Sorter {
         int affinage = param.getSortParameter();
     }
 
+    // A priori copy ne doit pas être utilisée, c'est une fonction utilisée par move !
+    @SuppressWarnings("resource") // chez moi ca ne voit pas que flux fermés dans le finally -> évite warning
+	private boolean copy(File src, File dest)
+    {
+    	FileChannel in = null; // entree
+    	FileChannel out = null; // sortie
+    	boolean ret;
+    	try // initialisation des flux
+    	{
+    	  in = new FileInputStream(src).getChannel();
+    	  out = new FileOutputStream(dest).getChannel();
+    	 
+    	  // Copie du fichier
+    	  long size = in.size();
+    	  long count = in.transferTo(0, size, out);
+    	  ret = (count == size); // vrai ssi fichier copié et copié ENTIEREMENT
+    	}
+    	catch (Exception e)
+    	{
+    	  e.printStackTrace(); // erreur dans ouverture/lecture flux, transfert, etc. pleins d'erreurs possibles voir doc
+    	  ret = false;
+    	}
+    	finally // fermeture des flux ouverts dans tous les cas
+    	{
+    	  if(in != null)
+    	  {
+    	  	try
+    	  	{
+    		  in.close();
+    		}
+    	  	catch (IOException e) {}
+    	  }
+    	  if(out != null)
+    	  {
+    	  	try
+    	  	{
+    		  out.close();
+    		} catch (IOException e) {}
+    	  }
+    	}
+		return ret;
+    }
+    
+    private boolean move(File src,File dest)
+    {
+        if (!dest.exists()) // pas de fichier existant avec le même nom
+        {
+	        boolean res = src.renameTo(dest); // déplacement par renommage plus rapide
+	        if(!res) // si renommage échoue
+	        {
+	            // copie du fichier puis effacement de l'ancien (plus long que renommage)
+	            res = true;
+	            res &= this.copy(src,dest);
+	            if(res) // copie reussie, on peut effacer l'ancien
+	        	{
+	        		res &= src.delete();
+	        	}
+	        }
+	        return(res);
+        }
+        else // fichier de destination existe deja
+        {
+        	return false;
+        }
+    }
 }
