@@ -9,7 +9,7 @@ public class Main {
 	private static String pathParametre = "..";
 	private static String pathEvent = "..";
 
-	private static Parametre param = new Parametre( pathParametre ); 
+	private static Parameter param = new Parameter( pathParametre ); 
 	private static Calendar userCalendar = new Calendar( pathEvent );
 	
 	public static void afficheMenuPrincipal() 

@@ -10,14 +10,14 @@ import java.util.TreeMap;
 public class Sorter {
 
     private Calendar tempEventCalendar;
-    private Parametre param;
+    private Parameter param;
 
-    public Sorter(Parametre p) {
+    public Sorter(Parameter p) {
         tempEventCalendar = new Calendar();
         param = p;
     }
 
-    public Sorter(Calendar userCal, Parametre p) {
+    public Sorter(Calendar userCal, Parameter p) {
         this(p);
         this.tempEventCalendar = userCal;
     }
