@@ -24,4 +24,9 @@ public class Parametre {
 	public void save(String path){
 		
 	}
+        
+        public String getDestDir()
+        {
+            return destDir;
+        }
 }

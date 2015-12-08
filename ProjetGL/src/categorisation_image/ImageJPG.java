@@ -7,8 +7,8 @@ public class ImageJPG extends Image {
 	}
 
 	@Override
-	protected int extactTime(String path) {
-		return 0;
+	protected String extactTime(String path) {
+		return "";
 	}
 
 }

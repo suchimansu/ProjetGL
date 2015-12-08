@@ -9,7 +9,7 @@ public class Event {
 	private List<Event> child;
 	private List<Date> intervale;
 	private String name;
-
+        
 	public Event(String name, List<Date> lDate) {
 		this.name = name;
 		this.intervale = lDate;
@@ -39,4 +39,6 @@ public class Event {
 		this.child.add(child);
 		child.setParent(this);
 	}
+        
+        
 }
