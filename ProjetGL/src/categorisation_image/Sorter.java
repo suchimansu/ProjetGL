@@ -4,8 +4,8 @@ public class Sorter {
 	
 	private Calendar tempEventCalendar;
 	
-	public Sorter() {
-		tempEventCalendar = new Calendar();
+	public Sorter(Calendar userCal) {
+		tempEventCalendar = userCal;
 	}
 	
 	public void doTri() throws Exception {
