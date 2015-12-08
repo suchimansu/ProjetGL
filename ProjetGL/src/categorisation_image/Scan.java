@@ -34,7 +34,7 @@ public class Scan
 					{
 						img = new ImageJPG(contenu[i].getAbsolutePath());
 					}
-					map.put(img.getTime(), img);
+					map.put(img.getTimeLong(), img);
 				}
 				else // recherche recursive dans le repertoire
 				{
