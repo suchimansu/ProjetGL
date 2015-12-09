@@ -8,24 +8,42 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 
+/**
+ * Classe permettant de trier un ensemble de fichiers images.
+ * @see Scan
+ */
 public class Sorter
 {
 
     private Calendar tempEventCalendar;
     private Parameter param;
 
+	/**
+	 * Construit un nouveau trieur de photos utilisant la granularité p et aucune catégorie prédéfinie.
+	 * @param p Granularité du tri
+	 */
     public Sorter(Parameter p)
     {
         tempEventCalendar = new Calendar();
         param = p;
     }
 
+	/**
+	 * Construit un nouveau trieur de photos utilisant la granularité p et les catégories de userCal.
+	 * @param p Granularité du tri
+	 * @param userCal Calendrier des catégories définies par l'utilisateur
+	 */
     public Sorter(Calendar userCal, Parameter p)
     {
         this(p);
         this.tempEventCalendar = userCal;
     }
 
+	/**
+	 * Effectue le tri des photos se trouvant dans l'arborescence du dossier pathIn.
+	 * @param pathIn Chemin du dossier contenant les photos à trier
+	 * @return void
+	 */
     public void doTri(String pathIn) throws Exception
     {
         List<Event> listeEvent;
@@ -38,6 +56,19 @@ public class Sorter
         userEventSort(globalEvent, images, pathIn);
     }
 
+	/**
+	 * Tri les photos en fonction des catégories définies par l'utilisateur.
+	 * @param globalEvent racine de l'arborescence des catégories
+	 * @param mapImage Ensemble des fichiers images à trier
+	 * @param pathIn Chemin du dossier contenant les photos à trier
+	 * @return void
+	 * 
+	 * 
+	 * 
+	 * 
+	 * TODO à vérifier car là j'ai du mal à saisir ce que fait cette fonction et
+	 * celle du dessous sans regarder attentivement le code
+	 */
     private void userEventSort(Event globalEvent, TreeMap<Long, Image> mapImage, String pathIn) throws Exception
     {
         Date dateImage;
@@ -69,7 +100,19 @@ public class Sorter
             //on ne fait rien : pas de parametre utilisateur
         }
     }
-
+    /**
+	 * Tri les photos en fonction des catégories définies par l'utilisateur.
+	 * @param globalEvent racine de l'arborescence des catégories
+	 * @param mapImage Ensemble des fichiers images à trier
+	 * @param pathIn Chemin du dossier contenant les photos à trier
+	 * @return void
+	 * 
+	 * 
+	 * 
+	 * 
+	 * TODO à vérifier car là j'ai du mal à saisir ce que fait cette fonction et
+	 * celle du dessous sans regarder attentivement le code
+	 */
     private void userEventSortBis(Event event, TreeMap<Long, Image> mapImage, Long key, String pathIn)
     {
         boolean b = true;
@@ -107,12 +150,23 @@ public class Sorter
             //normalement on ne rentre pas ici
         }
     }
-
+    
+    /**
+	 * Tri les photos ne correspondant à aucune catégorie définie par l'utilisateur.
+	 * @param l List des images à trier
+	 * @return void
+	 */
     private void unsortedSort(List l) throws Exception 
     {
         int affinage = param.getSortParameter();
     }
 
+    /**
+	 * Copy le contenu du fichier src dans dest.
+	 * @param src Chemin du fichier à copier
+	 * @param dest Chemin de destination de la copie
+	 * @return Vrai si la copie s'est effectuée sans problème, faux sinon
+	 */
     // A priori copy ne doit pas être utilisée, c'est une fonction utilisée par move !
     @SuppressWarnings("resource") // chez moi ca ne voit pas que flux fermés dans le finally -> évite warning
 	private boolean copy(File src, File dest)
@@ -155,7 +209,14 @@ public class Sorter
     	}
 		return ret;
     }
-    
+
+    /**
+	 * Déplace le fichier src vers dest. Le déplacement est effectué à l'aide d'un renommage, 
+	 * ou d'une copie si le renommage échoue
+	 * @param src Chemin du fichier à déplacer
+	 * @param dest Chemin de destination du fichier
+	 * @return Vrai si le déplacement s'est effectuée sans problème, faux sinon
+	 */
     private boolean move(File src,File dest)
     {
         if (!dest.exists()) // pas de fichier existant avec le même nom

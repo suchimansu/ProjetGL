@@ -7,6 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Date;
 
+/**
+ * Classe permettant de stocker les informations utiles d'un fichier image.
+ * Elle permet entre autre de stocker le nom du fichier, son chemin et sa date (nÃ©cessaire au tri)
+ */
 public class Image {
 
 	private String path;
@@ -14,12 +18,11 @@ public class Image {
 	private String filename;
 	
         
-        /**
-	 * \fn Image(String path)
-	 * \brief Constructeur permettant de récupérer le nom d'une photo et la
-         * date de création de celle-ci à partir du path
-         * 
-	 * \param String prend un chemin
+	/**
+	 * Constructeur permettant de rÃ©cupÃ©rer le nom d'une photo et la
+	 * date de crÃ©ation de celle-ci Ã  partir du path.
+	 * 
+	 * @param path Chemin vers le fichier image
 	 */
 	public Image(String path) {
           try{
@@ -29,7 +32,7 @@ public class Image {
                 File file = new File(path);
                 this.filename = file.getName(); //file.getParent() pour avoir le directory name (sans le fichier)
                 
-                //Obtention de la date de création. getAttribute de creationTime retourne un FileTime
+                //Obtention de la date de crï¿½ation. getAttribute de creationTime retourne un FileTime
                 // on le stocke dans un string et on extrait les champs pour les mettre dans type Date
                 Path chemin = FileSystems.getDefault().getPath(path);
                 String date1 = (Files.getAttribute(chemin, "creationTime" )).toString();
@@ -51,42 +54,38 @@ public class Image {
 
         
 	/**
-	 * \fn Long getTimeLong()
-	 * \brief Retourne le nombre de secondes écoulées entre la date de 
-         * création d'une image et 01/01/1970
-         * 
-	 * \return Nombre de secondes en Long
+	 * Retourne le nombre de secondes ï¿½coulï¿½es entre la date de 
+     * crï¿½ation d'une image et 01/01/1970.
+     * 
+	 * @return Nombre de secondes en Long
 	 */
 	public Long getTimeLong(){
             return this.dateCreation.getTime()/1000;
 	}
 
         
-        /**
-	 * \fn Date getTimeDate()
-	 * \brief Retourne la date de création d'une image
-         * 
-         * \return Date de création d'une image
+    /**
+	 * Retourne la date de crï¿½ation d'une image.
+     * 
+     * @return Date de crï¿½ation d'une image
 	 */
-        public Date getTimeDate(){
+    public Date getTimeDate(){
 		return this.dateCreation;
 	}
 	
-        /**
-	 * \fn String getFileName()
-	 * \brief Retourne le nom de l'image avec son extension
-         * 
-         * \return String le nom de l'image et son extension
+    /**
+	 * Retourne le nom de l'image avec son extension.
+     * 
+     * @return String le nom de l'image et son extension
 	 */
 	public String getFileName(){
 		return this.filename;
 	}
 
-        /**
-	 * \fn String getPath()
-	 * \brief Retourne le path d'une image
-         * 
-         * \return String le chemin d'une image
+    /**
+	 * Retourne le path d'une image.
+     * 
+     * @return String le chemin d'une image
 	 */
 	public String getPath(){
 		return this.path;

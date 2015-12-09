@@ -4,6 +4,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Classe principal du programme de tri des photos. Il contient,
+ *  entre autres, le point d'entrée du programme
+ */
 public class Main {
 
 	private static String pathParametre = "..";
@@ -11,7 +15,12 @@ public class Main {
 
 	private static Parameter param = new Parameter( pathParametre ); 
 	private static Calendar userCalendar = new Calendar( pathEvent );
-	
+
+	/**
+	 * Affiche le menu principal de choix utilisateur.
+	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
+	 * @return Le choix de l'utilisateur
+	 */
 	public static int afficheMenuPrincipal( Scanner sc ) 
 	{
 		boolean b = false;
@@ -42,6 +51,12 @@ public class Main {
 		return saisie;		
 	}
 
+	/**
+	 * Affiche le sous-menu de paramétrage.
+	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
+	 * @param saisie //TODO
+	 * @return Le choix de l'utilisateur
+	 */
 	public static int afficheMenuParametre ( int saisie , Scanner sc ) 
 	{
 		int saisieParam = -1;
@@ -88,6 +103,13 @@ public class Main {
 		return saisieParam;		
 	}
 
+	/**
+	 * Affiche le sous-menu de gestion des catégories.
+	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
+	 * @param saisie //TODO
+	 * @param saisieParam //TODO
+	 * @return void
+	 */
 	public static void afficheSubMenuParam( int saisie , int saisieParam , Scanner sc )
 	{
 		String nomEvent = "";
@@ -151,7 +173,11 @@ public class Main {
 		}
 	}
 
-
+	/**
+	 * Vérifie si le fichier décrit par le chemin path existe.
+	 * @param path chemin vers un fichier
+	 * @return vrai si le fichier existe, faux sinon
+	 */
 	public static boolean verify( String path )
 	{
 		File f = new File ( path );
@@ -164,6 +190,12 @@ public class Main {
 		return false;
 	}
 
+	/**
+	 * Vérifie si le nombre de paramètre entrés par l'utilisateur est correct.
+	 * @param saisieParam //TODO
+	 * @param nbParam //TODO
+	 * @return vrai si le nombre de paramètre est correct, faux sinon
+	 */
 	public static boolean verifyParam ( int saisieParam , int nbParam )
 	{
 		if ( saisieParam <= nbParam && saisieParam >= 1 )
@@ -174,6 +206,11 @@ public class Main {
 		return false;
 	}
 
+	/**
+	 * Point d'entrée du programme.
+	 * @param args Tableau des paramètres passés au programme via la ligne de commande
+	 * @return void
+	 */
 	public static void main(String[] args) 
 	{
 		Scanner sc = new Scanner ( System.in );
