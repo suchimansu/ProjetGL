@@ -19,7 +19,7 @@ public class Image {
 	 * \brief Constructeur permettant de récupérer le nom d'une photo et la
          * date de création de celle-ci à partir du path
          * 
-	 * \param path String
+	 * \param String prend un chemin
 	 */
 	public Image(String path) {
           try{
@@ -51,11 +51,11 @@ public class Image {
 
         
 	/**
-	 * \fn getTimeLong()
+	 * \fn Long getTimeLong()
 	 * \brief Retourne le nombre de secondes écoulées entre la date de 
          * création d'une image et 01/01/1970
          * 
-	 * \return Long
+	 * \return Nombre de secondes en Long
 	 */
 	public Long getTimeLong(){
             return this.dateCreation.getTime()/1000;
@@ -63,30 +63,30 @@ public class Image {
 
         
         /**
-	 * \fn getTimeDate()
+	 * \fn Date getTimeDate()
 	 * \brief Retourne la date de création d'une image
          * 
-         * \return Date
+         * \return Date de création d'une image
 	 */
         public Date getTimeDate(){
 		return this.dateCreation;
 	}
 	
         /**
-	 * \fn getFileName()
+	 * \fn String getFileName()
 	 * \brief Retourne le nom de l'image avec son extension
          * 
-         * \return String
+         * \return String le nom de l'image et son extension
 	 */
 	public String getFileName(){
 		return this.filename;
 	}
 
         /**
-	 * \fn getPath()
+	 * \fn String getPath()
 	 * \brief Retourne le path d'une image
          * 
-         * \return String
+         * \return String le chemin d'une image
 	 */
 	public String getPath(){
 		return this.path;
