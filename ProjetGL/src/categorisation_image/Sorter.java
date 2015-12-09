@@ -1,26 +1,33 @@
 package categorisation_image;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 
-public class Sorter {
+public class Sorter
+{
 
     private Calendar tempEventCalendar;
     private Parameter param;
 
-    public Sorter(Parameter p) {
+    public Sorter(Parameter p)
+    {
         tempEventCalendar = new Calendar();
         param = p;
     }
 
-    public Sorter(Calendar userCal, Parameter p) {
+    public Sorter(Calendar userCal, Parameter p)
+    {
         this(p);
         this.tempEventCalendar = userCal;
     }
 
-    public void doTri(String pathIn) throws Exception {
+    public void doTri(String pathIn) throws Exception
+    {
         List<Event> listeEvent;
         TreeMap<Long, Image> images;
         Scan s = new Scan();
@@ -28,55 +35,81 @@ public class Sorter {
         // listeEvent = tempEventCalendar.getListEvent();
         images = s.doScan(new File(pathIn));
 
-        userEventSort(globalEvent, images);
+        userEventSort(globalEvent, images, pathIn);
     }
 
-    private void userEventSort(Event globalEvent, TreeMap<Long, Image> mapImage) throws Exception {
+    private void userEventSort(Event globalEvent, TreeMap<Long, Image> mapImage, String pathIn) throws Exception
+    {
         Date dateImage;
-        if (globalEvent.hasChild()) {
-            for (Long key : mapImage.keySet()) {
+        if (globalEvent.hasChild()) 
+        {
+            for (Long key : mapImage.keySet())
+            {
                 dateImage = mapImage.get(key).getTimeDate();
-                if (globalEvent.isInclude(dateImage)) {
-                    for (Event childs : globalEvent.getChild()) {
-                        if (childs.isInclude(dateImage)) {
+                if (globalEvent.isInclude(dateImage))
+                {
+                    for (Event childs : globalEvent.getChild())
+                    {
+                        if (childs.isInclude(dateImage))
+                        {
+                            pathIn += childs.getNom();
                             //l'image est dans une categorie de l'utilisateur
-                            userEventSortBis(globalEvent, mapImage, key);
+                            userEventSortBis(globalEvent, mapImage, key, pathIn);
                         }
                     }
-                } else {
+                } 
+                else 
+                {
                     //on ne fait rien : l'image n'est pas dans un parametre utilisateur
                 }
             }
-        } else {
+        } 
+        else
+        {
             //on ne fait rien : pas de parametre utilisateur
         }
     }
 
-    private void userEventSortBis(Event event, TreeMap<Long, Image> mapImage, Long key) {
+    private void userEventSortBis(Event event, TreeMap<Long, Image> mapImage, Long key, String pathIn)
+    {
         boolean b = true;
         Date dateImage = mapImage.get(key).getTimeDate();
-        if (event.hasChild()) {
-            for (Event childs : event.getChild()) {
-                if (childs.isInclude(dateImage)) {
+        if (event.hasChild())
+        {
+            for (Event childs : event.getChild())
+            {
+                if (childs.isInclude(dateImage))
+                {
+                    pathIn += "\\" + childs.getNom(); //on agrandi l'arborescence du chemin
                     //l'image est dans une categorie de l'utilisateur
-                    userEventSortBis(childs, mapImage, key);
+                    userEventSortBis(childs, mapImage, key, pathIn);
                     b = !b; //on a trouvé une sous categorie pour l'image
                 }
             }
         }
 
-        if (b) {//on est dans le dossier ou doit etre la photo
-            String pathImage;
-            String pathDest;
-            pathImage = mapImage.get(key).getPath();
-            //deplacerImage(pathImage, pathDest) 
+        if (b) 
+        {//on est dans le dossier ou doit etre la photo
+            String pathImageS;
+            
+            pathImageS = mapImage.get(key).getPath();
+            Path pathImage = Paths.get(pathImageS);
+            File srcImage = pathImage.toFile();
+            Path pathDest = Paths.get(pathIn);
+            File dest = pathDest.toFile();
+            //deplacerImage(pathImage, pathDest)
+            move(srcImage, dest);
+            
             mapImage.remove(key);//on enleve l'image du TreeMap
-        } else {
+        }
+        else
+        {
             //normalement on ne rentre pas ici
         }
     }
 
-    private void unsortedSort(List l) throws Exception {
+    private void unsortedSort(List l) throws Exception 
+    {
         int affinage = param.getSortParameter();
     }
 
