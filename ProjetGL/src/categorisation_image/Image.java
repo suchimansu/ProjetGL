@@ -16,8 +16,9 @@ public class Image {
         
         /**
 	 * \fn Image(String path)
-	 * \brief constructeur permettant de récupérer le nom d'une photo et la
+	 * \brief Constructeur permettant de récupérer le nom d'une photo et la
          * date de création de celle-ci à partir du path
+         * 
 	 * \param path String
 	 */
 	public Image(String path) {
@@ -51,8 +52,9 @@ public class Image {
         
 	/**
 	 * \fn getTimeLong()
-	 * \brief retourne le nombre de secondes écoulées entre la date de 
+	 * \brief Retourne le nombre de secondes écoulées entre la date de 
          * création d'une image et 01/01/1970
+         * 
 	 * \return Long
 	 */
 	public Long getTimeLong(){
@@ -62,7 +64,8 @@ public class Image {
         
         /**
 	 * \fn getTimeDate()
-	 * \brief retourne la date de création d'une image
+	 * \brief Retourne la date de création d'une image
+         * 
          * \return Date
 	 */
         public Date getTimeDate(){
@@ -71,7 +74,8 @@ public class Image {
 	
         /**
 	 * \fn getFileName()
-	 * \brief retourne le nom de l'image avec son extension
+	 * \brief Retourne le nom de l'image avec son extension
+         * 
          * \return String
 	 */
 	public String getFileName(){
@@ -80,7 +84,8 @@ public class Image {
 
         /**
 	 * \fn getPath()
-	 * \brief retourne le path d'une image
+	 * \brief Retourne le path d'une image
+         * 
          * \return String
 	 */
 	public String getPath(){
