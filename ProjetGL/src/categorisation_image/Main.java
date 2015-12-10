@@ -105,8 +105,9 @@ public class Main {
 	
 	/**
 	 * Affiche le sous-menu de gestion des catégories.
+	 * Appelé à la suite du menu ( 1 - Paramétrer événement, 2 - Paramétrer logiciel )
 	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
-	 * @param saisie : La saisie provenant du main ( 1 - Paramétrer événement, 2 - Paramétrer logiciel )
+	 * @param saisie : La saisie provenant du sous-menu
 	 * @param saisieParam : La saisie utilisateur provenant de afficheMenuParametre
 	 * @return void
 	 */
