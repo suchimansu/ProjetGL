@@ -48,7 +48,7 @@ public class Event extends Events {
 	 */
 	public void addChild(Events child) throws Exception{
 		if(this.include(child)){
-			this.getChilds().add(child);
+			this.getChildren().add(child);
 			((Event)child).setParent(this);
 		}else{
 			throw new Exception("L'intervalle de l'événement parent doit contenir celui de l'enfant.");
