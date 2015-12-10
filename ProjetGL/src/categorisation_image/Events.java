@@ -83,7 +83,7 @@ public abstract class Events {
 	 * Indique la présence d'évènement enfant.
 	 * @return boolean
 	 */
-	public boolean hadChilds(){
+	public boolean hadChildren(){
 		return child.isEmpty();
 	}
 	
