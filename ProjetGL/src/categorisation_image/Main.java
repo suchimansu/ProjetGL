@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class Main {
 
-	private static String pathParametre = "../saveRessource.conf2";
+	private static String pathParametre = "../saveRessource.conf";
 	private static String pathEvent = "ressource/ADECal(1).ics";
 
 	private static Parameter param = new Parameter( pathParametre ); 
@@ -262,7 +262,7 @@ public class Main {
 
 			menuPrincipal = afficheMenuPrincipal( sc );
 		}
-		param.save( param.getDestDir() );
+		param.save();
 		sc.close();
 		System.out.println( "A bientôt !");
 	}
