@@ -15,7 +15,7 @@ public class Scan
 	private String[] exts;
 
 	/**
-	 * Construit un nouveau scanneur de fichier image. LEs fichiers filtrés sont les png, jpg et jpeg
+	 * Construit un nouveau scanneur de fichier image. Les fichiers filtrés sont les png, jpg et jpeg
 	 */
 	public Scan()
 	{
@@ -39,15 +39,7 @@ public class Scan
 				if (!contenu[i].isDirectory()) // pas repertoire
 				{
 					String p = contenu[i].getAbsolutePath().toLowerCase();
-					Image img;
-					if (p.endsWith(this.exts[0]))
-					{
-						img = new ImagePNG(contenu[i].getAbsolutePath());
-					}
-					else
-					{
-						img = new ImageJPG(contenu[i].getAbsolutePath());
-					}
+					Image img = new Image(contenu[i].getAbsolutePath());
 					map.put(img.getTimeLong(), img);
 				}
 				else // recherche recursive dans le repertoire
