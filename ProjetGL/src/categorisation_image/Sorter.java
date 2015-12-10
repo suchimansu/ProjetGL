@@ -144,25 +144,14 @@ public class Sorter
     @SuppressWarnings("deprecation")
 	private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
     {
-    	String dest = this.param.getDestDir();
-    	Date date;
-    	String annee;
-    	
-        int affinage = param.getSortParameter();
-        for (Long key : mapImage.keySet())
-        {
-        	date = mapImage.get(key).getTimeDate();
-        	annee = Integer.toString(date.getYear());
-        	String pathImageS = mapImage.get(key).getPath();
-            Path pathImage = Paths.get(pathImageS);
-            File srcImage = pathImage.toFile();
-            
-            Path pathDest = Paths.get(dest + "/" + annee );
-            File fileDest = pathDest.toFile();
-            move(srcImage, fileDest);
-            
-            mapImage.remove(key);//on enleve l'image du TreeMap
-        }
+    	long entreDeux = 0;
+    	long key = 0;
+    	while (!mapImage.isEmpty())
+    	{
+    		entreDeux = mapImage.get(key).getTimeLong()
+    				- mapImage.get(key+1).getTimeLong();
+    	}
+        
     }
 
     
