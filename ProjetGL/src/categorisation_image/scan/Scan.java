@@ -1,4 +1,4 @@
-package categorisation_image;
+package categorisation_image.scan;
 
 import java.io.File;
 import java.util.TreeMap;
@@ -38,7 +38,6 @@ public class Scan
 			{
 				if (!contenu[i].isDirectory()) // pas repertoire
 				{
-					String p = contenu[i].getAbsolutePath().toLowerCase();
 					Image img = new Image(contenu[i].getAbsolutePath());
 					map.put(img.getTimeLong(), img);
 				}

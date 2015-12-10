@@ -1,4 +1,4 @@
-package categorisation_image;
+package categorisation_image.scan;
 
 import java.io.File;
 import java.io.FileFilter;
