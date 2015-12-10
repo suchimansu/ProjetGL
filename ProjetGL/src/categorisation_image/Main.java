@@ -4,6 +4,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import categorisation_image.calendar.Calendar;
+import categorisation_image.calendar.Interval;
+
 /**
  * Classe principal du programme de tri des photos. Il contient,
  * entre autres, le point d'entrée du programme

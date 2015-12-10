@@ -1,4 +1,4 @@
-package categorisation_image;
+package categorisation_image.calendar;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
