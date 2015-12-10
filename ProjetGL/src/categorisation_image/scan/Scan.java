@@ -3,6 +3,8 @@ package categorisation_image.scan;
 import java.io.File;
 import java.util.TreeMap;
 
+import categorisation_image.Image;
+
 /**
  * Classe permettant de pouvoir lister les fichiers images d'une arborescence de fichier.
  * Les fichiers sont filtrés par extension
