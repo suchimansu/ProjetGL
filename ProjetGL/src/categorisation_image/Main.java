@@ -6,16 +6,16 @@ import java.util.*;
 
 /**
  * Classe principal du programme de tri des photos. Il contient,
- *  entre autres, le point d'entrée du programme
+ * entre autres, le point d'entrée du programme
  */
 public class Main {
 
-	private static String pathParametre = "..";
+	private static String pathParametre = "../saveRessource.conf2";
 	private static String pathEvent = "ressource/ADECal(1).ics";
 
 	private static Parameter param = new Parameter( pathParametre ); 
 	private static Calendar userCalendar = new Calendar( pathEvent );
-
+	
 	/**
 	 * Affiche le menu principal de choix utilisateur.
 	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
@@ -50,7 +50,7 @@ public class Main {
 		
 		return saisie;		
 	}
-
+	
 	/**
 	 * Affiche le sous-menu de paramétrage.
 	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
@@ -102,7 +102,7 @@ public class Main {
 	
 		return saisieParam;		
 	}
-
+	
 	/**
 	 * Affiche le sous-menu de gestion des catégories.
 	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
@@ -130,7 +130,7 @@ public class Main {
 								   dateDeb = sc.nextLine();
 								   System.out.println("Date fin événement : ");
 								   dateEnd = sc.nextLine();
-								   List < Date > ar = new ArrayList<>();
+								   List < Interval > ar = new ArrayList<>();
 								   Date dateDep = null;
 								   Date dateFi = null;
 								   try 
@@ -143,10 +143,9 @@ public class Main {
 								   	{
 										e.printStackTrace();
 									}
-								   ar.add( dateDep );
-								   ar.add( dateFi );
+								   ar.add( new Interval( dateDep, dateFi ));
 								  
-								   userCalendar.addEvent( nomEvent, ar);
+								   userCalendar.addEvent( nomEvent, ar );
 								   break;
 						case 2 : System.out.println("Nom événements : ");
 								   nomEvent = sc.nextLine();
@@ -263,6 +262,7 @@ public class Main {
 
 			menuPrincipal = afficheMenuPrincipal( sc );
 		}
+		param.save( param.getDestDir() );
 		sc.close();
 		System.out.println( "A bientôt !");
 	}
