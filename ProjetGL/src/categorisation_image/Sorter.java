@@ -8,6 +8,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 
+import categorisation_image.calendar.Calendar;
+import categorisation_image.calendar.EventGlobal;
+import categorisation_image.calendar.Events;
+import categorisation_image.scan.Scan;
+
 /**
  * Classe permettant de trier un ensemble de fichiers images.
  * @see Scan
@@ -19,8 +24,8 @@ public class Sorter
     private Parameter param;
 
 	/**
-	 * Construit un nouveau trieur de photos utilisant la granularit√© p et aucune cat√©gorie pr√©d√©finie.
-	 * @param p Granularit√© du tri
+	 * Construit un nouveau trieur de photos utilisant la granularitÈ p et aucune catÈgorie prÈdÈfinie.
+	 * @param p GranularitÈ du tri
 	 */
     public Sorter(Parameter p)
     {
@@ -29,9 +34,9 @@ public class Sorter
     }
 
 	/**
-	 * Construit un nouveau trieur de photos utilisant la granularit√© p et les cat√©gories de userCal.
-	 * @param p Granularit√© du tri
-	 * @param userCal Calendrier des cat√©gories d√©finies par l'utilisateur
+	 * Construit un nouveau trieur de photos utilisant la granularitÈ p et les catÈgories de userCal.
+	 * @param p GranularitÈ du tri
+	 * @param userCal Calendrier des catÈgories dÈfinies par l'utilisateur
 	 */
     public Sorter(Calendar userCal, Parameter p)
     {
@@ -41,15 +46,15 @@ public class Sorter
 
 	/**
 	 * Effectue le tri des photos se trouvant dans l'arborescence du dossier pathIn.
-	 * @param pathIn Chemin du dossier contenant les photos √† trier
+	 * @param pathIn Chemin du dossier contenant les photos ‡ trier
 	 * @return void
 	 */
     public void doTri(String pathIn) throws Exception
     {
-        List<Event> listeEvent;
+        List<Events> listeEvent;
         TreeMap<Long, Image> images;
         Scan s = new Scan();
-        Event globalEvent = tempEventCalendar.getGlobalEvent();
+        EventGlobal globalEvent = tempEventCalendar.getGlobalEvent();
         // listeEvent = tempEventCalendar.getListEvent();
         images = s.doScan(new File(pathIn));
 
@@ -57,35 +62,32 @@ public class Sorter
     }
 
 	/**
-	 * Tri les photos en fonction des cat√©gories d√©finies par l'utilisateur.
-	 * @param globalEvent racine de l'arborescence des cat√©gories
-	 * @param mapImage Ensemble des fichiers images √† trier
-	 * @param pathIn Chemin du dossier contenant les photos √† trier
+	 * Tri les photos en fonction des catÈgories dÈfinies par l'utilisateur.
+         * Dans le premier cas on est dans l'Events GlobalEvent
+	 * @param globalEvent racine de l'arborescence des catÈgories
+	 * @param mapImage Ensemble des fichiers images ‡ trier
+	 * @param pathIn Chemin du dossier contenant les photos ‡ trier
 	 * @return void
-	 * 
-	 * 
-	 * 
-	 * 
-	 * TODO √† v√©rifier car l√† j'ai du mal √† saisir ce que fait cette fonction et
-	 * celle du dessous sans regarder attentivement le code
+	 * @see Events 
+         * @see EventGlobal
 	 */
-    private void userEventSort(Event globalEvent, TreeMap<Long, Image> mapImage, String pathIn) throws Exception
+    private void userEventSort(Events globalEvent, TreeMap<Long, Image> mapImage, String pathIn) throws Exception
     {
         Date dateImage;
-        if (globalEvent.hasChild()) 
+        if (globalEvent.hadChildren()) 
         {
             for (Long key : mapImage.keySet())
             {
                 dateImage = mapImage.get(key).getTimeDate();
                 if (globalEvent.isInclude(dateImage))
                 {
-                    for (Event childs : globalEvent.getChild())
+                    for (Events children : globalEvent.getChildren())
                     {
-                        if (childs.isInclude(dateImage))
+                        if (children.isInclude(dateImage))
                         {
-                            pathIn += childs.getNom();
+                            pathIn += children.getNom();
                             //l'image est dans une categorie de l'utilisateur
-                            userEventSortBis(globalEvent, mapImage, key, pathIn);
+                            userEventSortBis(children, mapImage, key, pathIn);
                         }
                     }
                 } 
@@ -101,32 +103,29 @@ public class Sorter
         }
     }
     /**
-	 * Tri les photos en fonction des cat√©gories d√©finies par l'utilisateur.
-	 * @param globalEvent racine de l'arborescence des cat√©gories
-	 * @param mapImage Ensemble des fichiers images √† trier
-	 * @param pathIn Chemin du dossier contenant les photos √† trier
+	 * Tri les photos en fonction des catÈgories dÈfinies par l'utilisateur.
+         * Dans les cas suivants on est dans les Events Event
+	 * @param event racine de l'arborescence des catÈgories
+	 * @param mapImage Ensemble des fichiers images ‡ trier
+	 * @param pathIn Chemin du dossier contenant les photos ‡ trier
 	 * @return void
-	 * 
-	 * 
-	 * 
-	 * 
-	 * TODO √† v√©rifier car l√† j'ai du mal √† saisir ce que fait cette fonction et
-	 * celle du dessous sans regarder attentivement le code
+	 * @see Events
+         * @see Event
 	 */
-    private void userEventSortBis(Event event, TreeMap<Long, Image> mapImage, Long key, String pathIn)
+    private void userEventSortBis(Events event, TreeMap<Long, Image> mapImage, Long key, String pathIn)
     {
         boolean b = true;
         Date dateImage = mapImage.get(key).getTimeDate();
-        if (event.hasChild())
+        if (event.hadChildren())
         {
-            for (Event childs : event.getChild())
+            for (Events children : event.getChildren())
             {
-                if (childs.isInclude(dateImage))
+                if (children.isInclude(dateImage))
                 {
-                    pathIn += "\\" + childs.getNom(); //on agrandi l'arborescence du chemin
+                    pathIn += "\\" + children.getNom(); //on agrandi l'arborescence du chemin
                     //l'image est dans une categorie de l'utilisateur
-                    userEventSortBis(childs, mapImage, key, pathIn);
-                    b = !b; //on a trouv√© une sous categorie pour l'image
+                    userEventSortBis(children, mapImage, key, pathIn);
+                    b = !b; //on a trouvÈ une sous categorie pour l'image
                 }
             }
         }
@@ -140,7 +139,6 @@ public class Sorter
             File srcImage = pathImage.toFile();
             Path pathDest = Paths.get(pathIn);
             File dest = pathDest.toFile();
-            //deplacerImage(pathImage, pathDest)
             move(srcImage, dest);
             
             mapImage.remove(key);//on enleve l'image du TreeMap
@@ -152,8 +150,8 @@ public class Sorter
     }
     
     /**
-	 * Tri les photos ne correspondant √† aucune cat√©gorie d√©finie par l'utilisateur.
-	 * @param l List des images √† trier
+	 * Tri les photos ne correspondant ‡ aucune catÈgorie dÈfinie par l'utilisateur.
+	 * @param l List des images ‡ trier
 	 * @return void
 	 */
     private void unsortedSort(List l) throws Exception 
@@ -163,12 +161,12 @@ public class Sorter
 
     /**
 	 * Copy le contenu du fichier src dans dest.
-	 * @param src Chemin du fichier √† copier
+	 * @param src Chemin du fichier ‡ copier
 	 * @param dest Chemin de destination de la copie
-	 * @return Vrai si la copie s'est effectu√©e sans probl√®me, faux sinon
+	 * @return Vrai si la copie s'est effectuÈe sans problËme, faux sinon
 	 */
-    // A priori copy ne doit pas √™tre utilis√©e, c'est une fonction utilis√©e par move !
-    @SuppressWarnings("resource") // chez moi ca ne voit pas que flux ferm√©s dans le finally -> √©vite warning
+    // A priori copy ne doit pas Ítre utilisÈe, c'est une fonction utilisÈe par move !
+    @SuppressWarnings("resource") // chez moi ca ne voit pas que flux fermÈs dans le finally -> Èvite warning
 	private boolean copy(File src, File dest)
     {
     	FileChannel in = null; // entree
@@ -182,7 +180,7 @@ public class Sorter
     	  // Copie du fichier
     	  long size = in.size();
     	  long count = in.transferTo(0, size, out);
-    	  ret = (count == size); // vrai ssi fichier copi√© et copi√© ENTIEREMENT
+    	  ret = (count == size); // vrai ssi fichier copiÈ et copiÈ ENTIEREMENT
     	}
     	catch (Exception e)
     	{
@@ -211,18 +209,18 @@ public class Sorter
     }
 
     /**
-	 * D√©place le fichier src vers dest. Le d√©placement est effectu√© √† l'aide d'un renommage, 
-	 * ou d'une copie si le renommage √©choue
-	 * @param src Chemin du fichier √† d√©placer
+	 * DÈplace le fichier src vers dest. Le dÈplacement est effectuÈ ‡ l'aide d'un renommage, 
+	 * ou d'une copie si le renommage Èchoue
+	 * @param src Chemin du fichier ‡ dÈplacer
 	 * @param dest Chemin de destination du fichier
-	 * @return Vrai si le d√©placement s'est effectu√©e sans probl√®me, faux sinon
+	 * @return Vrai si le dÈplacement s'est effectuÈe sans problËme, faux sinon
 	 */
     private boolean move(File src,File dest)
     {
-        if (!dest.exists()) // pas de fichier existant avec le m√™me nom
+        if (!dest.exists()) // pas de fichier existant avec le mÍme nom
         {
-	        boolean res = src.renameTo(dest); // d√©placement par renommage plus rapide
-	        if(!res) // si renommage √©choue
+	        boolean res = src.renameTo(dest); // dÈplacement par renommage plus rapide
+	        if(!res) // si renommage Èchoue
 	        {
 	            // copie du fichier puis effacement de l'ancien (plus long que renommage)
 	            res = true;
