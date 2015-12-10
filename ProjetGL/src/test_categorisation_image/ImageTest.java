@@ -4,17 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class ImagePNGTest {
-
-	@Test
-	public void testExtactTime() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testImagePNG() {
-		fail("Not yet implemented");
-	}
+public class ImageTest {
 
 	@Test
 	public void testImage() {
@@ -22,7 +12,12 @@ public class ImagePNGTest {
 	}
 
 	@Test
-	public void testGetTime() {
+	public void testGetTimeLong() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetTimeDate() {
 		fail("Not yet implemented");
 	}
 

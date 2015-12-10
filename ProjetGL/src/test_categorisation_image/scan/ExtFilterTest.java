@@ -1,4 +1,4 @@
-package test_categorisation_image;
+package test_categorisation_image.scan;
 
 import static org.junit.Assert.*;
 
