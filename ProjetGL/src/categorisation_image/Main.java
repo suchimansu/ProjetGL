@@ -54,7 +54,7 @@ public class Main {
 	/**
 	 * Affiche le sous-menu de paramétrage.
 	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
-	 * @param saisie //TODO
+	 * @param  saisie : Le choix de l'utilisateur dans la première partie du menu. 
 	 * @return Le choix de l'utilisateur
 	 */
 	public static int afficheMenuParametre ( int saisie , Scanner sc ) 
@@ -106,8 +106,8 @@ public class Main {
 	/**
 	 * Affiche le sous-menu de gestion des catégories.
 	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
-	 * @param saisie //TODO
-	 * @param saisieParam //TODO
+	 * @param saisie : La saisie provenant du main ( 1 - Paramétrer événement, 2 - Paramétrer logiciel )
+	 * @param saisieParam : La saisie utilisateur provenant de afficheMenuParametre
 	 * @return void
 	 */
 	public static void afficheSubMenuParam( int saisie , int saisieParam , Scanner sc )
@@ -191,8 +191,8 @@ public class Main {
 
 	/**
 	 * Vérifie si le nombre de paramètre entrés par l'utilisateur est correct.
-	 * @param saisieParam //TODO
-	 * @param nbParam //TODO
+	 * @param saisieParam : Une saisie utilisateur
+	 * @param nbParam : Le nombre de paramètre qui ont été donné ( ex : nbParam = 3 , car 3 choix possible )
 	 * @return vrai si le nombre de paramètre est correct, faux sinon
 	 */
 	public static boolean verifyParam ( int saisieParam , int nbParam )

@@ -12,6 +12,7 @@ public class Parameter {
 	private int sortParameter = 3600 * 24 ;
 	private String destDir;
 	private String configDir;
+	
 	/**
 	 * Construit une nouvelle instance à partir du fichier de configuration donné.
 	 * @param path Chemin vers le fichier de sauvegarde de la configuration
@@ -23,8 +24,9 @@ public class Parameter {
 	}
 
 	/**
-	 * TODO je ne vois pas à quoi sert la fonction, sachant que destDir est censé etre le chemin
-	 * du dernier dossier destination de tri utilisé
+	 * Permet de récupérer les anciens paramètres à partir d'un fichier de configuration.
+	 * Le fichier de configuration par défaut est initialisé à partir du main ( ../saveRessources.conf ) 
+	 * @return void
 	 */
 	private void getOldParam()
 	{
@@ -65,24 +67,6 @@ public class Parameter {
 		}
 	}
 
-	/**
-	 * Retourne la granularité du tri.
-	 * @return la granularité
-	 */
-	public int getSortParameter()
-	{
-		return sortParameter;
-	}
-
-	/**
-	 * Met à jour la granularité du tri.
-	 * @param param Nouvelle granularité
-	 * @return void
-	 */
-	public void setSortParameter(int param)
-	{
-		sortParameter = param;
-	}
 
 	/**
 	 * Sauvegarde les paramètres dans le fichier de configuration situé dans path.
@@ -104,10 +88,28 @@ public class Parameter {
 		}
 	}
 
+	/**
+	 * Met à jour la granularité du tri.
+	 * @param param Nouvelle granularité
+	 * @return void
+	 */
+	public void setSortParameter(int param)
+	{
+		sortParameter = param;
+	}
 
 	/**
-	 * Retourne le dernier dossier utilisé comme destination de tri.
-	 * @return le dernier dossier de destination de tri
+	 * Retourne la granularité du tri.
+	 * @return la granularité
+	 */
+	public int getSortParameter()
+	{
+		return sortParameter;
+	}
+	
+	/**
+	 * Retourne le path du dernier dossier utilisé comme destination de tri.
+	 * @return le path du dernier dossier de destination de tri
 	 */
     public String getDestDir()
     {
