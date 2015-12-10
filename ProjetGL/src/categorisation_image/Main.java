@@ -126,11 +126,11 @@ public class Main {
 					switch ( saisieParam )
 					{
 						case 1 :   System.out.println("Nom événements : ");
-								   nomEvent = sc.nextLine();
+								   nomEvent = sc.next();
 								   System.out.println("Date début événement : ");
-								   dateDeb = sc.nextLine();
+								   dateDeb = sc.next();
 								   System.out.println("Date fin événement : ");
-								   dateEnd = sc.nextLine();
+								   dateEnd = sc.next();
 								   List < Interval > ar = new ArrayList<>();
 								   Date dateDep = null;
 								   Date dateFi = null;
@@ -149,13 +149,13 @@ public class Main {
 								   userCalendar.addEvent( nomEvent, ar );
 								   break;
 						case 2 : System.out.println("Nom événements : ");
-								   nomEvent = sc.nextLine();
+								   nomEvent = sc.next();
 								   userCalendar.remove ( nomEvent );
 								   break;
 					    case 3 : System.out.println("Nom événements : ");
-					     		   nomEvent = sc.nextLine();
+					     		   nomEvent = sc.next();
 					     		   System.out.println("Nouveau nom : ");
-					     		   newNom = sc.nextLine();
+					     		   newNom = sc.next();
 					     		   userCalendar.editEvent( nomEvent , newNom );
 					     		   break;
 					}
@@ -223,13 +223,13 @@ public class Main {
 			if ( menuPrincipal == 1 )
 			{
 				System.out.println("Merci de rentrer le chemin du dossier ( Ex : /home/ .. )");
-				String saisiePath = sc.nextLine();
+				String saisiePath = sc.next();
 
 				while ( !verify ( saisiePath ) )
 				{
 					System.out.println("Erreur .. ");
 					System.out.println("Merci de rentrer le chemin du dossier ( Ex : /home/ .. )");	
-					saisiePath = sc.nextLine();
+					saisiePath = sc.next();
 				}
 
 				Sorter S = new Sorter(userCalendar, param);
