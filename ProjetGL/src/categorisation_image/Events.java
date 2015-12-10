@@ -75,7 +75,7 @@ public abstract class Events {
 	 * Retourne la liste des évènements enfants.
 	 * @return List<{@link Event}>
 	 */
-	public List<Events> getChilds(){
+	public List<Events> getChildren(){
 		return child;
 	}
 	
