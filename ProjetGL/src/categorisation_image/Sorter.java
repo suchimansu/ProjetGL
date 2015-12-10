@@ -51,14 +51,13 @@ public class Sorter
 	 */
     public void doTri(String pathIn) throws Exception
     {
-        List<Events> listeEvent;
         TreeMap<Long, Image> images;
         Scan s = new Scan();
         EventGlobal globalEvent = tempEventCalendar.getGlobalEvent();
         // listeEvent = tempEventCalendar.getListEvent();
         images = s.doScan(new File(pathIn));
 
-        userEventSort(globalEvent, images, pathIn);
+        userEventSort(globalEvent, images);
     }
 
 	/**
@@ -66,13 +65,13 @@ public class Sorter
          * Dans le premier cas on est dans l'Events GlobalEvent
 	 * @param globalEvent racine de l'arborescence des catégories
 	 * @param mapImage Ensemble des fichiers images à trier
-	 * @param pathIn Chemin du dossier contenant les photos à trier
 	 * @return void
 	 * @see Events 
          * @see EventGlobal
 	 */
-    private void userEventSort(Events globalEvent, TreeMap<Long, Image> mapImage, String pathIn) throws Exception
+    private void userEventSort(Events globalEvent, TreeMap<Long, Image> mapImage) throws Exception
     {
+    	String dest = this.param.getDestDir();
         Date dateImage;
         if (globalEvent.hadChildren()) 
         {
@@ -85,34 +84,26 @@ public class Sorter
                     {
                         if (children.isInclude(dateImage))
                         {
-                            pathIn += children.getNom();
+                            dest += "/" + children.getNom();
                             //l'image est dans une categorie de l'utilisateur
-                            userEventSortBis(children, mapImage, key, pathIn);
+                            userEventSortBis(children, mapImage, key, dest);
                         }
                     }
                 } 
-                else 
-                {
-                    //on ne fait rien : l'image n'est pas dans un parametre utilisateur
-                }
             }
         } 
-        else
-        {
-            //on ne fait rien : pas de parametre utilisateur
-        }
     }
     /**
 	 * Tri les photos en fonction des catégories définies par l'utilisateur.
          * Dans les cas suivants on est dans les Events Event
 	 * @param event racine de l'arborescence des catégories
 	 * @param mapImage Ensemble des fichiers images à trier
-	 * @param pathIn Chemin du dossier contenant les photos à trier
+	 * @param dest Chemin du dossier où doivent se trouver les photos
 	 * @return void
 	 * @see Events
          * @see Event
 	 */
-    private void userEventSortBis(Events event, TreeMap<Long, Image> mapImage, Long key, String pathIn)
+    private void userEventSortBis(Events event, TreeMap<Long, Image> mapImage, Long key, String dest)
     {
         boolean b = true;
         Date dateImage = mapImage.get(key).getTimeDate();
@@ -122,9 +113,9 @@ public class Sorter
             {
                 if (children.isInclude(dateImage))
                 {
-                    pathIn += "\\" + children.getNom(); //on agrandi l'arborescence du chemin
+                    //dest += "/" + children.getNom(); //on agrandi l'arborescence du chemin
                     //l'image est dans une categorie de l'utilisateur
-                    userEventSortBis(children, mapImage, key, pathIn);
+                    userEventSortBis(children, mapImage, key, dest + "/" + children.getNom());
                     b = !b; //on a trouvé une sous categorie pour l'image
                 }
             }
@@ -132,20 +123,15 @@ public class Sorter
 
         if (b) 
         {//on est dans le dossier ou doit etre la photo
-            String pathImageS;
-            
-            pathImageS = mapImage.get(key).getPath();
+            String pathImageS = mapImage.get(key).getPath();
             Path pathImage = Paths.get(pathImageS);
             File srcImage = pathImage.toFile();
-            Path pathDest = Paths.get(pathIn);
-            File dest = pathDest.toFile();
-            move(srcImage, dest);
+            
+            Path pathDest = Paths.get(dest);
+            File fileDest = pathDest.toFile();
+            move(srcImage, fileDest);
             
             mapImage.remove(key);//on enleve l'image du TreeMap
-        }
-        else
-        {
-            //normalement on ne rentre pas ici
         }
     }
     
@@ -154,11 +140,32 @@ public class Sorter
 	 * @param l List des images à trier
 	 * @return void
 	 */
-    private void unsortedSort(List l) throws Exception 
+    //pour le premier jet je tri par année
+    @SuppressWarnings("deprecation")
+	private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
     {
+    	String dest = this.param.getDestDir();
+    	Date date;
+    	String annee;
+    	
         int affinage = param.getSortParameter();
+        for (Long key : mapImage.keySet())
+        {
+        	date = mapImage.get(key).getTimeDate();
+        	annee = Integer.toString(date.getYear());
+        	String pathImageS = mapImage.get(key).getPath();
+            Path pathImage = Paths.get(pathImageS);
+            File srcImage = pathImage.toFile();
+            
+            Path pathDest = Paths.get(dest + "/" + annee );
+            File fileDest = pathDest.toFile();
+            move(srcImage, fileDest);
+            
+            mapImage.remove(key);//on enleve l'image du TreeMap
+        }
     }
 
+    
     /**
 	 * Copy le contenu du fichier src dans dest.
 	 * @param src Chemin du fichier à copier
