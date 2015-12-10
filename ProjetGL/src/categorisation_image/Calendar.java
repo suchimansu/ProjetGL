@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
-
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Component;
@@ -25,19 +23,29 @@ import net.fortuna.ical4j.model.Property;
  */
 public class Calendar {
 
-	// Type a valider
-	private Event global;
-	private HashMap<String, Event> calMap;
-	private net.fortuna.ical4j.model.Calendar cal;
-
 	/**
-	 * Construit une nouvelle instance vide de toutes catégories.
+	 *  Evenement racine (qui contient tous les autres).
+	 */
+	private EventGlobal global;
+	/**
+	 *  Annuaire des �v�nement par leurs nom.
+	 */
+	private HashMap<String, Event> calMap;
+	/**
+	 *  Calendrier 
+	 */
+	private net.fortuna.ical4j.model.Calendar cal;
+	
+	/**
+	 * Constructeur par defaut, initialise les attributs.
 	 */
 	public Calendar(){
+		// Initialisation des attributs.
+		global = new EventGlobal("Global", null);
 		calMap = new HashMap<String,Event>();
 		cal = new net.fortuna.ical4j.model.Calendar();
 	}
-
+	
 	/**
 	 * Construit une instance à partir d'un fichier.
 	 * Ce constructeur fabrique une nouvelle instance à partir des données situées dans le fichier
@@ -45,31 +53,28 @@ public class Calendar {
 	 * @param path chemin vers le fichier au format ICal contenant les catégories
 	 */
 	public Calendar(String path){
-		calMap = new HashMap<String,Event>();
+		// Initialisation des attributs.
+		this();
+		
+		// Chargement du fichier iCalendar.
 		FileInputStream fis = null;
-		try {
+		try {			
 			fis = new FileInputStream(path);
 			CalendarBuilder cbr = new CalendarBuilder();
 			cal = cbr.build(fis);
 			for (Iterator<?> i = cal.getComponents().iterator(); i.hasNext();) {
 			    Component component = (Component) i.next();
-			    //System.out.println("Component [" + component.getName() + "]");
 			    Date start = new DateTime(component.getProperty(Property.DTSTART).getValue());
-			    //System.out.println("start : " + start.getHours() + ":" + start.getMinutes());
 			    Date end = new DateTime(component.getProperty(Property.DTEND).getValue());
-			    //System.out.println("end : " + end.getHours() + ":" + end.getMinutes());
 			    List<Interval> tmpList = new ArrayList<Interval>();
 			    Interval tmpInterval = new Interval(start,end);
+			    tmpList.add(tmpInterval);
 			    
-			    // TODO checker si le SUMMARY est toujours pr�sent
 			    Event tmpe = new Event(component.getProperty(Property.SUMMARY).getValue(), tmpList);
 			    calMap.put(tmpe.getNom(), tmpe);
-
-			    /*for (Iterator<?> j = component.getProperties().iterator(); j.hasNext();) {
-			        Property property = (Property) j.next();
-			        System.out.println("Property [" + property.getName() + ", " + property.getValue() + "]");
-			    }*/
+				global.addChild(tmpe);
 			}
+		// Gestion des erreurs pouvant survenir.
 		} catch (FileNotFoundException e) {
 			System.err.println("Erreur lors de l'ouverture du fichier iCalendar dans le constructeur Calendar(String path)");
 			e.printStackTrace();
@@ -77,31 +82,34 @@ public class Calendar {
 			System.err.println("Erreur lors de la lecture du fichier iCalendar dans le constructeur Calendar(String path).");
 			e.printStackTrace();
 		} catch (ParserException e) {
-			System.err.println("Erreur lors de la cr�ation de l'object net.fortuna.ical4j.model.Calendar dans le constructeur Calendar(String path).");
+			System.err.println("Erreur lors de la cr�ation de l'object net.fortuna.ical4j.model.Calendar dans le constructeur Calendar(String path).");
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}finally {
+			// Fermeture du fichier.
 			try {
 				if(fis != null)
 					fis.close();
 			} catch (IOException e) {
-				System.err.println("Erreur lors de la fermeture du fichier iCalendar.");
+				System.err.println("Erreur lors de la fermeture du fichier.");
 				e.printStackTrace();
 			};
 		}
 		
 		
 	}
-
+	
 	/**
 	 * Retourne la catégorie se situant à la racine de l'arborescence des catégories
 	 * @return La racine de l'arborescence des catégories
 	 */
-	public Event getGlobalEvent(){
+	public EventGlobal getGlobalEvent(){
 		return global;
 	}
-
+	
 	/**
 	 * Importe le calendrier
 	 * @return void
@@ -109,9 +117,9 @@ public class Calendar {
 	public void importCal(){
 		
 	}
-
+	
 	/**
-	 * Ajoute la catégorie de nom name
+	 * Ajoute un nouvel �v�nement au calendar avec son nom et sa liste d'{@link Interval}. 
 	 * @param name Nom de la catégorie à ajouter
 	 * @param dList Liste des intervalles de temps dans lesquels l'évènement prend place
 	 * @return void
@@ -119,8 +127,13 @@ public class Calendar {
 	public void addEvent(String name, List<Interval> dList){
 		Event tmp = new Event(name, dList);
 		calMap.put(name, tmp);
+		try {
+			global.addChild(tmp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
+	
 	/**
 	 * Change le nom de la catégorie de nom name par newName
 	 * @param name Nom de la catégorie à renommer
@@ -128,9 +141,12 @@ public class Calendar {
 	 * @return void
 	 */
 	public void editEvent(String name, String newName){
-		
+		Event tmp = calMap.get(name);
+		tmp.setName(newName);
+		calMap.remove(name);
+		calMap.put(newName, tmp);
 	}
-
+	
 	/**
 	 * Supprime la catégorie de nom name.
 	 * @param name Nom de la catégorie à supprimer
