@@ -2,6 +2,7 @@ package categorisation_image.calendar;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -10,10 +11,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.ValidationException;
 
 /**
  * Classe servant à stocker les évènements et leur hiérarchie.
@@ -125,6 +128,7 @@ public class Calendar {
 	 * @return void
 	 */
 	public void addEvent(String name, List<Interval> dList){
+		// TODO ajouter l'event dans le calendrier ical4j
 		Event tmp = new Event(name, dList);
 		calMap.put(name, tmp);
 		try {
@@ -141,6 +145,7 @@ public class Calendar {
 	 * @return void
 	 */
 	public void editEvent(String name, String newName){
+		// TODO edit dans le cal
 		Event tmp = calMap.get(name);
 		tmp.setName(newName);
 		calMap.remove(name);
@@ -153,7 +158,7 @@ public class Calendar {
 	 * @return void
 	 */
 	public void remove(String name){
-		
+		// TODO
 	}
 	
 	/**
@@ -162,7 +167,27 @@ public class Calendar {
 	 * @return void
 	 */
 	public void save(String path){
-		
+		FileOutputStream fout = null;
+		CalendarOutputter cout = null;
+		try {
+			fout = new FileOutputStream(path);
+			cout = new CalendarOutputter();
+			cout.output(cal, fout);
+		} catch (FileNotFoundException e) {
+			System.err.println("Erreur lors de l'ouverture du flux de sortie pour la sauvegarde du calendrier.");
+			e.printStackTrace();
+		}catch (IOException | ValidationException e) {
+			System.err.println("Erreur lors de la sauvegarde du calendrier.");
+			e.printStackTrace();
+		}finally {
+			try {
+				if(fout != null){
+					fout.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

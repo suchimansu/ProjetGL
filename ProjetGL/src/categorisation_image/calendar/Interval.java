@@ -2,6 +2,8 @@ package categorisation_image.calendar;
 
 import java.util.Date;
 
+import org.apache.commons.lang.NullArgumentException;
+
 /**
  * Classe représantant un intervalle de temps (couple de date).
  *
@@ -21,10 +23,18 @@ public class Interval {
 	 * Construit un nouvel interval de temps Ã  partir des dates de dÃ©but et fin.
 	 * @param start Date de dÃ©but de l'interval
 	 * @param end Date de fin de l'interval
+	 * @throws Exception 
 	 */
-	public Interval(Date start, Date end) {
-		this.start = start;
-		this.end = end;
+	public Interval(Date start, Date end) throws Exception {
+		// TODO Creer deux exceptions à remonter pour un traitement plus explicite.
+		if(start == null || end == null){
+			throw new NullArgumentException("Impossible de créer un intervalle avec une date de début ou de fin nulle.");
+		}else if (start.after(end)) {
+			throw new Exception();
+		}else{
+			this.start = start;
+			this.end = end;
+		}
 	}
 	
 	/**

@@ -20,6 +20,7 @@ public abstract class Events {
 
 	public Events(String name, List<Interval> lInterval) {
 		this.name = name;
+		// TODO nettoyer la liste d'intervalle : fusionner les intervalles qui se chevauche.
 		this.intervale = lInterval;
 	}
 	
