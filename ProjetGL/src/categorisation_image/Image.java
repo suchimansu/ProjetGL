@@ -7,6 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Date;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
+
 /**
  * Classe permettant de stocker les informations utiles d'un fichier image.
  * Elle permet entre autre de stocker le nom du fichier, son chemin et sa date (nécessaire au tri)
@@ -25,30 +31,48 @@ public class Image {
 	 * @param path Chemin vers le fichier image
 	 */
 	public Image(String path) {
-          try{
-		this.path = path;
-                
-                //Obtention du filename
-                File file = new File(path);
-                this.filename = file.getName(); //file.getParent() pour avoir le directory name (sans le fichier)
-                
-                //Obtention de la date de cr�ation. getAttribute de creationTime retourne un FileTime
-                // on le stocke dans un string et on extrait les champs pour les mettre dans type Date
-                Path chemin = FileSystems.getDefault().getPath(path);
-                String date1 = (Files.getAttribute(chemin, "creationTime" )).toString();
-
-                int annee = Integer.parseInt(date1.substring(0, 4));
-                int mois = Integer.parseInt(date1.substring(5,7));
-                int jour = Integer.parseInt(date1.substring(8,10));
-                int h = Integer.parseInt(date1.substring(11,13));
-                int min = Integer.parseInt(date1.substring(14,16));
-                int sec = Integer.parseInt(date1.substring(17,19));
-                this.dateCreation = new Date(annee, mois, jour, h, min, sec);
-                   
-          }
-          catch (IOException e){
-            System.out.println("IOException: " + e);
-          }
+		try
+		{
+			// Affectation du path
+    	  	this.path = path;
+    	  	// Création du fichier
+            File file = new File( path );
+            // Récupération du nom de fichier
+            this.filename = file.getName();
+          
+            // Metadata null..
+            Metadata metadata = null;
+			try 
+			{
+				// On récupére les metadata
+				metadata = ImageMetadataReader.readMetadata( file );
+				
+			} 
+			catch (ImageProcessingException e) 
+			{
+				System.out.println("error..");
+				e.printStackTrace();
+			}
+			
+			// On itère sur les metadata récupérer
+			for ( Directory direct : metadata.getDirectories() )
+			{
+				// On itère sur chaque valeur récupérer
+				for ( Tag tag : direct.getTags() )
+				{
+					// Si le champ contiens "Modified" c'est qu'on est sur le champ dernière modif. 
+					// du fichier
+					if ( tag.toString().contains("Modified") )
+					{
+						// On affecte notre date de création
+						this.dateCreation = direct.getDate( tag.getTagType() );
+					}
+				}
+			}
+      }
+      catch (IOException e){
+        System.out.println("IOException: " + e);
+      }
                 
 	}
 
