@@ -30,24 +30,28 @@ public class Parameter {
 	 */
 	private void getOldParam()
 	{
-		File f = new File ( configDir );
+File f = new File ( configDir );
 		
 		if ( f.exists() )
 		{
 			if ( !f.isDirectory() )
 			{
+				String str = "";
+				boolean b = false;
+				boolean t = false;
+				
 				try 
 				{	
 					FileReader doBack = new FileReader( configDir );
 					char[] temp = new char[ 50 ];
 					doBack.read( temp );
-					boolean b = false;
 					
 					for ( char c : temp )
 					{
 						if ( b )
 						{
-							sortParameter = c ; 
+							str += c ;
+							t = true;
 						}
 						else
 						{
@@ -63,7 +67,14 @@ public class Parameter {
 				{
 					e.printStackTrace();
 				}
+				
+				if ( t )
+				{
+					sortParameter = Integer.parseInt( str.trim() ) ; 
+				}
 			}
+			
+			
 		}
 	}
 
@@ -88,6 +99,16 @@ public class Parameter {
 		}
 	}
 
+	/**
+	 * Met à jour le chemin de sortie de dossier.
+	 * @param param le path du nouveau dossier de sortie
+	 * @return void
+	 */
+	public void setDestDir( String destDir )
+	{
+		this.destDir = destDir;
+	}
+	
 	/**
 	 * Met à jour la granularité du tri.
 	 * @param param Nouvelle granularité
