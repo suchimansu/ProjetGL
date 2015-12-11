@@ -2,9 +2,6 @@ package categorisation_image;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Date;
 
 import com.drew.imaging.ImageMetadataReader;

@@ -1,11 +1,12 @@
 package categorisation_image.calendar;
 
+import java.security.InvalidParameterException;
 import java.util.Date;
 
 import org.apache.commons.lang.NullArgumentException;
 
 /**
- * Classe représantant un intervalle de temps (couple de date).
+ * Classe reprï¿½santant un intervalle de temps (couple de date).
  *
  */
 public class Interval {
@@ -26,11 +27,11 @@ public class Interval {
 	 * @throws Exception 
 	 */
 	public Interval(Date start, Date end) throws Exception {
-		// TODO Creer deux exceptions à remonter pour un traitement plus explicite.
+		// TODO Creer deux exceptions ï¿½ remonter pour un traitement plus explicite.
 		if(start == null || end == null){
-			throw new NullArgumentException("Impossible de créer un intervalle avec une date de début ou de fin nulle.");
+			throw new NullArgumentException("Impossible de crï¿½er un intervalle avec une date de dï¿½but ou de fin nulle.");
 		}else if (start.after(end)) {
-			throw new Exception();
+			throw new InvalidParameterException("La date de fin doit Ãªtre postÃ©rieure Ã  la date de dÃ©but");
 		}else{
 			this.start = start;
 			this.end = end;
@@ -54,7 +55,7 @@ public class Interval {
 	}
 	
 	/**
-	 * Indique si la {@link Date} passé en paramètre est inclus dans l'intervalle.
+	 * Indique si la {@link Date} passï¿½ en paramï¿½tre est inclus dans l'intervalle.
 	 * @param date {@link Date}
 	 * @return boolean
 	 */

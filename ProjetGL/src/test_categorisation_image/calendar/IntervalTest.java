@@ -52,9 +52,17 @@ public class IntervalTest {
 	public void testGetStart() {
 		Date d1 = new Date(2015,12,10,16,55,10);
 		Date d2 = new Date(2015,12,11,16,55,10);
-		Interval i1 = new Interval(d1, d2);
-		assertEquals(d1, i1.getStart());
-		assertNotNull(i1.getStart());
+		Interval i1;
+		try
+		{
+			i1 = new Interval(d1, d2);
+			assertEquals(d1, i1.getStart());
+			assertNotNull(i1.getStart());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -62,8 +70,16 @@ public class IntervalTest {
 	public void testGetEnd() {
 		Date d1 = new Date(2015,12,10,16,55,10);
 		Date d2 = new Date(2015,12,11,16,55,10);
-		Interval i1 = new Interval(d1, d2);
-		assertEquals(d2, i1.getEnd());
-		assertNotNull(i1.getEnd());
+		Interval i1;
+		try
+		{
+			i1 = new Interval(d1, d2);
+			assertEquals(d2, i1.getEnd());
+			assertNotNull(i1.getEnd());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
