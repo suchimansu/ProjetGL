@@ -11,12 +11,8 @@ public class EventGlobal extends Events {
 	
 	public void addChild(Events child) {
 		if(this.include(child)){
-			try {
-				((Events)this).addChild(child);
-			} catch (Exception e) {
-				System.err.println("Cette exception ne devrait jamais etre levé.");//L'intervalle est agrandi si il n'inclut pas l'évènement enfant.
-				e.printStackTrace();
-			}
+			this.getChildren().add(child);
+			((Event)child).setParent(this);
 		}else{
 			List<Interval> childIts = child.getIntervale();
 			List<Interval> globalIts = this.getIntervale();

@@ -83,7 +83,7 @@ public class Sorter
                     {
                         if (children.isInclude(dateImage))
                         {
-                            dest += "/" + children.getNom();
+                            dest += "/" + children.getName();
                             //l'image est dans une categorie de l'utilisateur
                             userEventSortBis(children, mapImage, key, dest);
                         }
@@ -114,7 +114,7 @@ public class Sorter
                 {
                     //dest += "/" + children.getNom(); //on agrandi l'arborescence du chemin
                     //l'image est dans une categorie de l'utilisateur
-                    userEventSortBis(children, mapImage, key, dest + "/" + children.getNom());
+                    userEventSortBis(children, mapImage, key, dest + "/" + children.getName());
                     b = !b; //on a trouv� une sous categorie pour l'image
                 }
             }

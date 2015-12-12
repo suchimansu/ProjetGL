@@ -74,7 +74,7 @@ public class Calendar {
 			    tmpList.add(tmpInterval);
 			    
 			    Event tmpe = new Event(component.getProperty(Property.SUMMARY).getValue(), tmpList);
-			    calMap.put(tmpe.getNom(), tmpe);
+			    calMap.put(tmpe.getName(), tmpe);
 				global.addChild(tmpe);
 			}
 		// Gestion des erreurs pouvant survenir.
@@ -101,8 +101,6 @@ public class Calendar {
 				e.printStackTrace();
 			};
 		}
-		
-		
 	}
 	
 	/**
@@ -145,7 +143,7 @@ public class Calendar {
 	 * @return void
 	 */
 	public void editEvent(String name, String newName){
-		// TODO edit dans le cal
+		// TODO edit dans le cal et dans l'arbre
 		Event tmp = calMap.get(name);
 		tmp.setName(newName);
 		calMap.remove(name);
@@ -158,7 +156,34 @@ public class Calendar {
 	 * @return void
 	 */
 	public void remove(String name){
-		// TODO
+		// TODO Idem, à faire dans le ical aussi
+		if(!name.equals("Global")){// On sait jamais...
+			calMap.remove(name);
+			remove(name,global);
+		}
+	}
+	
+	/**
+	 * fonction récursive qui supprime l'évènement dans l'arbre des évènements
+	 * @param name
+	 * @param ev
+	 */
+	private void remove(String name, Events ev){
+		if(ev.getName().equals(name)){
+			((Event)ev).getParent().getChildren().remove(ev);
+			for(Events e : ev.getChildren()){
+				try {
+					((Event)ev).getParent().addChild(e);
+				} catch (Exception e1) {
+					System.err.println("Cette exception ne devrait jamais etre levé."); // comme e est un fils de ev. l'ajouter dans le parent de ev ne devrait pas poser de problème au niveau de l'inclusion des intervalles
+					e1.printStackTrace();
+				}
+			}
+		}else{
+			for(Events e : ev.getChildren()){
+				remove(name,e);
+			}
+		}
 	}
 	
 	/**

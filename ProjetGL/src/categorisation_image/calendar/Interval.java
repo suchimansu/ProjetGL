@@ -26,8 +26,7 @@ public class Interval {
 	 * @param end Date de fin de l'interval
 	 * @throws Exception 
 	 */
-	public Interval(Date start, Date end) throws Exception {
-		// TODO Creer deux exceptions � remonter pour un traitement plus explicite.
+	public Interval(Date start, Date end) throws NullArgumentException, InvalidParameterException {
 		if(start == null || end == null){
 			throw new NullArgumentException("Impossible de cr�er un intervalle avec une date de d�but ou de fin nulle.");
 		}else if (start.after(end)) {
