@@ -57,6 +57,7 @@ public class Sorter
         images = s.doScan(new File(pathIn));
 
         userEventSort(globalEvent, images);
+        unsortedSort(images);
     }
 
 	/**
@@ -139,18 +140,49 @@ public class Sorter
 	 * @param l List des images a trier
 	 * @return void
 	 */
-    @SuppressWarnings("deprecation")
-	private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
+    private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
     {
-    	String nomDossierDest;
+    	String nomDossierDest = "";
     	long entreDeux = 0;
-    	long key = 0;
-    	while (!mapImage.isEmpty())
-    	{
-    		entreDeux = mapImage.get(key).getTimeLong()
-    				- mapImage.get(key+1).getTimeLong();
+    	boolean sameDossier = true;
+    	TreeMap<Long, Image> l = new TreeMap<Long, Image>();
+    	
+    	Long temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
+    	Long temps2;
+    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
+    	mapImage.remove(mapImage.firstKey());
+    	nomDossierDest = l.get(l.firstEntry()).getTimeDate().toString();
+    	
+    	while (sameDossier)
+    	{	
+    		temps2 = mapImage.get(mapImage.firstKey()).getTimeLong();
+    		entreDeux =  temps2 - temps1;
+    		if(entreDeux < param.getSortParameter())
+    		{
+    			temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
+    			l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
+    			mapImage.remove(mapImage.firstKey());
+    		}
+    		else
+    		{
+    			nomDossierDest += l.get(l.lastKey()).getTimeDate().toString();
+    			sameDossier = false;
+    			unsortedSort(mapImage);
+    		}
     	}
-        
+    	
+    	//on deplace les images contenues dans l dans le bon dossier
+    	for(Long key : l.keySet())
+    	{
+    		String pathImageS = mapImage.get(key).getPath();
+            Path pathImage = Paths.get(pathImageS);
+            File srcImage = pathImage.toFile();
+            
+            Path pathDest = Paths.get(nomDossierDest);
+            File fileDest = pathDest.toFile();
+            
+            move(srcImage, fileDest);
+    	}
     }
 
     
