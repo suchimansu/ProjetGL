@@ -12,7 +12,7 @@ import com.drew.metadata.Tag;
 
 /**
  * Classe permettant de stocker les informations utiles d'un fichier image.
- * Elle permet entre autre de stocker le nom du fichier, son chemin et sa date (nécessaire au tri)
+ * Elle permet entre autres de stocker le nom du fichier, son chemin et sa date (necessaire au tri)
  */
 public class Image {
 
@@ -22,62 +22,54 @@ public class Image {
 	
         
 	/**
-	 * Constructeur permettant de récupérer le nom d'une photo et la
-	 * date de création de celle-ci à partir du path.
+	 * Constructeur permettant de recuperer le nom d'une photo et la
+	 * date de creation de celle-ci a partir du path.
 	 * 
 	 * @param path Chemin vers le fichier image
 	 */
 	public Image(String path) {
-		try
-		{
-			// Affectation du path
-    	  	this.path = path;
-    	  	// Création du fichier
+          try{
+              // Affectation du path
+            this.path = path;
+            
+              // Recuperation du nom de fichier 
             File file = new File( path );
-            // Récupération du nom de fichier
             this.filename = file.getName();
-          
-            // Metadata null..
+            
+              // Recuperation de la date a partir des metadonnees
             Metadata metadata = null;
-			try 
-			{
-				// On récupére les metadata
-				metadata = ImageMetadataReader.readMetadata( file );
-				
-			} 
-			catch (ImageProcessingException e) 
-			{
-				System.out.println("error..");
-				e.printStackTrace();
-			}
+              try{
+                  // On recupere les metadatas
+                metadata = ImageMetadataReader.readMetadata( file );	
+              } 
+              catch (ImageProcessingException e){
+                System.out.println("Levee de l'exception ImageProcessingException");
+		e.printStackTrace();
+              }
 			
-			// On itère sur les metadata récupérer
-			for ( Directory direct : metadata.getDirectories() )
-			{
-				// On itère sur chaque valeur récupérer
-				for ( Tag tag : direct.getTags() )
-				{
-					// Si le champ contiens "Modified" c'est qu'on est sur le champ dernière modif. 
-					// du fichier
-					if ( tag.toString().contains("Modified") )
-					{
-						// On affecte notre date de création
-						this.dateCreation = direct.getDate( tag.getTagType() );
-					}
-				}
-			}
-      }
-      catch (IOException e){
-        System.out.println("IOException: " + e);
-      }
+              // On itere sur les metadatas recuperees
+              for ( Directory direct : metadata.getDirectories() ){
+		// On itere sur chaque valeur recuperee
+                for ( Tag tag : direct.getTags() ){
+                  // Si le champ contient "Modified" c'est qu'on est sur le champ dernierre modif. 
+                  if ( tag.toString().contains("Modified") ){
+                    // On affecte notre date de creation
+                    this.dateCreation = direct.getDate( tag.getTagType() );
+                  }
+		}
+              }
+          }
+          catch (IOException e){
+            System.out.println("IOException: " + e);
+          }
                 
 	}
 
         
 	/**
-	 * Retourne le nombre de secondes �coul�es entre la date de 
-     * cr�ation d'une image et 01/01/1970.
-     * 
+	 * Retourne le nombre de secondes ecoulees entre la date de 
+         * creation d'une image et 01/01/1970.
+         * 
 	 * @return Nombre de secondes en Long
 	 */
 	public Long getTimeLong(){
@@ -85,29 +77,29 @@ public class Image {
 	}
 
         
-    /**
-	 * Retourne la date de cr�ation d'une image.
-     * 
-     * @return Date de cr�ation d'une image
-	 */
-    public Date getTimeDate(){
+        /**
+	* Retourne la date de creation d'une image.
+        * 
+        * @return Date de creation d'une image
+	*/
+        public Date getTimeDate(){
 		return this.dateCreation;
 	}
 	
-    /**
-	 * Retourne le nom de l'image avec son extension.
-     * 
-     * @return String le nom de l'image et son extension
-	 */
+        /**
+	* Retourne le nom de l'image avec son extension.
+        * 
+        * @return String le nom de l'image et son extension
+	*/
 	public String getFileName(){
 		return this.filename;
 	}
 
-    /**
-	 * Retourne le path d'une image.
-     * 
-     * @return String le chemin d'une image
-	 */
+        /**
+	* Retourne le path d'une image.
+        * 
+        * @return String le chemin d'une image
+	*/
 	public String getPath(){
 		return this.path;
 	}
