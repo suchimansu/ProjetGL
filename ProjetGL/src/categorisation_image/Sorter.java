@@ -21,6 +21,7 @@ public class Sorter
 
     private Calendar tempEventCalendar;
     private Parameter param;
+    private int nbPhoto;
 
 	/**
 	 * Construit un nouveau trieur de photos utilisant la granularite p et aucune categorie predefinie.
@@ -30,6 +31,7 @@ public class Sorter
     {
         tempEventCalendar = new Calendar();
         param = p;
+        this.nbPhoto = 0;
     }
 
 	/**
@@ -55,7 +57,7 @@ public class Sorter
         EventGlobal globalEvent = tempEventCalendar.getGlobalEvent();
         // listeEvent = tempEventCalendar.getListEvent();
         images = s.doScan(new File(pathIn));
-
+        nbPhoto = images.size();
         userEventSort(globalEvent, images);
         unsortedSort(images);
     }
@@ -132,6 +134,7 @@ public class Sorter
             move(srcImage, fileDest);
             
             mapImage.remove(key);//on enleve l'image du TreeMap
+            System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
         }
     }
     
@@ -151,6 +154,7 @@ public class Sorter
     	Long temps2;
     	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
     	mapImage.remove(mapImage.firstKey());
+    	System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
     	nomDossierDest = l.get(l.firstEntry()).getTimeDate().toString();
     	
     	while (sameDossier)
@@ -159,13 +163,13 @@ public class Sorter
     		entreDeux =  temps2 - temps1;
     		if(entreDeux < param.getSortParameter())
     		{
-    			temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
+    			temps1 = temps2;
     			l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
     			mapImage.remove(mapImage.firstKey());
     		}
     		else
     		{
-    			nomDossierDest += l.get(l.lastKey()).getTimeDate().toString();
+    			nomDossierDest += "_" + l.get(l.lastKey()).getTimeDate().toString();
     			sameDossier = false;
     			unsortedSort(mapImage);
     		}
