@@ -23,8 +23,8 @@ public class Sorter
     private Parameter param;
 
 	/**
-	 * Construit un nouveau trieur de photos utilisant la granularit� p et aucune cat�gorie pr�d�finie.
-	 * @param p Granularit� du tri
+	 * Construit un nouveau trieur de photos utilisant la granularite p et aucune categorie predefinie.
+	 * @param p Granularite du tri
 	 */
     public Sorter(Parameter p)
     {
@@ -33,8 +33,8 @@ public class Sorter
     }
 
 	/**
-	 * Construit un nouveau trieur de photos utilisant la granularit� p et les cat�gories de userCal.
-	 * @param p Granularit� du tri
+	 * Construit un nouveau trieur de photos utilisant la granularite p et les categories de userCal.
+	 * @param p Granularite du tri
 	 * @param userCal Calendrier des cat�gories d�finies par l'utilisateur
 	 */
     public Sorter(Calendar userCal, Parameter p)
@@ -45,7 +45,7 @@ public class Sorter
 
 	/**
 	 * Effectue le tri des photos se trouvant dans l'arborescence du dossier pathIn.
-	 * @param pathIn Chemin du dossier contenant les photos � trier
+	 * @param pathIn Chemin du dossier contenant les photos a trier
 	 * @return void
 	 */
     public void doTri(String pathIn) throws Exception
@@ -60,13 +60,13 @@ public class Sorter
     }
 
 	/**
-	 * Tri les photos en fonction des cat�gories d�finies par l'utilisateur.
-         * Dans le premier cas on est dans l'Events GlobalEvent
-	 * @param globalEvent racine de l'arborescence des cat�gories
-	 * @param mapImage Ensemble des fichiers images � trier
+	 * Tri les photos en fonction des categories definies par l'utilisateur.
+     * Dans le premier cas on est dans l'Events GlobalEvent
+	 * @param globalEvent racine de l'arborescence des categories
+	 * @param mapImage Ensemble des fichiers images a trier
 	 * @return void
 	 * @see Events 
-         * @see EventGlobal
+     * @see EventGlobal
 	 */
     private void userEventSort(Events globalEvent, TreeMap<Long, Image> mapImage) throws Exception
     {
@@ -93,14 +93,14 @@ public class Sorter
         } 
     }
     /**
-	 * Tri les photos en fonction des cat�gories d�finies par l'utilisateur.
-         * Dans les cas suivants on est dans les Events Event
-	 * @param event racine de l'arborescence des cat�gories
-	 * @param mapImage Ensemble des fichiers images � trier
-	 * @param dest Chemin du dossier o� doivent se trouver les photos
+	 * Tri les photos en fonction des categories definies par l'utilisateur.
+     * Dans les cas suivants on est dans les Events Event
+	 * @param event racine de l'arborescence des categories
+	 * @param mapImage Ensemble des fichiers images a trier
+	 * @param dest Chemin du dossier ou doivent se trouver les photos
 	 * @return void
 	 * @see Events
-         * @see Event
+     * @see Event
 	 */
     private void userEventSortBis(Events event, TreeMap<Long, Image> mapImage, Long key, String dest)
     {
@@ -115,7 +115,7 @@ public class Sorter
                     //dest += "/" + children.getNom(); //on agrandi l'arborescence du chemin
                     //l'image est dans une categorie de l'utilisateur
                     userEventSortBis(children, mapImage, key, dest + "/" + children.getName());
-                    b = !b; //on a trouv� une sous categorie pour l'image
+                    b = !b; //on a trouve une sous categorie pour l'image
                 }
             }
         }
@@ -135,14 +135,14 @@ public class Sorter
     }
     
     /**
-	 * Tri les photos ne correspondant � aucune cat�gorie d�finie par l'utilisateur.
-	 * @param l List des images � trier
+	 * Tri les photos ne correspondant a aucune categorie definie par l'utilisateur.
+	 * @param l List des images a trier
 	 * @return void
 	 */
-    //pour le premier jet je tri par ann�e
     @SuppressWarnings("deprecation")
 	private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
     {
+    	String nomDossierDest;
     	long entreDeux = 0;
     	long key = 0;
     	while (!mapImage.isEmpty())
@@ -156,12 +156,12 @@ public class Sorter
     
     /**
 	 * Copy le contenu du fichier src dans dest.
-	 * @param src Chemin du fichier � copier
+	 * @param src Chemin du fichier a copier
 	 * @param dest Chemin de destination de la copie
-	 * @return Vrai si la copie s'est effectu�e sans probl�me, faux sinon
+	 * @return Vrai si la copie s'est effectuee sans probleme, faux sinon
 	 */
-    // A priori copy ne doit pas �tre utilis�e, c'est une fonction utilis�e par move !
-    @SuppressWarnings("resource") // chez moi ca ne voit pas que flux ferm�s dans le finally -> �vite warning
+    // A priori copy ne doit pas etre utilisee, c'est une fonction utilisee par move !
+    @SuppressWarnings("resource") // chez moi ca ne voit pas que flux ferme dans le finally -> evite warning
 	private boolean copy(File src, File dest)
     {
     	FileChannel in = null; // entree
@@ -175,7 +175,7 @@ public class Sorter
     	  // Copie du fichier
     	  long size = in.size();
     	  long count = in.transferTo(0, size, out);
-    	  ret = (count == size); // vrai ssi fichier copi� et copi� ENTIEREMENT
+    	  ret = (count == size); // vrai ssi fichier copie est copie ENTIEREMENT
     	}
     	catch (Exception e)
     	{
@@ -204,18 +204,18 @@ public class Sorter
     }
 
     /**
-	 * D�place le fichier src vers dest. Le d�placement est effectu� � l'aide d'un renommage, 
-	 * ou d'une copie si le renommage �choue
-	 * @param src Chemin du fichier � d�placer
+	 * Deplace le fichier src vers dest. Le deplacement est effectue a l'aide d'un renommage, 
+	 * ou d'une copie si le renommage echoue
+	 * @param src Chemin du fichier a deplacer
 	 * @param dest Chemin de destination du fichier
-	 * @return Vrai si le d�placement s'est effectu�e sans probl�me, faux sinon
+	 * @return Vrai si le deplacement s'est effectuee sans probleme, faux sinon
 	 */
     private boolean move(File src,File dest)
     {
-        if (!dest.exists()) // pas de fichier existant avec le m�me nom
+        if (!dest.exists()) // pas de fichier existant avec le meme nom
         {
-	        boolean res = src.renameTo(dest); // d�placement par renommage plus rapide
-	        if(!res) // si renommage �choue
+	        boolean res = src.renameTo(dest); // deplacement par renommage plus rapide
+	        if(!res) // si renommage echoue
 	        {
 	            // copie du fichier puis effacement de l'ancien (plus long que renommage)
 	            res = true;
