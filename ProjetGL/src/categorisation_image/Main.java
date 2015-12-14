@@ -257,7 +257,6 @@ public class Main {
 			{
 				System.out.println("1 - Entrer le chemin du dossier de destination");
 				System.out.println("0 - Retour au menu principal");
-				String saisiePath = sc.next();
 				
 				boolean b = false;
 				int saisie = -1;
@@ -279,7 +278,7 @@ public class Main {
 				if ( saisie != 0 )
 				{
 					System.out.println("Chemin : ");
-					saisiePath = sc.next();
+					String saisiePath = sc.next();
 					while ( !verify ( saisiePath ) )
 					{
 						System.out.println("Erreur .. ");
