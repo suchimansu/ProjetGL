@@ -87,7 +87,7 @@ public class Sorter
                     {
                         if (children.isInclude(dateImage))
                         {
-                            dest += "/" + children.getName();
+                            dest += File.separator + children.getName();
                             //l'image est dans une categorie de l'utilisateur
                             userEventSortBis(children, mapImage, key, dest);
                         }
@@ -134,7 +134,7 @@ public class Sorter
             Path pathDest = Paths.get(dest);
             File fileDest = pathDest.toFile();
             fileDest.mkdirs();
-            fileDest = new File(fileDest.getAbsolutePath() + "\\" + mapImage.get(key).getFileName());
+            fileDest = new File(fileDest.getAbsolutePath() + File.separator + mapImage.get(key).getFileName());
 
             move(srcImage, fileDest);
             
@@ -174,19 +174,6 @@ public class Sorter
 			}
 
 	    	
-	    	if(mapImage.isEmpty())
-    		{
-	    		
-	    		/*d = l.get(l.lastKey()).getTimeDate();
-	    		nomDossierDest += "_" + d.getDate() + "-"
-						+ (d.getMonth() + 1) + "-"
-						+ (d.getYear()+1900);
-    			if(param.getSortParameter() == 3600)
-    			{
-    				nomDossierDest += "-" + d.getHours();
-    			}*/
-    		}
-	    	
 	    	while (!mapImage.isEmpty() && sameDossier)
 	    	{	
 	    		temps2 = mapImage.get(mapImage.firstKey()).getTimeLong();
@@ -200,14 +187,6 @@ public class Sorter
 	    		}
 	    		else
 	    		{
-	    			/*d = l.get(l.lastKey()).getTimeDate();
-	    			nomDossierDest += "_" + d.getDate() + "-"
-							+ (d.getMonth() + 1) + "-"
-							+ (d.getYear()+1900);
-	    			if(param.getSortParameter() == 3600)
-	    			{
-	    				 nomDossierDest += "-"+ d.getHours();
-	    			}*/
 	    			sameDossier = false;
 	    			unsortedSort(mapImage);
 	    		}
@@ -224,7 +203,7 @@ public class Sorter
 	            Path pathDest = Paths.get(nomDossierDest);
 	            File fileDest = pathDest.toFile();
 	            fileDest.mkdirs();
-	            fileDest = new File(fileDest.getAbsolutePath() + "\\" + l.get(key).getFileName());
+	            fileDest = new File(fileDest.getAbsolutePath() + File.separator + l.get(key).getFileName());
 	            move(srcImage, fileDest);
 	    	}
     	}
