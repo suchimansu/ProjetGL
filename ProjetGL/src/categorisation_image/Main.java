@@ -12,7 +12,7 @@ import categorisation_image.calendar.Interval;
 
 /**
  * Classe principal du programme de tri des photos. Il contient,
- * entre autres, le point d'entrée du programme
+ * entre autres, le point d'entree du programme
  */
 public class Main {
 
@@ -24,7 +24,7 @@ public class Main {
 	
 	/**
 	 * Affiche le menu principal de choix utilisateur.
-	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
+	 * @param sc Flux d'entree utilise dans la communication avec l'utilisateur
 	 * @return Le choix de l'utilisateur
 	 */
 	public static int afficheMenuPrincipal( Scanner sc ) 
@@ -66,9 +66,9 @@ public class Main {
 	}
 	
 	/**
-	 * Affiche le sous-menu de paramétrage.
-	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
-	 * @param  saisie : Le choix de l'utilisateur dans la première partie du menu. 
+	 * Affiche le sous-menu de parametrage.
+	 * @param sc Flux d'entree utilise dans la communication avec l'utilisateur
+	 * @param  saisie : Le choix de l'utilisateur dans la premiere partie du menu. 
 	 * @return Le choix de l'utilisateur
 	 */
 	public static int afficheMenuParametre ( int saisie , Scanner sc ) 
@@ -106,21 +106,24 @@ public class Main {
 				}
 				else
 				{
-					if ( saisie == 1 )
+					if ( saisieParam != 0 )
 					{
-						if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3 )
+						if ( saisie == 1 )
 						{
-							b = true;
+							if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3 )
+							{
+								b = true;
+							}
+						}
+						else if ( saisie == 2 )
+						{
+							if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3)
+							{
+								b = true;
+							}
 						}
 					}
-					else if ( saisie == 2 )
-					{
-						if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3)
-						{
-							b = true;
-						}
-					}
-					else if ( saisie == 0 )
+					else
 					{
 						b = true;
 					}
@@ -138,9 +141,9 @@ public class Main {
 	}
 	
 	/**
-	 * Affiche le sous-menu de gestion des catégories.
-	 * Appelé à la suite du menu ( 1 - Paramétrer événement, 2 - Paramétrer logiciel )
-	 * @param sc Flux d'entrée utilisé dans la communication avec l'utilisateur
+	 * Affiche le sous-menu de gestion des categories.
+	 * Appele a la suite du menu ( 1 - Parametrer evenement, 2 - Parametrer logiciel )
+	 * @param sc Flux d'entree utilise dans la communication avec l'utilisateur
 	 * @param saisie : La saisie provenant du sous-menu
 	 * @param saisieParam : La saisie utilisateur provenant de afficheMenuParametre
 	 * @return void
@@ -162,9 +165,9 @@ public class Main {
 							{
 								   System.out.println("Nom evenement : ");
 								   nomEvent = sc.next();
-								   System.out.println("Date debut evenement ( Format : 00/00/2000 - Jour, mois, année)");
+								   System.out.println("Date debut evenement ( Format : 00/00/2000 - Jour, mois, annee)");
 								   dateDeb = sc.next();
-								   System.out.println("Date fin evenement ( Format : 00/00/2000 - Jour, mois, année )");
+								   System.out.println("Date fin evenement ( Format : 00/00/2000 - Jour, mois, annee )");
 								   dateEnd = sc.next();
 								   List < Interval > ar = new ArrayList<>();
 								   Date dateDep = null;
@@ -173,29 +176,25 @@ public class Main {
 								   {
 									   dateDep = new SimpleDateFormat("dd/MM/yyyy").parse( dateDeb.trim() );
 									   dateFi = new SimpleDateFormat("dd/MM/yyyy").parse( dateEnd.trim() );
-									} 
-								   	catch (java.text.ParseException e) 
-								   	{
-										e.printStackTrace();
-									}
-								   
-								   try 
-								   {
 									   ar.add( new Interval( dateDep, dateFi ));
 									   userCalendar.addEvent( nomEvent, ar );
 									   b = true;
-								   }
-								   catch ( NullArgumentException n)
-								   {
-									   System.out.println("Erreur dans le format de date.");
-									   b = false;
-								   }
-								   catch ( InvalidParameterException i )
-								   {
-									   System.out.println("La date de début doit être postérieur à la date de fin.");
-									   b = false;
-								   }								  
-							}
+									} 
+								   	catch (java.text.ParseException e) 
+								   	{
+										System.out.println("Erreur dans le format de date. Rappel : 00/00/0000");
+									}
+								   	catch ( NullArgumentException n)
+								   	{
+								   		System.out.println("Erreur dans le format de date. Rappel : 00/00/0000");
+								   		b = false;
+								   	}
+								   	catch ( InvalidParameterException i )
+								   	{
+								   		System.out.println("La date de debut doit etre posterieur a la date de fin.");
+								   		b = false;
+								   	}		 						  
+								}
 								   break;
 						case 2 :   
 							b = false;
@@ -210,7 +209,7 @@ public class Main {
 								   }
 								   catch ( Exception e )
 								   {
-									   System.out.println("Le nom d'événement n'existe pas");
+									   System.out.println("Le nom d'evenement n'existe pas");
 								   }
 							}
 							      
@@ -231,7 +230,7 @@ public class Main {
 					     		   }
 					     		   catch ( Exception e )
 					     		   {
-					     			   System.out.println("L'événement à modifier n'existe pas");
+					     			   System.out.println("L'evenement a modifier n'existe pas");
 					     		   }
 					    	}
 					     		   break;
@@ -253,7 +252,7 @@ public class Main {
 									{
 										if ( pathTemp.contains("/") || pathTemp.contains("\\") )
 										{
-											if ( !( pathTemp.lastIndexOf(File.separator) == pathTemp.length() ) )
+											if ( !( pathTemp.lastIndexOf(File.separator) == pathTemp.length() - 1) )
 											{
 												pathTemp += File.separator;
 											}
@@ -262,7 +261,8 @@ public class Main {
 										}
 										else
 										{
-											System.out.println("Erreur .. ");
+											System.out.println("Le dossier de sortie ne comprends pas de"
+																+"separateur de repertoire.");
 											System.out.print("Chemin du dossier de sortie : ");
 											pathTemp = sc.next();
 										}
@@ -275,7 +275,7 @@ public class Main {
 	}
 
 	/**
-	 * Vérifie si le fichier décrit par le chemin path existe.
+	 * Verifie si le fichier decrit par le chemin path existe.
 	 * @param path chemin vers un fichier
 	 * @return vrai si le fichier existe, faux sinon
 	 */
@@ -292,10 +292,10 @@ public class Main {
 	}
 
 	/**
-	 * Vérifie si le nombre de paramètre entrés par l'utilisateur est correct.
+	 * Verifie si le nombre de parametre entres par l'utilisateur est correct.
 	 * @param saisieParam : Une saisie utilisateur
-	 * @param nbParam : Le nombre de paramètre qui ont été donné ( ex : nbParam = 3 , car 3 choix possible )
-	 * @return vrai si le nombre de paramètre est correct, faux sinon
+	 * @param nbParam : Le nombre de parametre qui ont ete donne ( ex : nbParam = 3 , car 3 choix possible )
+	 * @return vrai si le nombre de parametre est correct, faux sinon
 	 */
 	public static boolean verifyParam ( int saisieParam , int nbParam )
 	{
@@ -308,13 +308,13 @@ public class Main {
 	}
 
 	/**
-	 * Point d'entrée du programme.
-	 * @param args Tableau des paramètres passés au programme via la ligne de commande
+	 * Point d'entree du programme.
+	 * @param args Tableau des parametres passes au programme via la ligne de commande
 	 * @return void
 	 */
 	public static void main(String[] args) 
 	{
-		pathParametre = "../saveRessource.conf";
+		pathParametre = "ressource/saveRessource.conf";
 		pathEvent = "ressource/ADECal(1).ics";
 		param =  new Parameter( pathParametre );
 		userCalendar = new Calendar( pathEvent );
@@ -381,11 +381,11 @@ public class Main {
 					} 
 			    	catch (Exception e) 
 			    	{
-						e.printStackTrace();
+						System.out.println("Le systeme n'as pas reussi a effectuer le tri de vos photos.");
 					}
 				}
 			}
-			// Paramètre
+			// Parametre
 			else if ( menuPrincipal == 2 )
 			{
 				System.out.println(" 1 - Parametrer les evenements");
