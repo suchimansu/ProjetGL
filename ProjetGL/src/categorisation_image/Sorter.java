@@ -125,12 +125,16 @@ public class Sorter
 
         if (b) 
         {//on est dans le dossier ou doit etre la photo
+        	
             String pathImageS = mapImage.get(key).getPath();
             Path pathImage = Paths.get(pathImageS);
             File srcImage = pathImage.toFile();
             
             Path pathDest = Paths.get(dest);
             File fileDest = pathDest.toFile();
+            fileDest.mkdirs();
+            fileDest = new File(fileDest.getAbsolutePath() + "\\" + mapImage.get(key).getFileName());
+
             move(srcImage, fileDest);
             
             mapImage.remove(key);//on enleve l'image du TreeMap

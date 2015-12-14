@@ -56,7 +56,10 @@ public class Image {
                   
                 	if ( tag.toString().contains("Date/Time Original") ){
                 		// On affecte notre date de creation
+                		
                        this.dateCreation = direct.getDate( tag.getTagType() );
+                       // Passage en CET
+                       this.dateCreation.setHours(this.dateCreation.getHours()+2);
                     }
                 	else if ( tag.toString().contains("Modified") )
                 	{

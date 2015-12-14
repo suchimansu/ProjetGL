@@ -9,10 +9,10 @@ import java.io.*;
  */
 public class Parameter {
 	
-	private int sortParameter  ;
-	private String destDir;
+	private int sortParameter = 3600 * 24 ;
+	private String destDir = "";
 	private String configDir;
-	private String defaultPath ;
+	private String defaultPath = System.getProperty("user.home" )+File.separator+"Categorizer"+File.separator;
 	
 	/**
 	 * Construit une nouvelle instance à partir du fichier de configuration donné.
@@ -20,9 +20,6 @@ public class Parameter {
 	 */
 	public Parameter(String path) 
 	{
-		destDir = "";
-		sortParameter = 3600 * 24;
-		defaultPath = System.getProperty("user.home" )+File.separator+"Categorizer"+File.separator;
 		configDir = path;
 		getOldParam();
 	}
