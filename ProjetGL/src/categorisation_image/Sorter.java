@@ -149,7 +149,7 @@ public class Sorter
     	long entreDeux = 0;
     	boolean sameDossier = true;
     	TreeMap<Long, Image> l = new TreeMap<Long, Image>();
-    	if(mapImage.size() > 1)
+    	if(mapImage.size() > 0)
     	{
 	    	Long temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
 	    	Long temps2;
@@ -160,7 +160,7 @@ public class Sorter
 					+ l.get(l.lastKey()).getTimeDate().getMonth() + "-"
 					+ (l.get(l.lastKey()).getTimeDate().getYear()+1900);;
 	    	
-	    	while (sameDossier)
+	    	while (!mapImage.isEmpty() && sameDossier)
 	    	{	
 	    		temps2 = mapImage.get(mapImage.firstKey()).getTimeLong();
 	    		entreDeux =  temps2 - temps1;
@@ -172,8 +172,8 @@ public class Sorter
 	    		}
 	    		else
 	    		{
-	    			nomDossierDest += "_" + l.get(l.lastKey()).getTimeDate().getDay() + "-"
-	    							+ l.get(l.lastKey()).getTimeDate().getMonth() + "-"
+	    			nomDossierDest += "_" + l.get(l.lastKey()).getTimeDate().getDate() + "-"
+	    							+ l.get(l.lastKey()).getTimeDate().getMonth()+1 + "-"
 	    							+ (l.get(l.lastKey()).getTimeDate().getYear()+1900);
 	    			sameDossier = false;
 	    			unsortedSort(mapImage);
