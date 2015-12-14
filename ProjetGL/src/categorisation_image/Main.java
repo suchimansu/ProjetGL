@@ -1,8 +1,11 @@
 package categorisation_image;
 
 import java.io.File;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import org.apache.commons.lang.NullArgumentException;
 
 import categorisation_image.calendar.Calendar;
 import categorisation_image.calendar.Interval;
@@ -147,47 +150,90 @@ public class Main {
 		String nomEvent = "";
 		String dateDeb = "";
 		String dateEnd = "";
-		SimpleDateFormat dateDebut = new SimpleDateFormat( "dd/MM/yy ");
-		SimpleDateFormat dateFin = new SimpleDateFormat( "dd/MM/yy" );
 		String newNom = "";
-
+		boolean b = false;
 		switch ( saisie )
 		{
 			case 1 : 
 					switch ( saisieParam )
 					{
-						case 1 :   System.out.println("Nom evenement : ");
+						case 1 :   
+							while ( !b )
+							{
+								   System.out.println("Nom evenement : ");
 								   nomEvent = sc.next();
-								   System.out.println("Date debut evenement : ");
+								   System.out.println("Date debut evenement ( Format : 00/00/2000 - Jour, mois, année)");
 								   dateDeb = sc.next();
-								   System.out.println("Date fin evenement : ");
+								   System.out.println("Date fin evenement ( Format : 00/00/2000 - Jour, mois, année )");
 								   dateEnd = sc.next();
 								   List < Interval > ar = new ArrayList<>();
 								   Date dateDep = null;
 								   Date dateFi = null;
 								   try 
 								   {
-									   dateDep = dateDebut.parse( dateDeb );
-									   dateFi = dateFin.parse( dateEnd );
-			
+									   dateDep = new SimpleDateFormat("dd/MM/yyyy").parse( dateDeb.trim() );
+									   dateFi = new SimpleDateFormat("dd/MM/yyyy").parse( dateEnd.trim() );
 									} 
 								   	catch (java.text.ParseException e) 
 								   	{
 										e.printStackTrace();
 									}
-								   ar.add( new Interval( dateDep, dateFi ));
-								  
-								   userCalendar.addEvent( nomEvent, ar );
+								   
+								   try 
+								   {
+									   ar.add( new Interval( dateDep, dateFi ));
+									   userCalendar.addEvent( nomEvent, ar );
+									   b = true;
+								   }
+								   catch ( NullArgumentException n)
+								   {
+									   System.out.println("Erreur dans le format de date.");
+									   b = false;
+								   }
+								   catch ( InvalidParameterException i )
+								   {
+									   System.out.println("La date de début doit être postérieur à la date de fin.");
+									   b = false;
+								   }								  
+							}
 								   break;
-						case 2 : System.out.println("Nom evenement : ");
+						case 2 :   
+							b = false;
+							while ( !b )
+							{
+								   System.out.println("Nom evenement : ");
 								   nomEvent = sc.next();
-								   userCalendar.remove ( nomEvent );
+								   try 
+								   {
+									   userCalendar.remove ( nomEvent );
+									   b = true;
+								   }
+								   catch ( Exception e )
+								   {
+									   System.out.println("Le nom d'événement n'existe pas");
+								   }
+							}
+							      
 								   break;
-					    case 3 : System.out.println("Nom evenement : ");
+					    case 3 :   
+					    	b = false;
+					    	while ( !b )
+					    	{
+					    		   System.out.println("Nom evenement : ");
 					     		   nomEvent = sc.next();
 					     		   System.out.println("Nouveau nom : ");
 					     		   newNom = sc.next();
-					     		   userCalendar.editEvent( nomEvent , newNom );
+					     		   
+					     		   try
+					     		   {
+					     			   userCalendar.editEvent( nomEvent , newNom );
+					     			   b = true;
+					     		   }
+					     		   catch ( Exception e )
+					     		   {
+					     			   System.out.println("L'événement à modifier n'existe pas");
+					     		   }
+					    	}
 					     		   break;
 					}
 			case 2 : 
@@ -202,8 +248,7 @@ public class Main {
 						case 3 :
 									System.out.print("Chemin du dossier de sortie : ");
 									String pathTemp = sc.next();
-									boolean b = false;
-									
+									b = false;
 									while ( !b )
 									{
 										if ( pathTemp.contains("/") || pathTemp.contains("\\") )
