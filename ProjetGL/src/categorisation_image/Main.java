@@ -13,11 +13,11 @@ import categorisation_image.calendar.Interval;
  */
 public class Main {
 
-	private static String pathParametre = "../saveRessource.conf";
-	private static String pathEvent = "ressource/ADECal(1).ics";
+	private static String pathParametre ;
+	private static String pathEvent ;
 
-	private static Parameter param = new Parameter( pathParametre ); 
-	private static Calendar userCalendar = new Calendar( pathEvent );
+	private static Parameter param;
+	private static Calendar userCalendar ;
 	
 	/**
 	 * Affiche le menu principal de choix utilisateur.
@@ -188,7 +188,7 @@ public class Main {
 									
 									while ( !b )
 									{
-										if ( pathTemp.contains("/") || pathTemp.contains("\\") )
+										if ( ( pathTemp.lastIndexOf(File.separator) == pathTemp.length() ) )
 										{
 											b = true;
 										}
@@ -246,6 +246,11 @@ public class Main {
 	 */
 	public static void main(String[] args) 
 	{
+		pathParametre = "../saveRessource.conf";
+		pathEvent = "ressource/ADECal(1).ics";
+		param =  new Parameter( pathParametre );
+		userCalendar = new Calendar( pathEvent );
+		
 		Scanner sc = new Scanner ( System.in );
 		int menuPrincipal = afficheMenuPrincipal( sc );
 
