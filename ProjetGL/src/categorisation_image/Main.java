@@ -22,6 +22,8 @@ public class Main {
 	private static Parameter param;
 	private static Calendar userCalendar ;
 	
+	private static ListParameter l;
+	
 	/**
 	 * Affiche le menu principal de choix utilisateur.
 	 * @param sc Flux d'entree utilise dans la communication avec l'utilisateur
@@ -87,7 +89,7 @@ public class Main {
 		{
 			System.out.println("Modifier la finesse du tri");
 			System.out.println("1 - Par jour");
-			System.out.println("2 - Par heure");
+			System.out.println("2 - Par mois");
 			System.out.println("Modifier parametre de sortie logiciel");
 			System.out.println("3 - Modifier le chemin de destination du tri");
 		}
@@ -234,15 +236,15 @@ public class Main {
 					     		   }
 					    	}
 					     		   break;
-					}break;
+					} break;
 			case 2 : 
 					switch ( saisieParam )
 					{
 						case 1 :  
-									param.setSortParameter( 3600 * 24 );
+									param.setSortParameter( l.jour.getTime() );
 									break;
 						case 2 : 
-									param.setSortParameter( 3600 );
+									param.setSortParameter( l.mois.getTime() );
 									break; 
 						case 3 :
 									System.out.print("Chemin du dossier de sortie : ");
@@ -270,7 +272,7 @@ public class Main {
 										
 									param.setDestDir( pathTemp);
 									break;
-					}break;
+					} break;
 		}
 	}
 
@@ -374,6 +376,7 @@ public class Main {
 						saisiePath+=File.separator;
 					}
 					
+					System.out.println( saisiePath );
 					Sorter S = new Sorter(userCalendar, param);
 			    	try 
 			    	{
@@ -381,6 +384,7 @@ public class Main {
 					} 
 			    	catch (Exception e) 
 			    	{
+			    		e.printStackTrace();
 						System.out.println("Le systeme n'as pas reussi a effectuer le tri de vos photos.");
 					}
 				}

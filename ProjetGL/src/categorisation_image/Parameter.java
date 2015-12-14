@@ -9,10 +9,11 @@ import java.io.*;
  */
 public class Parameter {
 	
-	private int sortParameter  ;
+	private double sortParameter  ;
 	private String destDir;
 	private String configDir;
 	private String defaultPath ;
+	private ListParameter l;
 	
 	/**
 	 * Construit une nouvelle instance à partir du fichier de configuration donné.
@@ -21,7 +22,7 @@ public class Parameter {
 	public Parameter(String path) 
 	{
 		destDir = "";
-		sortParameter = 3600 * 24;
+		sortParameter = l.jour.getTime();
 		defaultPath = System.getProperty("user.home" )+File.separator+"Categorizer"+File.separator;
 		configDir = path;
 		getOldParam();
@@ -118,7 +119,7 @@ public class Parameter {
 	 * @param param Nouvelle granularité
 	 * @return void
 	 */
-	public void setSortParameter(int param)
+	public void setSortParameter(double param)
 	{
 		sortParameter = param;
 	}
@@ -127,7 +128,7 @@ public class Parameter {
 	 * Retourne la granularité du tri.
 	 * @return la granularité
 	 */
-	public int getSortParameter()
+	public double getSortParameter()
 	{
 		return sortParameter;
 	}
