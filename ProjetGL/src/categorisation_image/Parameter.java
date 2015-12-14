@@ -10,8 +10,9 @@ import java.io.*;
 public class Parameter {
 	
 	private int sortParameter = 3600 * 24 ;
-	private String destDir ;
+	private String destDir = "";
 	private String configDir;
+	private String defaultPath = System.getProperty("user.home" )+File.separator+"Categorizer"+File.separator;
 	
 	/**
 	 * Construit une nouvelle instance à partir du fichier de configuration donné.
@@ -78,6 +79,10 @@ public class Parameter {
 		}
 	}
 
+	public void setDestDir( String destDir )
+	{
+		this.destDir = destDir;
+	}
 
 	/**
 	 * Sauvegarde les paramètres dans le fichier de configuration situé dans path.
@@ -86,15 +91,17 @@ public class Parameter {
 	 */
 	public void save()
 	{	
+
 		try 
 		{
 			FileWriter doSave = new FileWriter( configDir );
-			if ( destDir == null )
-				doSave.write( System.getProperty("user.home" )+File.separator+"Categorizer"+File.separator );
+			if ( destDir.equals("") )
+				doSave.write( defaultPath + "\n");
 			else
-				doSave.write( destDir );
+				doSave.write( destDir + "\n");
 			
-			doSave.write( sortParameter );
+			String str =  ""+sortParameter;
+			doSave.write( str );
 			doSave.close();
 		} 
 		catch (IOException e) 
@@ -103,16 +110,6 @@ public class Parameter {
 		}
 	}
 
-	/**
-	 * Met à jour le chemin de sortie de dossier.
-	 * @param param le path du nouveau dossier de sortie
-	 * @return void
-	 */
-	public void setDestDir( String destDir )
-	{
-		this.destDir = destDir;
-	}
-	
 	/**
 	 * Met à jour la granularité du tri.
 	 * @param param Nouvelle granularité
