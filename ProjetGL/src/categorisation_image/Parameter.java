@@ -135,6 +135,9 @@ public class Parameter {
 	 */
     public String getDestDir()
     {
+    	if ( destDir.equals("") )
+    		return defaultPath;
+    	
         return destDir;
     }
 }

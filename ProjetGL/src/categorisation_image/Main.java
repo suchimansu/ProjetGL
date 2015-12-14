@@ -13,7 +13,7 @@ import categorisation_image.calendar.Interval;
  */
 public class Main {
 
-	private static String pathParametre = "../saveRessource.txt";
+	private static String pathParametre = "../saveRessource.conf";
 	private static String pathEvent = "ressource/ADECal(1).ics";
 
 	private static Parameter param = new Parameter( pathParametre ); 
