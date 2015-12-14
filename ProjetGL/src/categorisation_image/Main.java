@@ -288,6 +288,7 @@ public class Main {
 				System.out.println("0 - Retour au menu principal");
 				
 				int saisie = -1;
+				b = false;
 				while ( !b )
 				{
 					System.out.print("Votre choix : ");
