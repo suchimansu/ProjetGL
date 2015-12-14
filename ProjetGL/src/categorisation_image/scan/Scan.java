@@ -21,7 +21,7 @@ public class Scan
 	 */
 	public Scan()
 	{
-		this.exts = new String[] {".png", ".jpg", ".jpeg"};
+		this.exts = new String[] {".png", ".jpg", ".jpeg", ".bmp"};
 		this.filter = new ExtFilter(this.exts);
 	}
 
