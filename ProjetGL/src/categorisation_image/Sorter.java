@@ -160,9 +160,29 @@ public class Sorter
 	    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
 	    	mapImage.remove(mapImage.firstKey());
 	    	System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
-	    	nomDossierDest +=  l.get(l.lastKey()).getTimeDate().getDate() + "-"
-					+ (l.get(l.lastKey()).getTimeDate().getMonth() + 1) + "-"
-					+ (l.get(l.lastKey()).getTimeDate().getYear()+1900);
+	    	
+	    	Date d = l.get(l.lastKey()).getTimeDate();
+	    	nomDossierDest += d.getDate() + "-"
+					+ (d.getMonth() + 1) + "-"
+					+ (d.getYear()+1900);
+			if(param.getSortParameter() == 3600)
+			{
+				nomDossierDest += "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+			}
+
+	    	
+	    	if(mapImage.isEmpty())
+    		{
+	    		
+	    		d = l.get(l.lastKey()).getTimeDate();
+	    		nomDossierDest += "_" + d.getDate() + "-"
+						+ (d.getMonth() + 1) + "-"
+						+ (d.getYear()+1900);
+    			if(param.getSortParameter() == 3600)
+    			{
+    				nomDossierDest += "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+    			}
+    		}
 	    	
 	    	while (!mapImage.isEmpty() && sameDossier)
 	    	{	
@@ -176,12 +196,24 @@ public class Sorter
 	    		}
 	    		else
 	    		{
-	    			nomDossierDest += "_" + l.get(l.lastKey()).getTimeDate().getDate() + "-"
-	    							+ (l.get(l.lastKey()).getTimeDate().getMonth() + 1) + "-"
-	    							+ (l.get(l.lastKey()).getTimeDate().getYear()+1900);
+	    			d = l.get(l.lastKey()).getTimeDate();
+	    			if(param.getSortParameter() == 3600)
+	    			{
+	    				nomDossierDest += "_" + d.getDate() + "-"
+    							+ (d.getMonth() + 1) + "-"
+    							+ (d.getYear()+1900) + "-"
+    							+ d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+	    			}
+	    			else
+	    			{
+	    				nomDossierDest += "_" + d.getDate() + "-"
+    							+ (d.getMonth() + 1) + "-"
+    							+ (d.getYear()+1900);
+	    			}
 	    			sameDossier = false;
 	    			unsortedSort(mapImage);
 	    		}
+	    		
 	    	}
 	    	
 	    	//on deplace les images contenues dans l dans le bon dossier
