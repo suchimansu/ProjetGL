@@ -188,8 +188,13 @@ public class Main {
 									
 									while ( !b )
 									{
-										if ( ( pathTemp.lastIndexOf(File.separator) == pathTemp.length() ) )
+										if ( pathTemp.contains("/") || pathTemp.contains("\\") )
 										{
+											if ( !( pathTemp.lastIndexOf(File.separator) == pathTemp.length() ) )
+											{
+												pathTemp += File.separator;
+											}
+											
 											b = true;
 										}
 										else
@@ -291,7 +296,7 @@ public class Main {
 						saisiePath = sc.next();
 					}
 					
-					if ( !( saisiePath.lastIndexOf(File.separator) == saisiePath.length() ) )
+					if ( !( saisiePath.lastIndexOf(File.separator) == saisiePath.length() - 1 ) )
 					{
 						saisiePath+=File.separator;
 					}
