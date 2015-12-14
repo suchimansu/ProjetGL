@@ -13,7 +13,6 @@ public class Parameter {
 	private String destDir;
 	private String configDir;
 	private String defaultPath ;
-	private ListParameter l;
 	
 	/**
 	 * Construit une nouvelle instance à partir du fichier de configuration donné.
@@ -22,7 +21,7 @@ public class Parameter {
 	public Parameter(String path) 
 	{
 		destDir = "";
-		sortParameter = l.jour.getTime();
+		sortParameter = ListParameter.jour.getTime();
 		defaultPath = System.getProperty("user.home" )+File.separator+"Categorizer"+File.separator;
 		configDir = path;
 		getOldParam();

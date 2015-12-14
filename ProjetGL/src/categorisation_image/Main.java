@@ -21,9 +21,7 @@ public class Main {
 
 	private static Parameter param;
 	private static Calendar userCalendar ;
-	
-	private static ListParameter l;
-	
+		
 	/**
 	 * Affiche le menu principal de choix utilisateur.
 	 * @param sc Flux d'entree utilise dans la communication avec l'utilisateur
@@ -241,10 +239,10 @@ public class Main {
 					switch ( saisieParam )
 					{
 						case 1 :  
-									param.setSortParameter( l.jour.getTime() );
+									param.setSortParameter( ListParameter.jour.getTime() );
 									break;
 						case 2 : 
-									param.setSortParameter( l.mois.getTime() );
+									param.setSortParameter( ListParameter.mois.getTime() );
 									break; 
 						case 3 :
 									System.out.print("Chemin du dossier de sortie : ");
