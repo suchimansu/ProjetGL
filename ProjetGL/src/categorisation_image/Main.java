@@ -39,7 +39,6 @@ public class Main {
 		System.out.println("             3 - Quitter              ");
 		System.out.println("######################################");
 
-		
 		while ( !b )
 		{
 			System.out.print("Votre choix : ");
@@ -52,16 +51,15 @@ public class Main {
 				}
 				else
 				{
-					System.out.println("Le choix selectionne n'existe pas. Veuillez recommencer votre saisie");
-					sc.next();
+					System.out.println("Erreur dans la saisie. Le choix n'existe pas.");
 				}
 			}
-			
 			else
 			{
 				System.out.println("Merci d'entrer un des choix possibles ( 1, 2 .. )");
 				sc.next();
 			}
+			
 		}
 		
 		return saisie;		
@@ -102,28 +100,30 @@ public class Main {
 			if ( sc.hasNextInt() )
 			{
 				saisieParam = sc.nextInt();
-				if ( saisie == 1 )
+				if ( saisieParam > 3 || saisieParam < 0 )
 				{
-					if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3 )
-					{
-						b = true;
-					}
-				}
-				else if ( saisie == 2 )
-				{
-					if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3)
-					{
-						b = true;
-					}
-				}
-				else if ( saisie == 0 )
-				{
-					b = true;
+					System.out.println("Erreur dans la saisie. Le choix n'existe pas.");
 				}
 				else
 				{
-					System.out.println("Le choix selectionne n'existe pas. Veuillez recommencer votre saisie");
-					sc.next();
+					if ( saisie == 1 )
+					{
+						if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3 )
+						{
+							b = true;
+						}
+					}
+					else if ( saisie == 2 )
+					{
+						if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3)
+						{
+							b = true;
+						}
+					}
+					else if ( saisie == 0 )
+					{
+						b = true;
+					}
 				}
 			}
 			else
@@ -349,7 +349,6 @@ public class Main {
 						else
 						{
 							System.out.println("Erreur dans la saisie. Le choix n'existe pas.");
-							sc.next();
 						}
 					}
 					else
@@ -401,24 +400,22 @@ public class Main {
 			    	if ( sc.hasNextInt() )
 			    	{
 			    		saisieParam = sc.nextInt();
-			    		b = true;
+			    		if ( verifyParam ( saisieParam , 3 ) )
+			    		{
+			    			b = true;
+			    		}
+			    		else
+			    		{
+			    			System.out.println("Erreur dans la saisie. Le choix n'existe pas.");
+			    		}
 			    	}
 			    	else
 			    	{
-			    		System.out.println("Erreur .. Recommencer la saisie.");
+			    		System.out.println("Merci d'entrer un des choix possibles ( 1, 2 .. )");
 			    		sc.next();
 			    	}
 		    	}
 
-		    	while ( !verifyParam ( saisieParam , 3 ) )
-		    	{
-		    		System.out.println("Erreur .. ");
-		    		System.out.println(" 1 - Parametrer les evenements");
-		    		System.out.println(" 2 - Parametrer le logiciel");
-		    		System.out.println(" 0 - Retour menu principal");
-		    		saisieParam = sc.nextInt();
-		    	}
-		    	
 		    	if ( saisieParam != 0 )
 		    	{
 		    		int recupMenuParam = afficheMenuParametre( saisieParam, sc );
