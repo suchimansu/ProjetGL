@@ -149,7 +149,7 @@ public class Sorter
     	long entreDeux = 0;
     	boolean sameDossier = true;
     	TreeMap<Long, Image> l = new TreeMap<Long, Image>();
-    	if(!mapImage.isEmpty())
+    	if(mapImage.size() > 1)
     	{
 	    	Long temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
 	    	Long temps2;
@@ -179,7 +179,7 @@ public class Sorter
 	    	//on deplace les images contenues dans l dans le bon dossier
 	    	for(Long key : l.keySet())
 	    	{
-	    		String pathImageS = mapImage.get(key).getPath();
+	    		String pathImageS = l.get(key).getPath();
 	            Path pathImage = Paths.get(pathImageS);
 	            File srcImage = pathImage.toFile();
 	            
