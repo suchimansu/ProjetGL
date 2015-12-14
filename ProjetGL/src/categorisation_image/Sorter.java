@@ -56,7 +56,8 @@ public class Sorter
         Scan s = new Scan();
         EventGlobal globalEvent = tempEventCalendar.getGlobalEvent();
         // listeEvent = tempEventCalendar.getListEvent();
-        images = s.doScan(new File(pathIn));
+        s.doScan(new File(pathIn));
+        images = s.getMap();
         nbPhoto = images.size();
         userEventSort(globalEvent, images);
         unsortedSort(images);
