@@ -259,7 +259,24 @@ public class Main {
 				System.out.println("0 - Retour au menu principal");
 				String saisiePath = sc.next();
 				
-				if ( !saisiePath.equals("0") )
+				boolean b = false;
+				int saisie = -1;
+				while ( !b )
+				{
+					System.out.print("Votre choix : ");
+					saisie = sc.nextInt();
+
+					if ( saisie == 0 || saisie == 1 )
+					{
+						b = true;
+					}
+					else
+					{
+						System.out.println("Erreur dans la saisie");
+					}
+				}
+				
+				if ( saisie != 0 )
 				{
 					System.out.println("Chemin : ");
 					saisiePath = sc.next();
