@@ -255,19 +255,26 @@ public class Main {
 			// Lancer le tri
 			if ( menuPrincipal == 1 )
 			{
-				System.out.println("1 - Entrer le chemin du dossier de dest. ( Ex : /home/ .. )");
+				System.out.println("1 - Entrer le chemin du dossier de destination");
 				System.out.println("0 - Retour au menu principal");
 				String saisiePath = sc.next();
 				
 				if ( !saisiePath.equals("0") )
 				{
+					System.out.println("Chemin : ");
+					saisiePath = sc.next();
 					while ( !verify ( saisiePath ) )
 					{
 						System.out.println("Erreur .. ");
-						System.out.println("Entrer le chemin du dossier de dest. ( Ex : /home/ .. )");	
+						System.out.println("Chemin : ");	
 						saisiePath = sc.next();
 					}
-	
+					
+					if ( !( saisiePath.lastIndexOf(File.separator) == saisiePath.length() ) )
+					{
+						saisiePath+=File.separator;
+					}
+					
 					Sorter S = new Sorter(userCalendar, param);
 			    	try 
 			    	{
