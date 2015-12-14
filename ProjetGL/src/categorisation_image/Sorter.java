@@ -156,9 +156,9 @@ public class Sorter
 	    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
 	    	mapImage.remove(mapImage.firstKey());
 	    	System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
-	    	nomDossierDest =  "_" + l.get(l.lastKey()).getTimeDate().getDay() + "-"
+	    	nomDossierDest += l.get(l.lastKey()).getTimeDate().getDay() + "-"
 					+ l.get(l.lastKey()).getTimeDate().getMonth() + "-"
-					+ l.get(l.lastKey()).getTimeDate().getYear();;
+					+ (l.get(l.lastKey()).getTimeDate().getYear()+1900);;
 	    	
 	    	while (sameDossier)
 	    	{	
@@ -174,7 +174,7 @@ public class Sorter
 	    		{
 	    			nomDossierDest += "_" + l.get(l.lastKey()).getTimeDate().getDay() + "-"
 	    							+ l.get(l.lastKey()).getTimeDate().getMonth() + "-"
-	    							+ l.get(l.lastKey()).getTimeDate().getYear();
+	    							+ (l.get(l.lastKey()).getTimeDate().getYear()+1900);
 	    			sameDossier = false;
 	    			unsortedSort(mapImage);
 	    		}
