@@ -29,26 +29,35 @@ public class Main {
 		boolean b = false;
 		int saisie = -1 ;
 		
-		System.out.println("Configuration dossier sortie par défaut : "+param.getDestDir() );
+		System.out.println("Configuration dossier sortie par defaut : "+param.getDestDir() );
 		System.out.println("#############  BIENVENUE #############");
 		System.out.println("          1 - Lancer le tri           ");
-		System.out.println("            2 - Paramètre             ");
+		System.out.println("            2 - Parametre             ");
 		System.out.println("             3 - Quitter              ");
 		System.out.println("######################################");
-		System.out.print("Votre choix : ");
-		saisie = sc.nextInt();
+
 		
 		while ( !b )
 		{
-			if ( saisie > 0 && saisie <= 3 )
+			System.out.print("Votre choix : ");
+			if ( sc.hasNextInt() )
 			{
-				b = true;
+				saisie = sc.nextInt();
+				if ( saisie > 0 && saisie <= 3 )
+				{
+					b = true;
+				}
+				else
+				{
+					System.out.println("Le choix selectionne n'existe pas. Veuillez recommencer votre saisie");
+					sc.next();
+				}
 			}
+			
 			else
 			{
-				System.out.println("Erreur .. ");
-				System.out.println("Merci de recommencer votre saisie : ");
-				saisie = sc.nextInt();
+				System.out.println("Merci d'entrer un des choix possibles ( 1, 2 .. )");
+				sc.next();
 			}
 		}
 		
@@ -68,17 +77,17 @@ public class Main {
 		
 		if ( saisie == 1 )
 		{
-			System.out.println("Gestion des événements");
-			System.out.println("1 - Ajouter un événement");
-			System.out.println("2 - Supprimer un événement");
-			System.out.println("3 - Modifier un événement");
+			System.out.println("Gestion des evenements");
+			System.out.println("1 - Ajouter un evenement");
+			System.out.println("2 - Supprimer un evenement");
+			System.out.println("3 - Modifier un evenement");
 		}
 		else if ( saisie == 2 )
 		{
 			System.out.println("Modifier la finesse du tri");
 			System.out.println("1 - Par jour");
 			System.out.println("2 - Par heure");
-			System.out.println("Modifier paramètre de sortie logiciel");
+			System.out.println("Modifier parametre de sortie logiciel");
 			System.out.println("3 - Modifier le chemin de destination du tri");
 		}
 		
@@ -110,7 +119,7 @@ public class Main {
 				}
 				else
 				{
-					System.out.println("Le choix séléctionné n'existe pas. Veuillez recommencer votre saisie");
+					System.out.println("Le choix selectionne n'existe pas. Veuillez recommencer votre saisie");
 					sc.next();
 				}
 			}
@@ -147,11 +156,11 @@ public class Main {
 			case 1 : 
 					switch ( saisieParam )
 					{
-						case 1 :   System.out.println("Nom événements : ");
+						case 1 :   System.out.println("Nom evenement : ");
 								   nomEvent = sc.next();
-								   System.out.println("Date début événement : ");
+								   System.out.println("Date debut evenement : ");
 								   dateDeb = sc.next();
-								   System.out.println("Date fin événement : ");
+								   System.out.println("Date fin evenement : ");
 								   dateEnd = sc.next();
 								   List < Interval > ar = new ArrayList<>();
 								   Date dateDep = null;
@@ -170,11 +179,11 @@ public class Main {
 								  
 								   userCalendar.addEvent( nomEvent, ar );
 								   break;
-						case 2 : System.out.println("Nom événements : ");
+						case 2 : System.out.println("Nom evenement : ");
 								   nomEvent = sc.next();
 								   userCalendar.remove ( nomEvent );
 								   break;
-					    case 3 : System.out.println("Nom événements : ");
+					    case 3 : System.out.println("Nom evenement : ");
 					     		   nomEvent = sc.next();
 					     		   System.out.println("Nouveau nom : ");
 					     		   newNom = sc.next();
@@ -275,7 +284,7 @@ public class Main {
 			// Lancer le tri
 			if ( menuPrincipal == 1 )
 			{
-				System.out.println("1 - Entrer le chemin du dossier source d'image");
+				System.out.println("1 - Entrer le chemin du dossier source d'images");
 				System.out.println("0 - Retour au menu principal");
 				
 				int saisie = -1;
@@ -334,8 +343,8 @@ public class Main {
 			// Paramètre
 			else if ( menuPrincipal == 2 )
 			{
-				System.out.println(" 1 - Paramètrer les évenements");
-		    	System.out.println(" 2 - Paramètrer le logiciel");
+				System.out.println(" 1 - Parametrer les evenements");
+		    	System.out.println(" 2 - Parametrer le logiciel");
 		    	System.out.println(" 0 - Retour menu principal");
 		    	
 		    	int saisieParam = -1;
@@ -358,8 +367,8 @@ public class Main {
 		    	while ( !verifyParam ( saisieParam , 3 ) )
 		    	{
 		    		System.out.println("Erreur .. ");
-		    		System.out.println(" 1 - Paramètrer les évenements");
-		    		System.out.println(" 2 - Paramètrer le logiciel");
+		    		System.out.println(" 1 - Parametrer les evenements");
+		    		System.out.println(" 2 - Parametrer le logiciel");
 		    		System.out.println(" 0 - Retour menu principal");
 		    		saisieParam = sc.nextInt();
 		    	}
@@ -378,6 +387,6 @@ public class Main {
 		}
 		param.save();
 		sc.close();
-		System.out.println( "A bientôt !");
+		System.out.println( "A bientot !");
 	}
 }
