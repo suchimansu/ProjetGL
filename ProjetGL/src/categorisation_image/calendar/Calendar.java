@@ -142,12 +142,16 @@ public class Calendar {
 	 * @param newName Nouveau nom de la catégorie 
 	 * @return void
 	 */
-	public void editEvent(String name, String newName){
+	public void editEvent(String name, String newName) throws Exception{
 		// TODO edit dans le cal
-		Event tmp = calMap.get(name);
-		tmp.setName(newName);
-		calMap.remove(name);
-		calMap.put(newName, tmp);
+		if(calMap.containsKey(name)){
+			throw new Exception("Pas d'evenement portant ce nom.");
+		}else{
+			Event tmp = calMap.get(name);
+			tmp.setName(newName);
+			calMap.remove(name);
+			calMap.put(newName, tmp);
+		}
 	}
 	
 	/**
@@ -155,11 +159,15 @@ public class Calendar {
 	 * @param name Nom de la catégorie à supprimer
 	 * @return void
 	 */
-	public void remove(String name){
+	public void remove(String name) throws Exception{
 		// TODO Idem, � faire dans le ical aussi
 		if(!name.equals("Global")){// On sait jamais...
-			calMap.remove(name);
-			remove(name,global);
+			if(calMap.containsKey(name)){
+				throw new Exception("Pas d'evenement portant ce nom.");
+			}else{
+				calMap.remove(name);
+				remove(name,global);
+			}
 		}
 	}
 	
