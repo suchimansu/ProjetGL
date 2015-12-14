@@ -28,7 +28,8 @@ public class Main {
 	{
 		boolean b = false;
 		int saisie = -1 ;
-
+		
+		System.out.println("Configuration dossier sortie par défaut : "+param.getDestDir() );
 		System.out.println("#############  BIENVENUE #############");
 		System.out.println("          1 - Lancer le tri           ");
 		System.out.println("            2 - Paramètre             ");
