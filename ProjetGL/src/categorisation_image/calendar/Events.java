@@ -11,7 +11,7 @@ public abstract class Events {
 	 */
 	protected String name;
 	/**
-	 * Liste des l'évènements enfants.
+	 * Liste des évènements enfants.
 	 */
 	private List<Events> child;
 	/**
@@ -67,6 +67,7 @@ public abstract class Events {
 	
 	/**
 	 * Retourne le nom de la catégorie décrite par cette instance.
+	 * @return le nom de la catégorie
 	 */
 	public void setName(String name){
 		this.name = name;
@@ -117,7 +118,7 @@ public abstract class Events {
 	 * @return boolean
 	 */
 	public boolean hadChildren(){
-		return child.isEmpty();
+		return !child.isEmpty();
 	}
 	
 	public abstract void addChild(Events child) throws Exception;
