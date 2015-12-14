@@ -118,7 +118,7 @@ public abstract class Events {
 	 * @return boolean
 	 */
 	public boolean hadChildren(){
-		return child.isEmpty();
+		return !child.isEmpty();
 	}
 	
 	public abstract void addChild(Events child) throws Exception;
