@@ -31,7 +31,6 @@ public class Sorter
     {
         tempEventCalendar = new Calendar();
         param = p;
-        System.out.println(param.getSortParameter());
         this.nbPhoto = 0;
     }
 
@@ -56,7 +55,6 @@ public class Sorter
         TreeMap<Long, Image> images;
         Scan s = new Scan();
         EventGlobal globalEvent = tempEventCalendar.getGlobalEvent();
-        // listeEvent = tempEventCalendar.getListEvent();
         s.doScan(new File(pathIn));
         images = s.getMap();
         nbPhoto = images.size();
@@ -140,7 +138,10 @@ public class Sorter
             move(srcImage, fileDest);
             
             mapImage.remove(key);//on enleve l'image du TreeMap
-            System.out.println(mapImage.get(mapImage.firstKey()).getFileName() + " : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
+            System.out.println(mapImage.get(mapImage.firstKey()).getFileName() +
+            				(mapImage.get(mapImage.firstKey()).getTimeDate()) + " : " + 
+            					(nbPhoto-mapImage.size()) + "/" + nbPhoto );
+
         }
     }
     
@@ -163,26 +164,20 @@ public class Sorter
 	    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
 	    	System.out.println(mapImage.get(mapImage.firstKey()).getFileName() + " : " 
 					+ (nbPhoto-mapImage.size()) + "/" + nbPhoto );
+	    	
+	    	
+	    
 	    	mapImage.remove(mapImage.firstKey());
 	    	
-//System.console().flush();
 	    	
 	    	Date d = l.get(l.lastKey()).getTimeDate();
-	    	/*nomDossierDest += convertMonth(d.getMonth());
-	    			d.getDate() + "-"
-					+ (d.getMonth() + 1) + "-"
-					+ (d.getYear()+1900);
-			if(param.getSortParameter() == ListParameter.mois.getTime())
-			{
-				nomDossierDest += "_at_" + d.getHours() + "h";
-			}*/
 				if(param.getSortParameter() == ListParameter.mois.getTime())
 				{
-					nomDossierDest += convertMonth(d.getMonth());
+					nomDossierDest += convertMonth(d.getMonth()) + " " + (d.getYear()+1900);
 				}
 				else
 				{
-					nomDossierDest += d.getDay() + " " + convertMonth(d.getMonth());
+					nomDossierDest += d.getDate() + " " + convertMonth(d.getMonth()) + " " + (d.getYear()+1900);
 				}
 	    	
 	    	while (!mapImage.isEmpty() && sameDossier)
@@ -300,6 +295,12 @@ public class Sorter
         }
     }
 
+    
+    /**
+   	 * Remplace les valeur de mois (0 a 11) par leur nom (Janvier à Decembre)
+   	 * @param m numero du mois
+   	 * @return String du mois correspondant
+   	 */
 	private String convertMonth(int m)
 	{
 		switch(m)
