@@ -10,7 +10,12 @@ public class EventGlobal extends Events {
 	}
 	
 	public void addChild(Events child) {
-		if(this.include(child)){
+		if(this.getIntervale().size() == 0){
+			for(Interval i : child.getIntervale()){
+				this.getIntervale().add(i);
+			}
+			this.addChild(child);
+		}else if(this.include(child)){
 			this.getChildren().add(child);
 			((Event)child).setParent(this);
 		}else{
@@ -20,11 +25,11 @@ public class EventGlobal extends Events {
 			Date earlier = globalIt.getStart();
 			Date older = globalIt.getEnd();
 			for(Interval i : childIts){
-				if(i.getEnd().after(earlier)){
+				if(i.getEnd().getTime() >= earlier.getTime()){
 					earlier = i.getEnd();
 				}
-				if(i.getStart().before(older)){
-					older = i.getEnd();
+				if(i.getStart().getTime() <= older.getTime()){
+					older = i.getStart();
 				}
 			}
 			globalIts.remove(globalIt);

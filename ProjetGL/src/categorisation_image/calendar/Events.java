@@ -20,36 +20,39 @@ public abstract class Events {
 	private List<Interval> intervale;
 
 	public Events(String name, List<Interval> lInterval) {
+		this.child = new ArrayList<Events>();
 		this.name = name;
 		List<Interval> list = new ArrayList<Interval>();
-		list.add(lInterval.get(0));
-		Interval tmp;
-		boolean include;
-		try {
-			//nettoyage de la liste d'intervalle en fusionnant les intervalles qui se chevauche.
-			for(int i = 1 ; i < lInterval.size() ; i++ ){
-				tmp = lInterval.get(i);
-				include = false;
-				for(Interval interval : list){
-					if(interval.isInclude(tmp.getStart()) && !interval.isInclude(tmp.getEnd())){
-						interval = new Interval(interval.getStart(), tmp.getEnd());
-						include = true;
-						break;
-					}else if(interval.isInclude(tmp.getEnd()) && !interval.isInclude(tmp.getStart())){
-						interval = new Interval(tmp.getStart(),interval.getEnd());
-						include = true;
-						break;
-					}else if(interval.isInclude(tmp.getStart()) && interval.isInclude(tmp.getEnd())){
-						include = true;
-						break;
+		if(lInterval.size() > 0){
+			list.add(lInterval.get(0));
+			Interval tmp;
+			boolean include;
+			try {
+				//nettoyage de la liste d'intervalle en fusionnant les intervalles qui se chevauche.
+				for(int i = 1 ; i < lInterval.size() ; i++ ){
+					tmp = lInterval.get(i);
+					include = false;
+					for(Interval interval : list){
+						if(interval.isInclude(tmp.getStart()) && !interval.isInclude(tmp.getEnd())){
+							interval = new Interval(interval.getStart(), tmp.getEnd());
+							include = true;
+							break;
+						}else if(interval.isInclude(tmp.getEnd()) && !interval.isInclude(tmp.getStart())){
+							interval = new Interval(tmp.getStart(),interval.getEnd());
+							include = true;
+							break;
+						}else if(interval.isInclude(tmp.getStart()) && interval.isInclude(tmp.getEnd())){
+							include = true;
+							break;
+						}
+					}
+					if(!include){
+						list.add(tmp);
 					}
 				}
-				if(!include){
-					list.add(tmp);
-				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		this.intervale = lInterval;
 	}

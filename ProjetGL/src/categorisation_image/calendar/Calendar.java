@@ -44,7 +44,7 @@ public class Calendar {
 	 */
 	public Calendar(){
 		// Initialisation des attributs.
-		global = new EventGlobal("Global", null);
+		global = new EventGlobal("Global", new ArrayList<Interval>());
 		calMap = new HashMap<String,Event>();
 		cal = new net.fortuna.ical4j.model.Calendar();
 	}
