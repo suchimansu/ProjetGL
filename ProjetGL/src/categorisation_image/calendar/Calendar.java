@@ -81,11 +81,12 @@ public class Calendar {
 			    tmpList.add(tmpInterval);
 			    
 			    Event tmpe = new Event(component.getProperty(Property.SUMMARY).getValue(), tmpList);
-			    if(!calMap.containsKey(tmpe.getName())){
-				    calMap.put(tmpe.getName(), tmpe);
+		    	String tmps = tmpe.getName();
+			    if(!calMap.containsKey(tmps)){
+				    calMap.put(tmps, tmpe);
 					global.addChild(tmpe);
 			    }else{
-			    	calMap.get(tmpe.getName()).getIntervale().add(tmpInterval);
+			    	calMap.get(tmps).getIntervale().add(tmpInterval);
 			    }
 			}
 		// Gestion des erreurs pouvant survenir.
@@ -130,8 +131,9 @@ public class Calendar {
 	 */
 	public void addEvent(String name, List<Interval> dList){
 		Event tmp = new Event(name, dList);
-		if(!calMap.containsKey(name)){
-			calMap.put(name, tmp);
+		String tmps = name;
+		if(!calMap.containsKey(tmps)){
+			calMap.put(tmps, tmp);
 			try {
 				global.addChild(tmp);
 			} catch (Exception e) {
@@ -139,7 +141,7 @@ public class Calendar {
 			}
 		}else {
 			for(Interval i : dList){
-				calMap.get(name).getIntervale().add(i);
+				calMap.get(tmps).getIntervale().add(i);
 			}
 		}
 		net.fortuna.ical4j.model.Date start;
@@ -160,12 +162,13 @@ public class Calendar {
 	 * @return void
 	 */
 	public void editEvent(String name, String newName) throws Exception{
-		if(!calMap.containsKey(name)){
+		String tmps = name;
+		if(!calMap.containsKey(tmps)){
 			throw new Exception("Pas d'evenement portant ce nom.");
 		}else{
-			Event tmp = calMap.get(name);
+			Event tmp = calMap.get(tmps);
 			tmp.setName(newName);
-			calMap.remove(name);
+			calMap.remove(tmps);
 			calMap.put(newName, tmp);
 			for (Iterator<?> i = cal.getComponents().iterator(); i.hasNext();){
 				Component component = (Component)i.next();
@@ -184,11 +187,13 @@ public class Calendar {
 	 * @return void
 	 */
 	public void remove(String name) throws Exception{
+		String tmps = name;
 		if(!name.equals("Global")){// On sait jamais...
-			if(!calMap.containsKey(name)){
+			boolean test = !calMap.containsKey(tmps);
+			if(test){
 				throw new Exception("Pas d'evenement portant ce nom.");
 			}else{
-				calMap.remove(name);
+				calMap.remove(tmps);
 				remove(name,global);
 				for (Iterator<?> i = cal.getComponents().iterator(); i.hasNext();){
 					Component component = (Component)i.next();
@@ -205,7 +210,7 @@ public class Calendar {
 	 * @param name
 	 * @param ev
 	 */
-	private void remove(String name, Events ev){
+	private boolean remove(String name, Events ev){
 		if(ev.getName().equals(name)){
 			((Event)ev).getParent().getChildren().remove(ev);
 			for(Events e : ev.getChildren()){
@@ -216,11 +221,15 @@ public class Calendar {
 					e1.printStackTrace();
 				}
 			}
+			return true;
 		}else{
 			for(Events e : ev.getChildren()){
-				remove(name,e);
+				if(remove(name,e)){
+					return true;
+				}
 			}
 		}
+		return false;
 	}
 	
 	/**
