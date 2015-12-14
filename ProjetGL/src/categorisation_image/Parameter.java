@@ -10,7 +10,7 @@ import java.io.*;
 public class Parameter {
 	
 	private int sortParameter = 3600 * 24 ;
-	private String destDir = System.getProperty("user.home" )+File.separator+"Categorizer";
+	private String destDir ;
 	private String configDir;
 	
 	/**
@@ -30,7 +30,7 @@ public class Parameter {
 	 */
 	private void getOldParam()
 	{
-File f = new File ( configDir );
+		File f = new File ( configDir );
 		
 		if ( f.exists() )
 		{
@@ -89,7 +89,11 @@ File f = new File ( configDir );
 		try 
 		{
 			FileWriter doSave = new FileWriter( configDir );
-			doSave.write( destDir );
+			if ( destDir == null )
+				doSave.write( System.getProperty("user.home" )+File.separator+"Categorizer"+File.separator );
+			else
+				doSave.write( destDir );
+			
 			doSave.write( sortParameter );
 			doSave.close();
 		} 
