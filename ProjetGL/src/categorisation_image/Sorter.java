@@ -37,7 +37,7 @@ public class Sorter
 	/**
 	 * Construit un nouveau trieur de photos utilisant la granularite p et les categories de userCal.
 	 * @param p Granularite du tri
-	 * @param userCal Calendrier des cat�gories d�finies par l'utilisateur
+	 * @param userCal Calendrier des categories definies par l'utilisateur
 	 */
     public Sorter(Calendar userCal, Parameter p)
     {
@@ -139,7 +139,7 @@ public class Sorter
             move(srcImage, fileDest);
             
             mapImage.remove(key);//on enleve l'image du TreeMap
-            System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
+            System.out.println("Photo "  + mapImage.get(mapImage.firstKey()).getFileName() + " : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
         }
     }
     
@@ -148,7 +148,8 @@ public class Sorter
 	 * @param l List des images a trier
 	 * @return void
 	 */
-    private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
+    @SuppressWarnings("deprecation")
+	private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
     {
     	String nomDossierDest = param.getDestDir();
     	long entreDeux = 0;
@@ -160,7 +161,8 @@ public class Sorter
 	    	Long temps2;
 	    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
 	    	mapImage.remove(mapImage.firstKey());
-	    	System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
+	    	System.out.println("Photo "  + mapImage.get(mapImage.firstKey()).getFileName() + " : " 
+	    						+ (nbPhoto-mapImage.size()) + "/" + nbPhoto );
 	    	
 	    	Date d = l.get(l.lastKey()).getTimeDate();
 	    	nomDossierDest += d.getDate() + "-"
@@ -168,27 +170,28 @@ public class Sorter
 					+ (d.getYear()+1900);
 			if(param.getSortParameter() == 3600)
 			{
-				nomDossierDest += "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+				nomDossierDest += "_at_" + d.getHours() + "h";
 			}
 
 	    	
 	    	if(mapImage.isEmpty())
     		{
 	    		
-	    		d = l.get(l.lastKey()).getTimeDate();
+	    		/*d = l.get(l.lastKey()).getTimeDate();
 	    		nomDossierDest += "_" + d.getDate() + "-"
 						+ (d.getMonth() + 1) + "-"
 						+ (d.getYear()+1900);
     			if(param.getSortParameter() == 3600)
     			{
-    				nomDossierDest += "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
-    			}
+    				nomDossierDest += "-" + d.getHours();
+    			}*/
     		}
 	    	
 	    	while (!mapImage.isEmpty() && sameDossier)
 	    	{	
 	    		temps2 = mapImage.get(mapImage.firstKey()).getTimeLong();
 	    		entreDeux =  temps2 - temps1;
+	    		System.out.println("\t entreDeux : " + entreDeux );
 	    		if(entreDeux < param.getSortParameter())
 	    		{
 	    			temps1 = temps2;
@@ -197,20 +200,14 @@ public class Sorter
 	    		}
 	    		else
 	    		{
-	    			d = l.get(l.lastKey()).getTimeDate();
+	    			/*d = l.get(l.lastKey()).getTimeDate();
+	    			nomDossierDest += "_" + d.getDate() + "-"
+							+ (d.getMonth() + 1) + "-"
+							+ (d.getYear()+1900);
 	    			if(param.getSortParameter() == 3600)
 	    			{
-	    				nomDossierDest += "_" + d.getDate() + "-"
-    							+ (d.getMonth() + 1) + "-"
-    							+ (d.getYear()+1900) + "-"
-    							+ d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
-	    			}
-	    			else
-	    			{
-	    				nomDossierDest += "_" + d.getDate() + "-"
-    							+ (d.getMonth() + 1) + "-"
-    							+ (d.getYear()+1900);
-	    			}
+	    				 nomDossierDest += "-"+ d.getHours();
+	    			}*/
 	    			sameDossier = false;
 	    			unsortedSort(mapImage);
 	    		}
