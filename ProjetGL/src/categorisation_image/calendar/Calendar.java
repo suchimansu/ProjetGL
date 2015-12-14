@@ -35,7 +35,7 @@ public class Calendar {
 	 */
 	private EventGlobal global;
 	/**
-	 *  Annuaire des �v�nement par leurs nom.
+	 *  Annuaire des évènements par leurs nom.
 	 */
 	private HashMap<String, Event> calMap;
 	/**
@@ -97,7 +97,7 @@ public class Calendar {
 			System.err.println("Erreur lors de la lecture du fichier iCalendar dans le constructeur Calendar(String path).");
 			e.printStackTrace();
 		} catch (ParserException e) {
-			System.err.println("Erreur lors de la cr�ation de l'object net.fortuna.ical4j.model.Calendar dans le constructeur Calendar(String path).");
+			System.err.println("Erreur lors de la création de l'object net.fortuna.ical4j.model.Calendar dans le constructeur Calendar(String path).");
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -124,10 +124,9 @@ public class Calendar {
 	}
 	
 	/**
-	 * Ajoute un nouvel �v�nement au calendar avec son nom et sa liste d'{@link Interval}. 
+	 * Ajoute un nouvel évènement au calendar avec son nom et sa liste d'{@link Interval}. 
 	 * @param name Nom de la catégorie à ajouter
 	 * @param dList Liste des intervalles de temps dans lesquels l'évènement prend place
-	 * @return void
 	 */
 	public void addEvent(String name, List<Interval> dList){
 		Event tmp = new Event(name, dList);
@@ -159,7 +158,6 @@ public class Calendar {
 	 * Change le nom de la catégorie de nom name par newName
 	 * @param name Nom de la catégorie à renommer
 	 * @param newName Nouveau nom de la catégorie 
-	 * @return void
 	 */
 	public void editEvent(String name, String newName) throws Exception{
 		String tmps = name;
@@ -184,7 +182,6 @@ public class Calendar {
 	/**
 	 * Supprime la catégorie de nom name.
 	 * @param name Nom de la catégorie à supprimer
-	 * @return void
 	 */
 	public void remove(String name) throws Exception{
 		String tmps = name;
@@ -206,7 +203,7 @@ public class Calendar {
 	}
 	
 	/**
-	 * fonction r�cursive qui supprime l'�v�nement dans l'arbre des �v�nements
+	 * fonction récursive qui supprime l'évènement dans l'arbre des évènements
 	 * @param name
 	 * @param ev
 	 */
@@ -217,7 +214,7 @@ public class Calendar {
 				try {
 					((Event)ev).getParent().addChild(e);
 				} catch (Exception e1) {
-					System.err.println("Cette exception ne devrait jamais etre lev�."); // comme e est un fils de ev. l'ajouter dans le parent de ev ne devrait pas poser de probl�me au niveau de l'inclusion des intervalles
+					System.err.println("Cette exception ne devrait jamais etre levé."); // comme e est un fils de ev. l'ajouter dans le parent de ev ne devrait pas poser de probl�me au niveau de l'inclusion des intervalles
 					e1.printStackTrace();
 				}
 			}
@@ -235,7 +232,6 @@ public class Calendar {
 	/**
 	 * Sauvegarde des évènements et de leur hiérachie dans un fichier au format ICal
 	 * @param path Chemin vers le fichier de sauvegarde
-	 * @return void
 	 */
 	public void save(String path){
 		FileOutputStream fout = null;

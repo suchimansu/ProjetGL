@@ -36,7 +36,7 @@ public class EventGlobal extends Events {
 			try {
 				globalIt = new Interval(older, earlier);
 			} catch (Exception e) {
-				System.err.println("Cette exception ne devrait jamais etre levé.");//Par la définition de earlier et older plus haut, older doit bien etre antérieur a earlier et les deux non null.
+				System.err.println("Cette exception ne devrait jamais etre levÃ©e.");//Par la dÃ©finition de earlier et older plus haut, older doit bien etre antï¿½rieur a earlier et les deux non null.
 				e.printStackTrace();
 			}
 			globalIts.add(globalIt);

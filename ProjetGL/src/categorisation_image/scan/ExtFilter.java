@@ -12,7 +12,7 @@ public class ExtFilter implements FileFilter
 
 	/**
 	 * Construit un nouveau filtre de fichier à partir des extensions fournies.
-	 * @param ext Tableau des extensions autorisés
+	 * @param exts Tableau des extensions autorisés
 	 */
 	public ExtFilter(String[] exts)
 	{

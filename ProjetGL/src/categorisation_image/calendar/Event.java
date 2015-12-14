@@ -9,14 +9,14 @@ import java.util.List;
 public class Event extends Events {	
 
 	/**
-	 * Ev�nement parent.
+	 * Evènement parent.
 	 */
 	private Events parent;
     
 	/**
 	 * Construit une nouvelle instance de nom name, et dont les intervalles de temps sont ceux de lDate.
 	 * @param name Nom de la catégorie
-	 * @param lDate Liste des intervalles de temps dans lesquels l'évènement prend place
+	 * @param lInterval Liste des intervalles de temps dans lesquels l'évènement prend place
 	 */
 	public Event(String name, List<Interval> lInterval) {
 		super(name,lInterval);
@@ -33,14 +33,13 @@ public class Event extends Events {
 	/**
 	 * Met à jour la catégorie parente de cette instance avec parent.
 	 * @param parent Catégorie parente de cette instance
-	 * @return void
 	 */
 	public void setParent(Events parent){
 		this.parent = parent;
 	}
 	
 	/**
-	 * Ajoute un �v�nement � la liste des enfants si les intervalles de celui-ci sont inclusent dans l'�v�nement.
+	 * Ajoute un évènement à la liste des enfants si les intervalles de celui-ci sont inclusent dans l'évènement.
 	 * Lance une erreur si ce n'est pas le cas.
 	 * @param child {@link Event}
 	 * @throws Exception
@@ -50,7 +49,7 @@ public class Event extends Events {
 			this.getChildren().add(child);
 			((Event)child).setParent(this);
 		}else{
-			throw new Exception("L'intervalle de l'�v�nement parent doit contenir celui de l'enfant.");
+			throw new Exception("L'intervalle de l'évènement parent doit contenir celui de l'enfant.");
 		}
 	}
 	        

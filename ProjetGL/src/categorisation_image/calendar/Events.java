@@ -7,15 +7,15 @@ import java.util.List;
 public abstract class Events {
 
 	/**
-	 * Nom de l'événement.
+	 * Nom de l'Ã©vÃ¨nement.
 	 */
 	protected String name;
 	/**
-	 * Liste des événement enfants.
+	 * Liste des l'Ã©vÃ¨nements enfants.
 	 */
 	private List<Events> child;
 	/**
-	 * Liste des intervalles de l'événement.
+	 * Liste des intervalles de l'Ã©vÃ¨nement.
 	 */
 	private List<Interval> intervale;
 
@@ -67,14 +67,13 @@ public abstract class Events {
 	
 	/**
 	 * Retourne le nom de la catÃ©gorie dÃ©crite par cette instance.
-	 * @return le nom de la catÃ©gorie
 	 */
 	public void setName(String name){
 		this.name = name;
 	}
 	
 	/**
-	 * Indique si la date est dans l'evènement.
+	 * Indique si la date est dans l'Ã©vÃ¨nement.
 	 * @param date {@link Date}
 	 * @return boolean
 	 */
@@ -88,7 +87,7 @@ public abstract class Events {
 	}
 	
 	/**
-	 * Indique si l'évènement paramètre est compris dans l'évènement.
+	 * Indique si l'Ã©vÃ¨nement paramÃ¨tre est compris dans l'Ã©vÃ¨nement.
 	 * @param child {@link Event}
 	 * @return boolean
 	 */
@@ -106,7 +105,7 @@ public abstract class Events {
 	}
 
 	/**
-	 * Retourne la liste des évènements enfants.
+	 * Retourne la liste des Ã©vÃ¨nements enfants.
 	 * @return List<{@link Event}>
 	 */
 	public List<Events> getChildren(){
@@ -114,7 +113,7 @@ public abstract class Events {
 	}
 	
 	/**
-	 * Indique la présence d'évènement enfant.
+	 * Indique la prÃ©sence d'Ã©vÃ¨nement enfant.
 	 * @return boolean
 	 */
 	public boolean hadChildren(){

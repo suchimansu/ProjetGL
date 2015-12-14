@@ -88,9 +88,7 @@ public class Parameter {
 	}
 
 	/**
-	 * Sauvegarde les paramètres dans le fichier de configuration situé dans path.
-	 * @param path Chemin vers le fichier de configuration
-	 * @return void
+	 * Sauvegarde les paramètres dans le fichier de configuration.
 	 */
 	public void save()
 	{	
@@ -116,7 +114,6 @@ public class Parameter {
 	/**
 	 * Met à jour la granularité du tri.
 	 * @param param Nouvelle granularité
-	 * @return void
 	 */
 	public void setSortParameter(double param)
 	{

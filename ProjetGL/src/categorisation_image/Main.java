@@ -146,7 +146,6 @@ public class Main {
 	 * @param sc Flux d'entree utilise dans la communication avec l'utilisateur
 	 * @param saisie : La saisie provenant du sous-menu
 	 * @param saisieParam : La saisie utilisateur provenant de afficheMenuParametre
-	 * @return void
 	 */
 	public static void afficheSubMenuParam( int saisie , int saisieParam , Scanner sc )
 	{
@@ -310,7 +309,6 @@ public class Main {
 	/**
 	 * Point d'entree du programme.
 	 * @param args Tableau des parametres passes au programme via la ligne de commande
-	 * @return void
 	 */
 	public static void main(String[] args) 
 	{

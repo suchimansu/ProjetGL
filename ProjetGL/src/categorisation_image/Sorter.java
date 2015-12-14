@@ -48,7 +48,6 @@ public class Sorter
 	/**
 	 * Effectue le tri des photos se trouvant dans l'arborescence du dossier pathIn.
 	 * @param pathIn Chemin du dossier contenant les photos a trier
-	 * @return void
 	 */
     public void doTri(String pathIn) throws Exception
     {
@@ -297,7 +296,7 @@ public class Sorter
 
     
     /**
-   	 * Remplace les valeur de mois (0 a 11) par leur nom (Janvier à Decembre)
+   	 * Remplace les valeur de mois (0 a 11) par leur nom (Janvier Ã  Decembre)
    	 * @param m numero du mois
    	 * @return String du mois correspondant
    	 */
