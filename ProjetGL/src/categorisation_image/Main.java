@@ -224,7 +224,7 @@ public class Main {
 	 */
 	public static boolean verifyParam ( int saisieParam , int nbParam )
 	{
-		if ( saisieParam <= nbParam && saisieParam >= 1 )
+		if ( saisieParam <= nbParam && saisieParam >= 0 )
 		{
 			return true;
 		}
@@ -248,24 +248,28 @@ public class Main {
 			// Lancer le tri
 			if ( menuPrincipal == 1 )
 			{
-				System.out.println("Merci de rentrer le chemin du dossier ( Ex : /home/ .. )");
+				System.out.println("1 - Entrer le chemin du dossier de dest. ( Ex : /home/ .. )");
+				System.out.println("0 - Retour au menu principal");
 				String saisiePath = sc.next();
-
-				while ( !verify ( saisiePath ) )
+				
+				if ( !saisiePath.equals("0") )
 				{
-					System.out.println("Erreur .. ");
-					System.out.println("Merci de rentrer le chemin du dossier ( Ex : /home/ .. )");	
-					saisiePath = sc.next();
-				}
-
-				Sorter S = new Sorter(userCalendar, param);
-		    	try 
-		    	{
-					S.doTri( saisiePath );
-				} 
-		    	catch (Exception e) 
-		    	{
-					e.printStackTrace();
+					while ( !verify ( saisiePath ) )
+					{
+						System.out.println("Erreur .. ");
+						System.out.println("Entrer le chemin du dossier de dest. ( Ex : /home/ .. )");	
+						saisiePath = sc.next();
+					}
+	
+					Sorter S = new Sorter(userCalendar, param);
+			    	try 
+			    	{
+						S.doTri( saisiePath );
+					} 
+			    	catch (Exception e) 
+			    	{
+						e.printStackTrace();
+					}
 				}
 			}
 			// Paramètre
@@ -273,18 +277,23 @@ public class Main {
 			{
 				System.out.println(" 1 - Paramètrer les évenements");
 		    	System.out.println(" 2 - Paramètrer le logiciel");
+		    	System.out.println(" 0 - Retour menu principal");
 		    	int saisieParam = sc.nextInt();
 
-		    	while ( !verifyParam ( saisieParam , 2 ) )
+		    	while ( !verifyParam ( saisieParam , 3 ) )
 		    	{
 		    		System.out.println("Erreur .. ");
 		    		System.out.println(" 1 - Paramètrer les évenements");
 		    		System.out.println(" 2 - Paramètrer le logiciel");
+		    		System.out.println(" 0 - Retour menu principal");
 		    		saisieParam = sc.nextInt();
 		    	}
 		    	
-		    	int recupMenuParam = afficheMenuParametre( saisieParam, sc );
-		    	afficheSubMenuParam( saisieParam , recupMenuParam , sc);
+		    	if ( saisieParam != 0 )
+		    	{
+		    		int recupMenuParam = afficheMenuParametre( saisieParam, sc );
+		    		afficheSubMenuParam( saisieParam , recupMenuParam , sc);
+		    	}
 			}
 
 			menuPrincipal = afficheMenuPrincipal( sc );
