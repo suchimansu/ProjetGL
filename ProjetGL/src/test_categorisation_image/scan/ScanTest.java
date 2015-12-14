@@ -1,21 +1,21 @@
 package test_categorisation_image.scan;
 
-import static org.junit.Assert.*;
+import java.io.File;
+import java.util.TreeMap;
 
 import org.junit.Test;
+import static org.junit.Assert.*;
+
+import categorisation_image.scan.Scan;
+import categorisation_image.Image;
 
 public class ScanTest
 {
 	@Test
-	public void testScan()
-	{
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testDoScan()
 	{
-		fail("Not yet implemented");
+		Scan s = new Scan();
+		TreeMap<Long,Image> map = s.doScan(new File("ressource/TestFiles"));
+		assertEquals(10, map.size());
 	}
-
 }

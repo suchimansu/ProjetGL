@@ -52,10 +52,11 @@ public class Image {
 		// On itere sur chaque valeur recuperee
                 for ( Tag tag : direct.getTags() ){
                   // Si le champ contient "Modified" c'est qu'on est sur le champ dernierre modif. 
-                  if ( tag.toString().contains("Modified") ){
+                  
+                	if ( tag.toString().contains("Date/Time Original") ){
                     // On affecte notre date de creation
-                    this.dateCreation = direct.getDate( tag.getTagType() );
-                  }
+                       this.dateCreation = direct.getDate( tag.getTagType() );
+                    }
 		}
               }
           }
@@ -73,7 +74,7 @@ public class Image {
 	 * @return Nombre de secondes en Long
 	 */
 	public Long getTimeLong(){
-            return this.dateCreation.getTime()/1000;
+            return this.dateCreation.getTime();
 	}
 
         

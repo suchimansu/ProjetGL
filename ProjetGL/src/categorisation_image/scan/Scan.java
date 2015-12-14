@@ -21,7 +21,7 @@ public class Scan
 	 */
 	public Scan()
 	{
-		this.exts = new String[] {".png", ".jpg", ".jpeg", ".bmp"};
+		this.exts = new String[] {".png", ".jpg", ".jpe", ".jif", ".jfif", ".jpeg", ".tif", ".tiff"};
 		this.filter = new ExtFilter(this.exts);
 	}
 
@@ -45,7 +45,8 @@ public class Scan
 				}
 				else // recherche recursive dans le repertoire
 				{
-					map.putAll(doScan(contenu[i]));
+					TreeMap<Long, Image> submap = doScan(contenu[i]);
+					map.putAll(submap);
 				}
 			}
 		}
