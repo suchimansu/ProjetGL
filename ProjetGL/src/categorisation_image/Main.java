@@ -234,7 +234,7 @@ public class Main {
 					     		   }
 					    	}
 					     		   break;
-					}
+					}break;
 			case 2 : 
 					switch ( saisieParam )
 					{
@@ -270,7 +270,7 @@ public class Main {
 										
 									param.setDestDir( pathTemp);
 									break;
-					}
+					}break;
 		}
 	}
 
@@ -429,6 +429,7 @@ public class Main {
 			menuPrincipal = afficheMenuPrincipal( sc );
 		}
 		param.save();
+		userCalendar.save(pathEvent);
 		sc.close();
 		System.out.println( "A bientot !");
 	}

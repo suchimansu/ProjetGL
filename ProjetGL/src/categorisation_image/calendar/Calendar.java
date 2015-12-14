@@ -17,6 +17,10 @@ import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.ValidationException;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.model.property.Version;
 
 /**
  * Classe servant à stocker les évènements et leur hiérarchie.
@@ -47,6 +51,9 @@ public class Calendar {
 		global = new EventGlobal("Global", new ArrayList<Interval>());
 		calMap = new HashMap<String,Event>();
 		cal = new net.fortuna.ical4j.model.Calendar();
+		cal.getProperties().add(new ProdId("iCal4j 1.0//EN"));
+		cal.getProperties().add(Version.VERSION_2_0);
+		cal.getProperties().add(CalScale.GREGORIAN);
 	}
 	
 	/**
@@ -74,8 +81,12 @@ public class Calendar {
 			    tmpList.add(tmpInterval);
 			    
 			    Event tmpe = new Event(component.getProperty(Property.SUMMARY).getValue(), tmpList);
-			    calMap.put(tmpe.getName(), tmpe);
-				global.addChild(tmpe);
+			    if(!calMap.containsKey(tmpe.getName())){
+				    calMap.put(tmpe.getName(), tmpe);
+					global.addChild(tmpe);
+			    }else{
+			    	calMap.get(tmpe.getName()).getIntervale().add(tmpInterval);
+			    }
 			}
 		// Gestion des erreurs pouvant survenir.
 		} catch (FileNotFoundException e) {
@@ -112,27 +123,33 @@ public class Calendar {
 	}
 	
 	/**
-	 * Importe le calendrier
-	 * @return void
-	 */
-	public void importCal(){
-		
-	}
-	
-	/**
 	 * Ajoute un nouvel �v�nement au calendar avec son nom et sa liste d'{@link Interval}. 
 	 * @param name Nom de la catégorie à ajouter
 	 * @param dList Liste des intervalles de temps dans lesquels l'évènement prend place
 	 * @return void
 	 */
 	public void addEvent(String name, List<Interval> dList){
-		// TODO ajouter l'event dans le calendrier ical4j
 		Event tmp = new Event(name, dList);
-		calMap.put(name, tmp);
-		try {
-			global.addChild(tmp);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(!calMap.containsKey(name)){
+			calMap.put(name, tmp);
+			try {
+				global.addChild(tmp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+			for(Interval i : dList){
+				calMap.get(name).getIntervale().add(i);
+			}
+		}
+		net.fortuna.ical4j.model.Date start;
+		net.fortuna.ical4j.model.Date end; 
+		VEvent event;
+		for(Interval i : dList){
+			start = new net.fortuna.ical4j.model.Date(i.getStart().getTime());
+			end = new net.fortuna.ical4j.model.Date(i.getEnd().getTime());
+			event = new VEvent(new DateTime(start),new DateTime(end),name);
+			cal.getComponents().add(event);
 		}
 	}
 	
@@ -143,14 +160,21 @@ public class Calendar {
 	 * @return void
 	 */
 	public void editEvent(String name, String newName) throws Exception{
-		// TODO edit dans le cal
-		if(calMap.containsKey(name)){
+		if(!calMap.containsKey(name)){
 			throw new Exception("Pas d'evenement portant ce nom.");
 		}else{
 			Event tmp = calMap.get(name);
 			tmp.setName(newName);
 			calMap.remove(name);
 			calMap.put(newName, tmp);
+			for (Iterator<?> i = cal.getComponents().iterator(); i.hasNext();){
+				Component component = (Component)i.next();
+				if(component.getProperty(Property.SUMMARY).equals(name)){
+					cal.getComponents().remove(component);
+					component.getProperty(Property.SUMMARY).setValue(newName);
+					cal.getComponents().add(component);
+				}
+			}
 		}
 	}
 	
@@ -160,13 +184,18 @@ public class Calendar {
 	 * @return void
 	 */
 	public void remove(String name) throws Exception{
-		// TODO Idem, � faire dans le ical aussi
 		if(!name.equals("Global")){// On sait jamais...
-			if(calMap.containsKey(name)){
+			if(!calMap.containsKey(name)){
 				throw new Exception("Pas d'evenement portant ce nom.");
 			}else{
 				calMap.remove(name);
 				remove(name,global);
+				for (Iterator<?> i = cal.getComponents().iterator(); i.hasNext();){
+					Component component = (Component)i.next();
+					if(component.getProperty(Property.SUMMARY).equals(name)){
+						cal.getComponents().remove(component);
+					}
+				}
 			}
 		}
 	}
@@ -205,6 +234,7 @@ public class Calendar {
 		try {
 			fout = new FileOutputStream(path);
 			cout = new CalendarOutputter();
+			cout.setValidating(false);
 			cout.output(cal, fout);
 		} catch (FileNotFoundException e) {
 			System.err.println("Erreur lors de l'ouverture du flux de sortie pour la sauvegarde du calendrier.");
