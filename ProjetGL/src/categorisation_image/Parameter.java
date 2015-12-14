@@ -74,7 +74,7 @@ public class Parameter {
 				
 				if ( t )
 				{
-					sortParameter = Integer.parseInt( str.trim() ) ; 
+					sortParameter = Double.parseDouble( str.trim() ) ; 
 				}
 			}
 			
