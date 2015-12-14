@@ -15,7 +15,8 @@ public class ScanTest
 	public void testDoScan()
 	{
 		Scan s = new Scan();
-		TreeMap<Long,Image> map = s.doScan(new File("ressource/TestFiles"));
+		s.doScan(new File("ressource/TestFiles"));
+		TreeMap<Long,Image> map = s.getMap();
 		assertEquals(10, map.size());
 	}
 }
