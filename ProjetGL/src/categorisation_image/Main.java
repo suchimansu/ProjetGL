@@ -67,6 +67,7 @@ public class Main {
 		
 		if ( saisie == 1 )
 		{
+			System.out.println("Gestion des événements");
 			System.out.println("1 - Ajouter un événement");
 			System.out.println("2 - Supprimer un événement");
 			System.out.println("3 - Modifier un événement");
@@ -76,6 +77,8 @@ public class Main {
 			System.out.println("Modifier la finesse du tri");
 			System.out.println("1 - Par jour");
 			System.out.println("2 - Par heure");
+			System.out.println("Modifier paramètre de sortie logiciel");
+			System.out.println("3 - Modifier le chemin de destination du tri");
 		}
 
 		while ( !b )
@@ -91,7 +94,7 @@ public class Main {
 			}
 			else if ( saisie == 2 )
 			{
-				if ( saisieParam == 1 || saisieParam == 2 )
+				if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3)
 				{
 					b = true;
 				}
@@ -171,7 +174,27 @@ public class Main {
 						case 2 : 
 									param.setSortParameter( 3600 );
 									break; 
-
+						case 3 :
+									System.out.print("Chemin du dossier de sortie : ");
+									String pathTemp = sc.next();
+									boolean b = false;
+									
+									while ( !b )
+									{
+										if ( pathTemp.contains("/") || pathTemp.contains("\\") )
+										{
+											b = true;
+										}
+										else
+										{
+											System.out.println("Erreur .. ");
+											System.out.print("Chemin du dossier de sortie : ");
+											pathTemp = sc.next();
+										}
+									}
+										
+									param.setDestDir( pathTemp);
+									break;
 					}
 		}
 	}
@@ -259,7 +282,7 @@ public class Main {
 		    		System.out.println(" 2 - Paramètrer le logiciel");
 		    		saisieParam = sc.nextInt();
 		    	}
-
+		    	
 		    	int recupMenuParam = afficheMenuParametre( saisieParam, sc );
 		    	afficheSubMenuParam( saisieParam , recupMenuParam , sc);
 			}
