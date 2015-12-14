@@ -10,7 +10,7 @@ import java.io.*;
 public class Parameter {
 	
 	private int sortParameter = 3600 * 24 ;
-	private String destDir;
+	private String destDir = System.getProperty("user.home" )+File.separator+"Categorizer";
 	private String configDir;
 	
 	/**

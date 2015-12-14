@@ -81,6 +81,8 @@ public class Main {
 			System.out.println("Modifier paramètre de sortie logiciel");
 			System.out.println("3 - Modifier le chemin de destination du tri");
 		}
+		
+		System.out.println("0 - Retour au menu principal");
 
 		while ( !b )
 		{
@@ -99,6 +101,10 @@ public class Main {
 				{
 					b = true;
 				}
+			}
+			else if ( saisie == 0 )
+			{
+				b = true;
 			}
 			else
 			{
@@ -293,7 +299,10 @@ public class Main {
 		    	if ( saisieParam != 0 )
 		    	{
 		    		int recupMenuParam = afficheMenuParametre( saisieParam, sc );
-		    		afficheSubMenuParam( saisieParam , recupMenuParam , sc);
+		    		if ( recupMenuParam != 0)
+		    		{
+			    		afficheSubMenuParam( saisieParam , recupMenuParam , sc);
+		    		}
 		    	}
 			}
 
