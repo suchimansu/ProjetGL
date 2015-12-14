@@ -145,47 +145,49 @@ public class Sorter
 	 */
     private void unsortedSort(TreeMap<Long, Image> mapImage) throws Exception 
     {
-    	String nomDossierDest = "";
+    	String nomDossierDest = param.getDestDir();
     	long entreDeux = 0;
     	boolean sameDossier = true;
     	TreeMap<Long, Image> l = new TreeMap<Long, Image>();
-    	
-    	Long temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
-    	Long temps2;
-    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
-    	mapImage.remove(mapImage.firstKey());
-    	System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
-    	nomDossierDest = l.get(l.firstEntry()).getTimeDate().toString();
-    	
-    	while (sameDossier)
-    	{	
-    		temps2 = mapImage.get(mapImage.firstKey()).getTimeLong();
-    		entreDeux =  temps2 - temps1;
-    		if(entreDeux < param.getSortParameter())
-    		{
-    			temps1 = temps2;
-    			l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
-    			mapImage.remove(mapImage.firstKey());
-    		}
-    		else
-    		{
-    			nomDossierDest += "_" + l.get(l.lastKey()).getTimeDate().toString();
-    			sameDossier = false;
-    			unsortedSort(mapImage);
-    		}
-    	}
-    	
-    	//on deplace les images contenues dans l dans le bon dossier
-    	for(Long key : l.keySet())
+    	if(!mapImage.isEmpty())
     	{
-    		String pathImageS = mapImage.get(key).getPath();
-            Path pathImage = Paths.get(pathImageS);
-            File srcImage = pathImage.toFile();
-            
-            Path pathDest = Paths.get(nomDossierDest);
-            File fileDest = pathDest.toFile();
-            
-            move(srcImage, fileDest);
+	    	Long temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
+	    	Long temps2;
+	    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
+	    	mapImage.remove(mapImage.firstKey());
+	    	System.out.println("Photo : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
+	    	nomDossierDest = l.get(l.firstKey()).getTimeDate().toString();
+	    	
+	    	while (sameDossier)
+	    	{	
+	    		temps2 = mapImage.get(mapImage.firstKey()).getTimeLong();
+	    		entreDeux =  temps2 - temps1;
+	    		if(entreDeux < param.getSortParameter())
+	    		{
+	    			temps1 = temps2;
+	    			l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
+	    			mapImage.remove(mapImage.firstKey());
+	    		}
+	    		else
+	    		{
+	    			nomDossierDest += "_" + l.get(l.lastKey()).getTimeDate().toString();
+	    			sameDossier = false;
+	    			unsortedSort(mapImage);
+	    		}
+	    	}
+	    	
+	    	//on deplace les images contenues dans l dans le bon dossier
+	    	for(Long key : l.keySet())
+	    	{
+	    		String pathImageS = mapImage.get(key).getPath();
+	            Path pathImage = Paths.get(pathImageS);
+	            File srcImage = pathImage.toFile();
+	            
+	            Path pathDest = Paths.get(nomDossierDest);
+	            File fileDest = pathDest.toFile();
+	            
+	            move(srcImage, fileDest);
+	    	}
     	}
     }
 
