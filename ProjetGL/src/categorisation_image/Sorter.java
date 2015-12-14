@@ -253,7 +253,7 @@ public class Sorter
 	 * @param dest Chemin de destination du fichier
 	 * @return Vrai si le deplacement s'est effectuee sans probleme, faux sinon
 	 */
-    private boolean move(File src,File dest)
+    private boolean move(File src,File dest) 
     {
         if (!dest.exists()) // pas de fichier existant avec le meme nom
         {
