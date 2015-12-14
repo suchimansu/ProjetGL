@@ -160,10 +160,11 @@ public class Sorter
 	    	Long temps1 = mapImage.get(mapImage.firstKey()).getTimeLong();
 	    	Long temps2;
 	    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
+	    	System.out.println(mapImage.get(mapImage.firstKey()).getFileName() + " : " 
+					+ (nbPhoto-mapImage.size()) + "/" + nbPhoto );
 	    	mapImage.remove(mapImage.firstKey());
 	    	
-	    	System.out.println(mapImage.get(mapImage.firstKey()).getFileName() + " : " 
-	    						+ (nbPhoto-mapImage.size()) + "/" + nbPhoto );
+
 	    	
 	    	Date d = l.get(l.lastKey()).getTimeDate();
 	    	nomDossierDest += d.getDate() + "-"
