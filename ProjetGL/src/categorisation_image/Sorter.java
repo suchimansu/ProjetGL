@@ -139,7 +139,7 @@ public class Sorter
             move(srcImage, fileDest);
             
             mapImage.remove(key);//on enleve l'image du TreeMap
-            System.out.println("Photo "  + mapImage.get(mapImage.firstKey()).getFileName() + " : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
+            System.out.println(mapImage.get(mapImage.firstKey()).getFileName() + " : " + (nbPhoto-mapImage.size()) + "/" + nbPhoto );
         }
     }
     
@@ -161,7 +161,8 @@ public class Sorter
 	    	Long temps2;
 	    	l.put(mapImage.firstKey(), mapImage.get(mapImage.firstKey()));
 	    	mapImage.remove(mapImage.firstKey());
-	    	System.out.println("Photo "  + mapImage.get(mapImage.firstKey()).getFileName() + " : " 
+	    	
+	    	System.out.println(mapImage.get(mapImage.firstKey()).getFileName() + " : " 
 	    						+ (nbPhoto-mapImage.size()) + "/" + nbPhoto );
 	    	
 	    	Date d = l.get(l.lastKey()).getTimeDate();
@@ -178,7 +179,7 @@ public class Sorter
 	    	{	
 	    		temps2 = mapImage.get(mapImage.firstKey()).getTimeLong();
 	    		entreDeux =  temps2 - temps1;
-	    		System.out.println("\t entreDeux : " + entreDeux );
+	    		
 	    		if(entreDeux < param.getSortParameter())
 	    		{
 	    			temps1 = temps2;
