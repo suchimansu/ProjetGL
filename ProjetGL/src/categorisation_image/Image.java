@@ -47,6 +47,7 @@ public class Image {
 		e.printStackTrace();
               }
 			
+              Date dateTemp = null;
               // On itere sur les metadatas recuperees
               for ( Directory direct : metadata.getDirectories() ){
             	 // On itere sur chaque valeur recuperee
@@ -56,25 +57,17 @@ public class Image {
                 	if ( tag.toString().contains("Date/Time Original") ){
                 		// On affecte notre date de creation
                        this.dateCreation = direct.getDate( tag.getTagType() );
-                       break;
                     }
+                	else if ( tag.toString().contains("Modified") )
+                	{
+                		dateTemp = direct.getDate( tag.getTagType() );
+                	}
                 }
               }
               
               if ( dateCreation == null )
               {
-            	  for ( Directory direct : metadata.getDirectories() ){
-                 	 // On itere sur chaque valeur recuperee
-                     for ( Tag tag : direct.getTags() ){
-                       // Si le champ contient "Modified" c'est qu'on est sur le champ dernierre modif. 
-                       
-                     	if ( tag.toString().contains("Modified") ){
-                     		// On affecte notre date de creation
-                            this.dateCreation = direct.getDate( tag.getTagType() );
-                            break;
-                         }
-                     }
-                   }
+            	  dateCreation = dateTemp;
               }
           }
           catch (IOException e){
