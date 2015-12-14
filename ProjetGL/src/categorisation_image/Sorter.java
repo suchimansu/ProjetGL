@@ -190,7 +190,7 @@ public class Sorter
 	            Path pathDest = Paths.get(nomDossierDest);
 	            File fileDest = pathDest.toFile();
 	            fileDest.mkdirs();
-	            fileDest = new File(fileDest.getAbsolutePath() + l.get(key).getFileName());
+	            fileDest = new File(fileDest.getAbsolutePath() + "\\" + l.get(key).getFileName());
 	            move(srcImage, fileDest);
 	    	}
     	}
