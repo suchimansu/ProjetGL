@@ -87,28 +87,37 @@ public class Main {
 		while ( !b )
 		{
 			System.out.print("Votre choix : ");
-			saisieParam = sc.nextInt();
-			if ( saisie == 1 )
+			if ( sc.hasNextInt() )
 			{
-				if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3 )
+				saisieParam = sc.nextInt();
+				if ( saisie == 1 )
+				{
+					if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3 )
+					{
+						b = true;
+					}
+				}
+				else if ( saisie == 2 )
+				{
+					if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3)
+					{
+						b = true;
+					}
+				}
+				else if ( saisie == 0 )
 				{
 					b = true;
 				}
-			}
-			else if ( saisie == 2 )
-			{
-				if ( saisieParam == 1 || saisieParam == 2 || saisieParam == 3)
+				else
 				{
-					b = true;
+					System.out.println("Le choix séléctionné n'existe pas. Veuillez recommencer votre saisie");
+					sc.next();
 				}
-			}
-			else if ( saisie == 0 )
-			{
-				b = true;
 			}
 			else
 			{
-				System.out.println("Le choix séléctionné n'existe pas. Veuillez recommencer votre saisie");
+				System.out.println("Merci d'entrer un des choix possibles ( 1, 2 .. )");
+				sc.next();
 			}
 		}
 		
@@ -258,6 +267,7 @@ public class Main {
 		
 		Scanner sc = new Scanner ( System.in );
 		int menuPrincipal = afficheMenuPrincipal( sc );
+		boolean b = false;
 
 
 		while ( menuPrincipal != 3 )
@@ -265,23 +275,32 @@ public class Main {
 			// Lancer le tri
 			if ( menuPrincipal == 1 )
 			{
-				System.out.println("1 - Entrer le chemin du dossier de destination");
+				System.out.println("1 - Entrer le chemin du dossier source d'image");
 				System.out.println("0 - Retour au menu principal");
 				
-				boolean b = false;
 				int saisie = -1;
 				while ( !b )
 				{
 					System.out.print("Votre choix : ");
-					saisie = sc.nextInt();
-
-					if ( saisie == 0 || saisie == 1 )
+					
+					if ( sc.hasNextInt() )
 					{
-						b = true;
+						saisie = sc.nextInt();
+
+						if ( saisie == 0 || saisie == 1 )
+						{
+							b = true;
+						}
+						else
+						{
+							System.out.println("Erreur dans la saisie. Le choix n'existe pas.");
+							sc.next();
+						}
 					}
 					else
 					{
-						System.out.println("Erreur dans la saisie");
+						System.out.println("Merci d'entrer un des choix possibles ( 1, 2 .. )");
+						sc.next();
 					}
 				}
 				
@@ -318,7 +337,23 @@ public class Main {
 				System.out.println(" 1 - Paramètrer les évenements");
 		    	System.out.println(" 2 - Paramètrer le logiciel");
 		    	System.out.println(" 0 - Retour menu principal");
-		    	int saisieParam = sc.nextInt();
+		    	
+		    	int saisieParam = -1;
+		    	b = false;
+		    	while ( !b )
+		    	{
+		    		System.out.print("Votre choix : ");
+			    	if ( sc.hasNextInt() )
+			    	{
+			    		saisieParam = sc.nextInt();
+			    		b = true;
+			    	}
+			    	else
+			    	{
+			    		System.out.println("Erreur .. Recommencer la saisie.");
+			    		sc.next();
+			    	}
+		    	}
 
 		    	while ( !verifyParam ( saisieParam , 3 ) )
 		    	{
