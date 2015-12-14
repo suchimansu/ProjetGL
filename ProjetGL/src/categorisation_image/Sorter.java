@@ -31,6 +31,7 @@ public class Sorter
     {
         tempEventCalendar = new Calendar();
         param = p;
+        System.out.println(param.getSortParameter());
         this.nbPhoto = 0;
     }
 
@@ -164,17 +165,25 @@ public class Sorter
 					+ (nbPhoto-mapImage.size()) + "/" + nbPhoto );
 	    	mapImage.remove(mapImage.firstKey());
 	    	
-
+//System.console().flush();
 	    	
 	    	Date d = l.get(l.lastKey()).getTimeDate();
-	    	nomDossierDest += d.getDate() + "-"
+	    	/*nomDossierDest += convertMonth(d.getMonth());
+	    			d.getDate() + "-"
 					+ (d.getMonth() + 1) + "-"
 					+ (d.getYear()+1900);
-			if(param.getSortParameter() == 3600)
+			if(param.getSortParameter() == ListParameter.mois.getTime())
 			{
 				nomDossierDest += "_at_" + d.getHours() + "h";
-			}
-
+			}*/
+				if(param.getSortParameter() == ListParameter.mois.getTime())
+				{
+					nomDossierDest += convertMonth(d.getMonth());
+				}
+				else
+				{
+					nomDossierDest += d.getDay() + " " + convertMonth(d.getMonth());
+				}
 	    	
 	    	while (!mapImage.isEmpty() && sameDossier)
 	    	{	
@@ -290,4 +299,25 @@ public class Sorter
         	return false;
         }
     }
+
+	private String convertMonth(int m)
+	{
+		switch(m)
+		{
+			case 0 : return "Janvier";
+			case 1 : return "Fevrier";
+			case 2 : return "Mars";
+			case 3 : return "Avril";
+			case 4 : return "Mai";
+			case 5 : return "Juin";
+			case 6 : return "Juillet";
+			case 7 : return "Aout";
+			case 8 : return "Septembre";
+			case 9 : return "Octobre";
+			case 10 : return "Novembre";
+			case 11 : return "Decembre";
+			
+		}
+		return "";
+	}
 }
