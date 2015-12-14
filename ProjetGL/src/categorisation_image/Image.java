@@ -49,15 +49,32 @@ public class Image {
 			
               // On itere sur les metadatas recuperees
               for ( Directory direct : metadata.getDirectories() ){
-		// On itere sur chaque valeur recuperee
+            	 // On itere sur chaque valeur recuperee
                 for ( Tag tag : direct.getTags() ){
                   // Si le champ contient "Modified" c'est qu'on est sur le champ dernierre modif. 
                   
                 	if ( tag.toString().contains("Date/Time Original") ){
-                    // On affecte notre date de creation
+                		// On affecte notre date de creation
                        this.dateCreation = direct.getDate( tag.getTagType() );
+                       break;
                     }
-		}
+                }
+              }
+              
+              if ( dateCreation == null )
+              {
+            	  for ( Directory direct : metadata.getDirectories() ){
+                 	 // On itere sur chaque valeur recuperee
+                     for ( Tag tag : direct.getTags() ){
+                       // Si le champ contient "Modified" c'est qu'on est sur le champ dernierre modif. 
+                       
+                     	if ( tag.toString().contains("Modified") ){
+                     		// On affecte notre date de creation
+                            this.dateCreation = direct.getDate( tag.getTagType() );
+                            break;
+                         }
+                     }
+                   }
               }
           }
           catch (IOException e){
