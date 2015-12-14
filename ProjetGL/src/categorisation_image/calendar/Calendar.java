@@ -143,7 +143,7 @@ public class Calendar {
 	 * @return void
 	 */
 	public void editEvent(String name, String newName){
-		// TODO edit dans le cal et dans l'arbre
+		// TODO edit dans le cal
 		Event tmp = calMap.get(name);
 		tmp.setName(newName);
 		calMap.remove(name);
